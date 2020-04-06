@@ -1,6 +1,6 @@
 package agents.guiAgent;
 
-import agents.guiAgent.control.Gui;
+import agents.guiAgent.control.GuiLauncher;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
@@ -14,7 +14,7 @@ public class GuiAgent extends jade.gui.GuiAgent {
 
     @Override
     protected void setup(){
-        System.out.println("GuiAgent (" + getAID().getName() + ") is running");
+        System.out.println("GuiAgent(" + getAID().getName() + ") is running");
 
         //DF register
         DFAgentDescription dfd = new DFAgentDescription();
@@ -32,7 +32,7 @@ public class GuiAgent extends jade.gui.GuiAgent {
             doDelete();
         }
 
-        new Thread(() -> Application.launch(Gui.class)).start();
+        new Thread(() -> Application.launch(GuiLauncher.class)).start();
     }
 
     @Override
