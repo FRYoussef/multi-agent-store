@@ -15,6 +15,7 @@ import javafx.scene.layout.HBox;
 import model.ClothTransfer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Controller {
     private static final String ENDL = System.lineSeparator();
@@ -49,14 +50,18 @@ public class Controller {
     private void updateClothes(){
         Platform.runLater(() -> {
             int size = _hbImages.getChildren().size();
-            int bound = currentIndex + 1 == size ? size - 1 : size;
-            int iCloth = currentIndex == 0 ? 0 : currentIndex - 1;
+            int is[] = {
+                    currentIndex-1,
+                    currentIndex,
+                    (currentIndex == size) ? -1 : currentIndex+1};
 
-            for(int i = currentIndex > 0 ? 0:1; i < bound; i++){
+            Image im = null;
+            for(int i = 0; i < size; i++){
+                if(is[i] == -1) im = null;
+                else im = new Image(LOCATION + alClothes.get(is[i]).getImageUri());
+
                 ImageView iv = (ImageView)_hbImages.getChildren().get(i);
-                Image im = new Image(LOCATION + alClothes.get(iCloth).getImageUri());
                 iv.setImage(im);
-                iCloth++;
             }
 
             _lbDescription.setText(
