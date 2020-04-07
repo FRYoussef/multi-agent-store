@@ -1,6 +1,7 @@
 package agents.guiAgent;
 
 import agents.guiAgent.control.GuiLauncher;
+import jade.core.Runtime;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
@@ -9,8 +10,8 @@ import jade.gui.GuiEvent;
 import javafx.application.Application;
 
 public class GuiAgent extends jade.gui.GuiAgent {
-    protected static final int CMD_EXIT = 0;
-    protected static final int CMD_SEND = 1;
+    public static final int CMD_EXIT = 0;
+    public static final int CMD_SEND = 1;
 
     @Override
     protected void setup(){
@@ -26,14 +27,13 @@ public class GuiAgent extends jade.gui.GuiAgent {
         dfd.addServices(sd);
 
         try {
-            DFService.register(this,dfd);
-            //addBehaviour(new PingBehaviour(this, gui));
+            DFService.register(this, dfd);
         } catch (FIPAException e) {
             doDelete();
         }
 
+        GuiLauncher.addAgent(this);
         Application.launch(GuiLauncher.class);
-        //new Thread(() -> Application.launch(GuiLauncher.class)).start();
     }
 
     @Override
@@ -44,18 +44,20 @@ public class GuiAgent extends jade.gui.GuiAgent {
         catch (FIPAException fe) {
             fe.printStackTrace();
         }
-
-        //gui.dispose();	// ends with agent's GUI
         super.takeDown();
+        // Close runtime when gui agent ends
+        Runtime rt = Runtime.instance();
+        rt.shutDown();
+        System.exit(0);
     }
 
     @Override
     protected void onGuiEvent(GuiEvent guiEvent) {
         int cmd = guiEvent.getType();
-        if ( cmd == CMD_EXIT ) {
+        if (cmd == CMD_EXIT) {
             doDelete(); // calls takeDown()
         }
-        else if ( cmd == CMD_SEND ) {
+        else if (cmd == CMD_SEND) {
             // TODO
         }
     }
