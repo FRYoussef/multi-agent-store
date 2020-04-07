@@ -24,7 +24,7 @@ public class GuiLauncher extends Application {
         primaryStage.setScene(new Scene(root, W_WIDTH, W_HEIGHT));
 
         Controller con = loader.getController();
-        con.setAgent(agent);
+        con.setup(agent);
 
         primaryStage.show();
 

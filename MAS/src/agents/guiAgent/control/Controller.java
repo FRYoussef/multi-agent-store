@@ -1,6 +1,7 @@
 package agents.guiAgent.control;
 
 import agents.guiAgent.GuiAgent;
+import dataAccess.CSVDao;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,12 +9,20 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import model.ClothTransfer;
+
+import java.util.ArrayList;
 
 public class Controller {
     private static final String ENDL = System.lineSeparator();
+    private static final String LOCATION = "/resources/";
 
     private GuiAgent agent;
+    private ArrayList<ClothTransfer> alClothes;
+    private int currentIndex = 0;
 
     @FXML
     private Button _btLeft;
@@ -29,13 +38,55 @@ public class Controller {
     private TextField _tfInput;
 
 
-    public void setAgent(GuiAgent agent) {
+    public void setup(GuiAgent agent){
         this.agent = agent;
+
+        CSVDao dao = new CSVDao();
+        alClothes = dao.getCloths();
+        updateClothes();
     }
 
+    private void updateClothes(){
+        Platform.runLater(() -> {
+            int size = _hbImages.getChildren().size();
+            int bound = currentIndex + 1 == size ? size - 1 : size;
+            int iCloth = currentIndex == 0 ? 0 : currentIndex - 1;
+
+            for(int i = currentIndex > 0 ? 0:1; i < bound; i++){
+                ImageView iv = (ImageView)_hbImages.getChildren().get(i);
+                Image im = new Image(LOCATION + alClothes.get(iCloth).getImageUri());
+                iv.setImage(im);
+                iCloth++;
+            }
+
+            _lbDescription.setText(
+                    alClothes.get(currentIndex).getPrice() +
+                    ENDL +
+                    alClothes.get(currentIndex).getName());
+        });
+    }
 
     public void onClickPager(ActionEvent actionEvent) {
+        Platform.runLater(() -> {
+            Button bt = (Button) actionEvent.getSource();
+            if(bt == _btLeft){
+                currentIndex--;
+                if(currentIndex == 0)
+                    _btLeft.setDisable(true);
+            }
+            else if(bt == _btRight){
+                currentIndex++;
+                if(currentIndex == alClothes.size()-1)
+                    _btRight.setDisable(true);
+            }
 
+            updateClothes();
+
+            if(currentIndex > 0)
+                _btLeft.setDisable(false);
+            if(currentIndex < alClothes.size()-1)
+                _btRight.setDisable(false);
+        });
     }
 
     public void onClickSend(ActionEvent actionEvent) {
