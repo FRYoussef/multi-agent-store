@@ -1,6 +1,7 @@
 package agents.guiAgent.control;
 
 import agents.guiAgent.GuiAgent;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,6 +11,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
 public class Controller {
+    private static final String ENDL = System.lineSeparator();
+
     private GuiAgent agent;
 
     @FXML
@@ -36,6 +39,16 @@ public class Controller {
     }
 
     public void onClickSend(ActionEvent actionEvent) {
+        Platform.runLater(() -> {
+            String input = _tfInput.getText();
+            StringBuilder sb = new StringBuilder(_taPrompt.getText());
+            sb.append("You: ").append(input).append(ENDL);
 
+            // just for test, remove when chatbot is deployed
+            sb.append("ChatBot: Test").append(ENDL);
+
+            _tfInput.setText("");
+            _taPrompt.setText(sb.toString());
+        });
     }
 }

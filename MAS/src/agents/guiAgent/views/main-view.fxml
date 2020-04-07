@@ -41,7 +41,7 @@
    <bottom>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <center>
-            <TextArea fx:id="_taPrompt" disable="true" editable="false" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <TextArea fx:id="_taPrompt" editable="false" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <font>
                   <Font size="15.0" />
                </font>
