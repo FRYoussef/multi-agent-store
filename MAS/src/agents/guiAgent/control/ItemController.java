@@ -2,6 +2,7 @@ package agents.guiAgent.control;
 
 import agents.guiAgent.GuiAgent;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -9,6 +10,8 @@ import javafx.scene.image.ImageView;
 import model.ClothTransfer;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ItemController implements AttachableController{
     @FXML
@@ -28,7 +31,7 @@ public class ItemController implements AttachableController{
     @FXML
     private Label _lbTitle;
     @FXML
-    private MenuButton _mbSize;
+    private ChoiceBox _cbSize;
 
     private static final String ENDL = System.lineSeparator();
     private static final String LOCATION = "/resources/";
@@ -55,8 +58,9 @@ public class ItemController implements AttachableController{
             _lbTitle.setText(item.getName());
             _lbPrice.setText("Price: " + item.getPrice());
 
-            //TODO add sizes to menu button
-
+            if(item.getSizes().length == 0)
+                _cbSize.setDisable(true);
+            _cbSize.setItems(FXCollections.observableList(new ArrayList<>(Arrays.asList(item.getSizes()))));
         });
     }
 
