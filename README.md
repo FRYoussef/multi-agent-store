@@ -39,3 +39,13 @@ If you don't want to export that env var each time you turn your computer on, th
 ## Install and use javafx
 
 Follow that guide [https://openjfx.io/openjfx-docs/#install-javafx](https://openjfx.io/openjfx-docs/#install-javafx)
+
+## Install javafx scene builder
+
+Scene builder is used to edit the fxml files.
+
+Download it from [https://www.oracle.com/java/technologies/javafxscenebuilder-1x-archive-downloads.html](https://www.oracle.com/java/technologies/javafxscenebuilder-1x-archive-downloads.html)
+
+Install it on Linux with:
+
+`sudo dpkg -i javafx_scenebuilder-XX-linux-x64.deb`
