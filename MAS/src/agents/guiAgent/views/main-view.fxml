@@ -48,19 +48,15 @@
             </TextArea>
          </center>
          <bottom>
-            <BorderPane BorderPane.alignment="CENTER">
-               <center>
-                  <HBox alignment="CENTER_LEFT">
-                     <children>
-                        <TextField fx:id="_tfInput" focusTraversable="false" promptText="Chat with the bot" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="_btSend" focusTraversable="false" mnemonicParsing="false" text="Send" />
-                     </children>
-                     <BorderPane.margin>
-                        <Insets top="5.0" />
-                     </BorderPane.margin>
-                  </HBox>
-               </center>
-            </BorderPane>
+            <HBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
+               <children>
+                  <TextField fx:id="_tfInput" focusTraversable="false" promptText="Chat with the bot" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="_btSend" focusTraversable="false" mnemonicParsing="false" text="Send" />
+               </children>
+               <BorderPane.margin>
+                  <Insets top="5.0" />
+               </BorderPane.margin>
+            </HBox>
          </bottom>
       </BorderPane>
    </bottom>

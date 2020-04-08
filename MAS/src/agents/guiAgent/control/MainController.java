@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import model.ClothTransfer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainController implements AttachableController{
@@ -123,7 +124,14 @@ public class MainController implements AttachableController{
 
     private void onClickImage() {
         _hbImages.getChildren().get(1).setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-            
+            ItemController con = new ItemController(agent, alClothes.get(currentIndex));
+            String uri = "../views/item-view.fxml";
+
+            try {
+                GuiLauncher.instance().switchView(uri, con);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }));
     }
 }

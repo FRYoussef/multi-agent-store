@@ -35,7 +35,7 @@ public class GuiLauncher extends Application {
         switchView("../views/main-view.fxml", new MainController(agent));
     }
 
-    private void switchView(String viewUri, AttachableController controller) throws IOException {
+    public void switchView(String viewUri, AttachableController controller) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(viewUri));
         primaryStage.setTitle("MAS");
         primaryStage.setResizable(false);
