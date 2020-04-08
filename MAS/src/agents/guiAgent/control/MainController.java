@@ -11,13 +11,14 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import model.ClothTransfer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Controller {
+public class MainController {
     private static final String ENDL = System.lineSeparator();
     private static final String LOCATION = "/resources/";
 
@@ -104,5 +105,9 @@ public class Controller {
             _tfInput.setText("");
             _taPrompt.setText(sb.toString());
         });
+    }
+
+    public void onClickImage(MouseEvent mouseEvent) {
+
     }
 }

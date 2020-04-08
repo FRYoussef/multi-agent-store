@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agents.guiAgent.control.Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agents.guiAgent.control.MainController">
    <top>
       <Label alignment="CENTER" text="Multi Agent Store" textAlignment="CENTER" BorderPane.alignment="CENTER">
          <font>
@@ -70,7 +70,7 @@
             <HBox fx:id="_hbImages" alignment="CENTER" fillHeight="false" prefHeight="100.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER">
                <children>
                   <ImageView fitHeight="300.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="350.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="350.0" fitWidth="300.0" onMouseClicked="#onClickImage" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="300.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </HBox>

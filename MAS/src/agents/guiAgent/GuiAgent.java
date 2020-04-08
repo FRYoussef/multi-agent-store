@@ -32,8 +32,7 @@ public class GuiAgent extends jade.gui.GuiAgent {
             doDelete();
         }
 
-        GuiLauncher.addAgent(this);
-        Application.launch(GuiLauncher.class);
+        GuiLauncher.instance().setup(this);
     }
 
     @Override
