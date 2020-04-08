@@ -14,8 +14,6 @@ import javafx.stage.WindowEvent;
 import java.io.IOException;
 
 public class GuiLauncher extends Application {
-    static final int W_HEIGHT = 700;
-    static final int W_WIDTH = 1000;
     private static GuiLauncher guiLauncher;
     private static Stage primaryStage;
     private static GuiAgent agent;
@@ -32,38 +30,28 @@ public class GuiLauncher extends Application {
     }
 
     @Override
-    public void start(Stage stage){
+    public void start(Stage stage) throws Exception {
         primaryStage = stage;
-        switchView("../views/main-view.fxml", null);
+        switchView("../views/main-view.fxml", new MainController(agent));
     }
 
-    private void switchView(String viewUri, Object controller){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(viewUri));
-            Parent root = loader.load();
-            primaryStage.setTitle("MAS");
-            primaryStage.setScene(new Scene(root, W_WIDTH, W_HEIGHT));
-            primaryStage.setResizable(false);
+    private void switchView(String viewUri, AttachableController controller) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(viewUri));
+        primaryStage.setTitle("MAS");
+        primaryStage.setResizable(false);
+        loader.setController(controller);
+        controller.viewSetup();
+        primaryStage.setScene(new Scene(loader.load()));
 
-            if(controller == null){
-                MainController con = loader.getController();
-                con.setup(agent);
+        primaryStage.show();
+        primaryStage.setOnCloseRequest(new EventHandler<>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                GuiEvent ev = new GuiEvent(this, GuiAgent.CMD_EXIT);
+                agent.postGuiEvent(ev);
+                Platform.exit();
             }
-            else
-                loader.setController(controller);
-
-            primaryStage.show();
-            primaryStage.setOnCloseRequest(new EventHandler<>() {
-                @Override
-                public void handle(WindowEvent windowEvent) {
-                    GuiEvent ev = new GuiEvent(this, GuiAgent.CMD_EXIT);
-                    agent.postGuiEvent(ev);
-                    Platform.exit();
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     public void setup(GuiAgent guiAgent){

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agents.guiAgent.control.MainController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <Label alignment="CENTER" text="Multi Agent Store" textAlignment="CENTER" BorderPane.alignment="CENTER">
          <font>
@@ -25,14 +25,14 @@
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
    </padding>
    <left>
-      <Button fx:id="_btLeft" disable="true" focusTraversable="false" mnemonicParsing="false" onAction="#onClickPager" styleClass="button-pager" text="&lt;&lt;" BorderPane.alignment="CENTER">
+      <Button fx:id="_btLeft" disable="true" focusTraversable="false" mnemonicParsing="false" styleClass="button-pager" text="&lt;&lt;" BorderPane.alignment="CENTER">
          <font>
             <Font name="FreeMono Bold" size="25.0" />
          </font>
       </Button>
    </left>
    <right>
-      <Button fx:id="_btRight" focusTraversable="false" mnemonicParsing="false" onAction="#onClickPager" styleClass="button-pager" text="&gt;&gt;" BorderPane.alignment="CENTER">
+      <Button fx:id="_btRight" focusTraversable="false" mnemonicParsing="false" styleClass="button-pager" text="&gt;&gt;" BorderPane.alignment="CENTER">
          <font>
             <Font name="FreeMono Bold" size="25.0" />
          </font>
@@ -53,7 +53,7 @@
                   <HBox alignment="CENTER_LEFT">
                      <children>
                         <TextField fx:id="_tfInput" focusTraversable="false" promptText="Chat with the bot" HBox.hgrow="ALWAYS" />
-                        <Button focusTraversable="false" mnemonicParsing="false" onAction="#onClickSend" text="Send" />
+                        <Button fx:id="_btSend" focusTraversable="false" mnemonicParsing="false" text="Send" />
                      </children>
                      <BorderPane.margin>
                         <Insets top="5.0" />
@@ -70,7 +70,7 @@
             <HBox fx:id="_hbImages" alignment="CENTER" fillHeight="false" prefHeight="100.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER">
                <children>
                   <ImageView fitHeight="300.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="350.0" fitWidth="300.0" onMouseClicked="#onClickImage" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="350.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="300.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </HBox>

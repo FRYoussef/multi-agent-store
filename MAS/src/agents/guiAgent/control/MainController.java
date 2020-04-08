@@ -16,9 +16,8 @@ import javafx.scene.layout.HBox;
 import model.ClothTransfer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class MainController {
+public class MainController implements AttachableController{
     private static final String ENDL = System.lineSeparator();
     private static final String LOCATION = "/resources/";
 
@@ -31,6 +30,8 @@ public class MainController {
     @FXML
     private Button _btRight;
     @FXML
+    private Button _btSend;
+    @FXML
     private HBox _hbImages;
     @FXML
     private Label _lbDescription;
@@ -40,12 +41,19 @@ public class MainController {
     private TextField _tfInput;
 
 
-    public void setup(GuiAgent agent){
+    public MainController(GuiAgent agent){
         this.agent = agent;
-
         CSVDao dao = new CSVDao();
         alClothes = dao.getCloths();
-        Platform.runLater(this::updateClothes);
+    }
+
+    public void viewSetup(){
+        Platform.runLater(() -> {
+            updateClothes();
+            onClickImage();
+            onClickPager();
+            onClickSend();
+        });
     }
 
     private void updateClothes(){
@@ -70,9 +78,15 @@ public class MainController {
                 alClothes.get(currentIndex).getName());
     }
 
-    public void onClickPager(ActionEvent actionEvent) {
+    private void onClickPager() {
+        _btRight.setOnMouseClicked(this::pagerAction);
+        _btLeft.setOnMouseClicked(this::pagerAction);
+    }
+
+    private void pagerAction(MouseEvent ev){
         Platform.runLater(() -> {
-            Button bt = (Button) actionEvent.getSource();
+
+            Button bt = (Button) ev.getSource();
             if(bt == _btLeft){
                 currentIndex--;
                 if(currentIndex == 0)
@@ -93,8 +107,8 @@ public class MainController {
         });
     }
 
-    public void onClickSend(ActionEvent actionEvent) {
-        Platform.runLater(() -> {
+    private void onClickSend() {
+        _btSend.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
             String input = _tfInput.getText();
             StringBuilder sb = new StringBuilder(_taPrompt.getText());
             sb.append("You: ").append(input).append(ENDL);
@@ -104,10 +118,12 @@ public class MainController {
 
             _tfInput.setText("");
             _taPrompt.setText(sb.toString());
-        });
+        }));
     }
 
-    public void onClickImage(MouseEvent mouseEvent) {
-
+    private void onClickImage() {
+        _hbImages.getChildren().get(1).setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
+            
+        }));
     }
 }
