@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class CSVDao {
     private static final String CSV_URI = "../BD.csv";
     private static final String CSV_SEPARATOR = ",";
+    private static final String FIELD_SEPARATOR = ";";
 
     public ArrayList<ClothTransfer> getCloths(){
         ArrayList<ClothTransfer> alCloths = new ArrayList<>();
@@ -25,7 +26,8 @@ public class CSVDao {
                         fields[0],
                         fields[1],
                         fields[2],
-                        fields[3]));
+                        fields[3],
+                        fields[4].split(FIELD_SEPARATOR)));
             }
         } catch (IOException e) {
             e.printStackTrace();

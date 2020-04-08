@@ -5,12 +5,18 @@ public class ClothTransfer {
     private String id;
     private String name;
     private String price;
+    private String[] sizes;
 
-    public ClothTransfer(String imageUri, String id, String name, String price) {
+    public ClothTransfer(String imageUri, String id, String name, String price, String[] sizes) {
         this.imageUri = imageUri;
         this.id = id;
         this.name = name;
         this.price = price;
+        this.sizes = sizes;
+    }
+
+    public String[] getSizes() {
+        return sizes;
     }
 
     public String getImageUri() {
