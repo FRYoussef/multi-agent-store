@@ -44,31 +44,29 @@ public class Controller {
 
         CSVDao dao = new CSVDao();
         alClothes = dao.getCloths();
-        updateClothes();
+        Platform.runLater(this::updateClothes);
     }
 
     private void updateClothes(){
-        Platform.runLater(() -> {
-            int size = _hbImages.getChildren().size();
-            int is[] = {
-                    currentIndex-1,
-                    currentIndex,
-                    (currentIndex == size) ? -1 : currentIndex+1};
+        int size = _hbImages.getChildren().size();
+        int[] is = {
+                currentIndex-1,
+                currentIndex,
+                (currentIndex == size) ? -1 : currentIndex+1};
 
-            Image im = null;
-            for(int i = 0; i < size; i++){
-                if(is[i] == -1) im = null;
-                else im = new Image(LOCATION + alClothes.get(is[i]).getImageUri());
+        Image im = null;
+        for(int i = 0; i < size; i++){
+            if(is[i] == -1) im = null;
+            else im = new Image(LOCATION + alClothes.get(is[i]).getImageUri());
 
-                ImageView iv = (ImageView)_hbImages.getChildren().get(i);
-                iv.setImage(im);
-            }
+            ImageView iv = (ImageView)_hbImages.getChildren().get(i);
+            iv.setImage(im);
+        }
 
-            _lbDescription.setText(
-                    alClothes.get(currentIndex).getPrice() +
-                    ENDL +
-                    alClothes.get(currentIndex).getName());
-        });
+        _lbDescription.setText(
+                alClothes.get(currentIndex).getPrice() +
+                ENDL +
+                alClothes.get(currentIndex).getName());
     }
 
     public void onClickPager(ActionEvent actionEvent) {
@@ -100,7 +98,7 @@ public class Controller {
             StringBuilder sb = new StringBuilder(_taPrompt.getText());
             sb.append("You: ").append(input).append(ENDL);
 
-            // just for test, remove when chatbot is deployed
+            // it's just for test, remove it when chatbot is deployed
             sb.append("ChatBot: Test").append(ENDL);
 
             _tfInput.setText("");

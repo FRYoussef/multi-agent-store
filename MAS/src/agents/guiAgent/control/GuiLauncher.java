@@ -22,12 +22,12 @@ public class GuiLauncher extends Application {
         Parent root = loader.load();
         primaryStage.setTitle("MAS");
         primaryStage.setScene(new Scene(root, W_WIDTH, W_HEIGHT));
+        primaryStage.setResizable(false);
 
         Controller con = loader.getController();
         con.setup(agent);
 
         primaryStage.show();
-
         primaryStage.setOnCloseRequest(new EventHandler<>() {
             @Override
             public void handle(WindowEvent windowEvent) {
