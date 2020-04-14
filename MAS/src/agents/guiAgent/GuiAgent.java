@@ -7,7 +7,6 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 import jade.gui.GuiEvent;
-import javafx.application.Application;
 
 public class GuiAgent extends jade.gui.GuiAgent {
     public static final int CMD_EXIT = 0;

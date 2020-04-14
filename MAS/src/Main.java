@@ -1,6 +1,6 @@
 import jade.core.ProfileImpl;
-import jade.wrapper.AgentContainer;
 import jade.core.Runtime;
+import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
 
