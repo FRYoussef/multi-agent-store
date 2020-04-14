@@ -40,6 +40,14 @@ If you don't want to export that env var each time you turn your computer on, th
 
 Follow that guide [https://openjfx.io/openjfx-docs/#install-javafx](https://openjfx.io/openjfx-docs/#install-javafx)
 
+**Warning**: If you now run the project it will compile but you will get this error:
+
+`Error: JavaFX runtime components are missing, and are required to run this application`
+
+To solve this issue add the following VM arguments in your IDE (in the above link is described more detailed):
+
+`--module-path /path/to/javafx-sdk-14/lib --add-modules javafx.controls,javafx.fxml`
+
 ## Install javafx scene builder
 
 Scene builder is used to edit the fxml files, but it isn't mandatory for running the code, **it's just for edit the views**.
