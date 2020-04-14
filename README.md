@@ -42,7 +42,7 @@ Follow that guide [https://openjfx.io/openjfx-docs/#install-javafx](https://open
 
 ## Install javafx scene builder
 
-Scene builder is used to edit the fxml files.
+Scene builder is used to edit the fxml files, but it isn't mandatory for running the code, **it's just for edit the views**.
 
 Download it from [https://www.oracle.com/java/technologies/javafxscenebuilder-1x-archive-downloads.html](https://www.oracle.com/java/technologies/javafxscenebuilder-1x-archive-downloads.html)
 
