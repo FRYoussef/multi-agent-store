@@ -1,5 +1,6 @@
 package agents.guiAgent;
 
+import jade.core.AID;
 import agents.guiAgent.control.GuiLauncher;
 import jade.core.Runtime;
 import jade.domain.DFService;
@@ -7,7 +8,10 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 import jade.gui.GuiEvent;
-import javafx.application.Application;
+import jade.lang.acl.ACLMessage;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class GuiAgent extends jade.gui.GuiAgent {
     public static final int CMD_EXIT = 0;
@@ -28,11 +32,12 @@ public class GuiAgent extends jade.gui.GuiAgent {
 
         try {
             DFService.register(this, dfd);
+            addBehaviour(new GuiBehaviour(this));
         } catch (FIPAException e) {
             doDelete();
         }
 
-        GuiLauncher.instance().setup(this);
+        new Thread(() -> GuiLauncher.instance().setup(this)).start();
     }
 
     @Override
@@ -57,7 +62,48 @@ public class GuiAgent extends jade.gui.GuiAgent {
             doDelete(); // calls takeDown()
         }
         else if (cmd == CMD_SEND) {
-            // TODO
+            sendToChatbot((String) guiEvent.getParameter(0));
         }
     }
+
+    public void sendToChatbot(String input) {
+        ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
+        msg.setContent(input);
+        ArrayList<AID> agents =  searchAgents();
+        for ( AID agent: agents ) {
+            msg.addReceiver( agent );
+        }
+        send(msg);
+    }
+
+    private ArrayList<AID> searchAgents() {
+        ArrayList<AID> agents = new ArrayList<AID>();
+
+        try {
+            DFAgentDescription templateAD = new DFAgentDescription();
+            ServiceDescription templateSD = new ServiceDescription();
+            templateSD.setType("ChatbotAgent");
+            templateAD.addServices(templateSD);
+
+            DFAgentDescription[] results = DFService.search(this, templateAD);
+
+            for (int i = 0; i < results.length; i++) {
+                DFAgentDescription dfd = results[i];
+                AID provider = dfd.getName();
+                Iterator it = dfd.getAllServices();
+                while (it.hasNext()) {
+                    ServiceDescription sd = (ServiceDescription) it.next();
+                    if (sd.getType().equals("ChatbotAgent")) {
+                        agents.add(provider);
+                    }
+                }
+            }
+        }
+        catch (FIPAException fe) {
+            fe.printStackTrace();
+        }
+
+        return agents;
+    }
 }
+

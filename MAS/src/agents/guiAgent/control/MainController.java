@@ -1,9 +1,10 @@
 package agents.guiAgent.control;
 
+import agents.chatbotAgent.ChatbotAgent;
 import agents.guiAgent.GuiAgent;
 import dataAccess.CSVDao;
+import jade.gui.GuiEvent;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,7 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import model.ClothTransfer;
-
+import jade.lang.acl.ACLMessage;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -22,7 +23,8 @@ public class MainController implements AttachableController{
     private static final String ENDL = System.lineSeparator();
     private static final String LOCATION = "/resources/";
 
-    private GuiAgent agent;
+    private GuiAgent guiAgent;
+    private ChatbotAgent chatbotAgent;
     private ArrayList<ClothTransfer> alClothes;
     private int currentIndex = 0;
 
@@ -42,8 +44,8 @@ public class MainController implements AttachableController{
     private TextField _tfInput;
 
 
-    public MainController(GuiAgent agent){
-        this.agent = agent;
+    public MainController(GuiAgent guiAgent){
+        this.guiAgent = guiAgent;
         CSVDao dao = new CSVDao();
         alClothes = dao.getCloths();
     }
@@ -114,8 +116,10 @@ public class MainController implements AttachableController{
             StringBuilder sb = new StringBuilder(_taPrompt.getText());
             sb.append("You: ").append(input).append(ENDL);
 
-            // it's just for test, remove it when chatbot is deployed
-            sb.append("ChatBot: Test").append(ENDL);
+            // notify gui agent
+            GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND);
+            ge.addParameter(input);
+            guiAgent.postGuiEvent(ge);
 
             _tfInput.setText("");
             _taPrompt.setText(sb.toString());
@@ -124,7 +128,7 @@ public class MainController implements AttachableController{
 
     private void onClickImage() {
         _hbImages.getChildren().get(1).setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-            ItemController con = new ItemController(agent, alClothes.get(currentIndex));
+            ItemController con = new ItemController(guiAgent, chatbotAgent, alClothes.get(currentIndex));
             String uri = "../views/item-view.fxml";
 
             try {
@@ -133,5 +137,15 @@ public class MainController implements AttachableController{
                 e.printStackTrace();
             }
         }));
+    }
+
+    public void showMessage(String msg) {
+        Platform.runLater(() -> {
+            _taPrompt.setText(
+                    _taPrompt.getText() +
+                    "ChatBot: " +
+                    msg + ENDL
+                    );
+        });
     }
 }

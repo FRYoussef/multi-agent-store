@@ -1,6 +1,6 @@
 import jade.core.ProfileImpl;
-import jade.wrapper.AgentContainer;
 import jade.core.Runtime;
+import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
 
@@ -15,10 +15,13 @@ public class Main {
 
         AgentContainer container = rt.createMainContainer(profile);
         AgentController agentControllerGUI = null;
+        AgentController agentControllerChatbot = null;
 
         try {
             agentControllerGUI = container.createNewAgent("GuiAgent", "agents.guiAgent.GuiAgent", null);
             agentControllerGUI.start();
+            agentControllerChatbot = container.createNewAgent("ChatbotAgent", "agents.chatbotAgent.ChatbotAgent", null);
+            agentControllerChatbot.start();
 
         } catch (StaleProxyException e) {
             e.printStackTrace();
