@@ -82,7 +82,7 @@ public class ItemController implements AttachableController{
             sb.append("You: ").append(input).append(ENDL);
 
             // notify gui agent
-            GuiEvent ge = new GuiEvent(this, guiAgent.CMD_EXIT);
+            GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND);
             ge.addParameter(input);
             guiAgent.postGuiEvent(ge);
 

@@ -40,12 +40,36 @@ If you don't want to export that env var each time you turn your computer on, th
 
 Follow that guide [https://openjfx.io/openjfx-docs/#install-javafx](https://openjfx.io/openjfx-docs/#install-javafx)
 
+**Warning**: If you now run the project it will compile but you will get this error:
+
+`Error: JavaFX runtime components are missing, and are required to run this application`
+
+To solve this issue add the following VM arguments in your IDE (in the above link is described more detailed):
+
+`--module-path /path/to/javafx-sdk-14/lib --add-modules javafx.controls,javafx.fxml`
+
 ## Install javafx scene builder
 
-Scene builder is used to edit the fxml files.
+Scene builder is used to edit the fxml files, but it isn't mandatory for running the code, **it's just for edit the views**.
 
 Download it from [https://www.oracle.com/java/technologies/javafxscenebuilder-1x-archive-downloads.html](https://www.oracle.com/java/technologies/javafxscenebuilder-1x-archive-downloads.html)
 
 Install it on Linux with:
 
 `sudo dpkg -i javafx_scenebuilder-XX-linux-x64.deb`
+
+## Install Dialogflow on Linux
+
+Be sure you have 3.5.9 Python version or later. Then, install dialogflow:
+
+`pip3 install dialogflow`
+
+
+## Run the Python script
+
+First of all, move your 'credentials.json' file to the same directory as 'chatbot.py'.
+
+
+Then, run the script using Python 3:
+
+`python3 chatbot.py`

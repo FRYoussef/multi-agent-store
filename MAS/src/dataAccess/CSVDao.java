@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class CSVDao {
-    private static final String CSV_URI = "DB.csv";
+    private static final String CSV_URI = "../DB.csv";
     private static final String CSV_SEPARATOR = ",";
     private static final String FIELD_SEPARATOR = ";";
 

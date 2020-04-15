@@ -1,8 +1,6 @@
 package agents.guiAgent;
 
-import agents.guiAgent.control.MainController;
 import jade.core.AID;
-import agents.chatbotAgent.ChatbotBehaviour;
 import agents.guiAgent.control.GuiLauncher;
 import jade.core.Runtime;
 import jade.domain.DFService;
@@ -39,7 +37,7 @@ public class GuiAgent extends jade.gui.GuiAgent {
             doDelete();
         }
 
-        GuiLauncher.instance().setup(this);
+        new Thread(() -> GuiLauncher.instance().setup(this)).start();
     }
 
     @Override

@@ -1,36 +1,24 @@
 package agents.guiAgent;
 
-import agents.guiAgent.control.MainController;
 import jade.core.Agent;
-import jade.core.behaviours.SimpleBehaviour;
+import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import agents.guiAgent.control.GuiLauncher;
 
-public class GuiBehaviour extends SimpleBehaviour {
+public class GuiBehaviour extends CyclicBehaviour {
     private static final long serialVersionUID = 1L;
-
-
 
     public GuiBehaviour(Agent a) {
         super(a);
-
     }
-
 
     @Override
     public void action() {
         ACLMessage  msg = myAgent.receive();
         if(msg != null){
             String content = msg.getContent();
-            GuiLauncher.instance().showMessage(content);
+            new Thread(() -> GuiLauncher.instance().showMessage(content)).start();
         }
-        else {
-            block();
-        }
-    }
-
-    @Override
-    public boolean done() {
-        return false;
+        block();
     }
 }

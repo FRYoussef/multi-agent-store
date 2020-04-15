@@ -18,7 +18,7 @@ public class ChatbotAgent extends Agent {
         dfd.setName(getAID());
         dfd.addServices(sd);
         try {
-            DFService.register(this,dfd);
+            DFService.register(this, dfd);
             addBehaviour(new ChatbotBehaviour(this));
         } catch (FIPAException e) {
             doDelete();
