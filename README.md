@@ -57,3 +57,19 @@ Download it from [https://www.oracle.com/java/technologies/javafxscenebuilder-1x
 Install it on Linux with:
 
 `sudo dpkg -i javafx_scenebuilder-XX-linux-x64.deb`
+
+## Install Dialogflow on Linux
+
+Be sure you have 3.5.9 Python version or later. Then, install dialogflow:
+
+`pip3 install dialogflow`
+
+
+## Run the Python script
+
+First of all, move your 'credentials.json' file to the same directory as 'chatbot.py'.
+
+
+Then, run the script using Python 3:
+
+`python3 chatbot.py`
