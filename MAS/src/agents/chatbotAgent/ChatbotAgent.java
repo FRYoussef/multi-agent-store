@@ -12,7 +12,7 @@ public class ChatbotAgent extends Agent {
         // Registro en el DF
         DFAgentDescription dfd = new DFAgentDescription();
         ServiceDescription sd = new ServiceDescription();
-        sd.setType("PongAgent");
+        sd.setType("ChatbotAgent");
         sd.setName(getName());
         sd.setOwnership("UCM");
         dfd.setName(getAID());

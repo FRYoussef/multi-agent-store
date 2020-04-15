@@ -15,10 +15,13 @@ public class Main {
 
         AgentContainer container = rt.createMainContainer(profile);
         AgentController agentControllerGUI = null;
+        AgentController agentControllerChatbot = null;
 
         try {
             agentControllerGUI = container.createNewAgent("GuiAgent", "agents.guiAgent.GuiAgent", null);
             agentControllerGUI.start();
+            agentControllerChatbot = container.createNewAgent("ChatbotAgent", "agents.chatbotAgent.ChatbotAgent", null);
+            agentControllerChatbot.start();
 
         } catch (StaleProxyException e) {
             e.printStackTrace();

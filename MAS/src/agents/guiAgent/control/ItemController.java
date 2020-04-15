@@ -1,5 +1,6 @@
 package agents.guiAgent.control;
 
+import agents.chatbotAgent.ChatbotAgent;
 import agents.guiAgent.GuiAgent;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -35,11 +36,13 @@ public class ItemController implements AttachableController{
 
     private static final String ENDL = System.lineSeparator();
     private static final String LOCATION = "/resources/";
-    private GuiAgent agent;
+    private GuiAgent guiAgent;
+    private ChatbotAgent chatbotAgent;
     private ClothTransfer item;
 
-    public ItemController(GuiAgent agent, ClothTransfer item) {
-        this.agent = agent;
+    public ItemController(GuiAgent guiAgent, ChatbotAgent chatbotAgent, ClothTransfer item) {
+        this.guiAgent = guiAgent;
+        this.chatbotAgent = chatbotAgent;
         this.item = item;
     }
 
@@ -87,7 +90,7 @@ public class ItemController implements AttachableController{
 
     private void onClickBack(){
         _btBack.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-            MainController con = new MainController(agent);
+            MainController con = new MainController(guiAgent);
             String uri = "../views/main-view.fxml";
             try {
                 GuiLauncher.instance().switchView(uri, con);

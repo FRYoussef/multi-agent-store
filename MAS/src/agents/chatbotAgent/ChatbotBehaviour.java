@@ -2,6 +2,7 @@ package agents.chatbotAgent;
 
 import jade.core.Agent;
 import jade.core.behaviours.SimpleBehaviour;
+import jade.lang.acl.ACLMessage;
 
 public class ChatbotBehaviour extends SimpleBehaviour {
 
@@ -14,7 +15,15 @@ public class ChatbotBehaviour extends SimpleBehaviour {
 
     @Override
     public void action() {
-
+        ACLMessage  msg = myAgent.receive();
+        if(msg != null){
+            ACLMessage reply = msg.createReply();
+            reply.setContent("Hello!");
+            myAgent.send(reply);
+        }
+        else {
+            block();
+        }
     }
 
     @Override

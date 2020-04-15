@@ -1,5 +1,6 @@
 package agents.guiAgent.control;
 
+import agents.chatbotAgent.ChatbotAgent;
 import agents.guiAgent.GuiAgent;
 import jade.gui.GuiEvent;
 import javafx.application.Application;
@@ -15,7 +16,9 @@ import java.io.IOException;
 public class GuiLauncher extends Application {
     private static GuiLauncher guiLauncher;
     private static Stage primaryStage;
-    private static GuiAgent agent;
+    private static GuiAgent guiAgent;
+    private static ChatbotAgent chatbotAgent;
+    private static MainController controller;
 
     /**
      * Singelton
@@ -31,7 +34,8 @@ public class GuiLauncher extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
-        switchView("../views/main-view.fxml", new MainController(agent));
+        this.controller = new MainController(guiAgent);
+        switchView("../views/main-view.fxml", controller);
     }
 
     public void switchView(String viewUri, AttachableController controller) throws IOException {
@@ -47,14 +51,18 @@ public class GuiLauncher extends Application {
             @Override
             public void handle(WindowEvent windowEvent) {
                 GuiEvent ev = new GuiEvent(this, GuiAgent.CMD_EXIT);
-                agent.postGuiEvent(ev);
+                guiAgent.postGuiEvent(ev);
                 Platform.exit();
             }
         });
     }
 
     public void setup(GuiAgent guiAgent){
-        agent = guiAgent;
+        this.guiAgent = guiAgent;
         Application.launch();
+    }
+
+    public void showMessage(String msg){
+        controller.showMessage(msg);
     }
 }
