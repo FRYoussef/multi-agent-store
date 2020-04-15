@@ -3,6 +3,7 @@ package agents.guiAgent.control;
 import agents.chatbotAgent.ChatbotAgent;
 import agents.guiAgent.GuiAgent;
 import dataAccess.CSVDao;
+import jade.gui.GuiEvent;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -115,10 +116,10 @@ public class MainController implements AttachableController{
             StringBuilder sb = new StringBuilder(_taPrompt.getText());
             sb.append("You: ").append(input).append(ENDL);
 
-            guiAgent.sendToChatbot(input);
-
-            // it's just for test, remove it when chatbot is deployed
-            //sb.append("ChatBot: " + msg).append(ENDL);
+            // notify gui agent
+            GuiEvent ge = new GuiEvent(this, guiAgent.CMD_EXIT);
+            ge.addParameter(input);
+            guiAgent.postGuiEvent(ge);
 
             _tfInput.setText("");
             _taPrompt.setText(sb.toString());
@@ -139,7 +140,12 @@ public class MainController implements AttachableController{
     }
 
     public void showMessage(String msg) {
-        StringBuilder sb = new StringBuilder(_taPrompt.getText());
-        sb.append("ChatBot: " + msg).append(ENDL);
+        Platform.runLater(() -> {
+            _taPrompt.setText(
+                    _taPrompt.getText() +
+                    "ChatBot: " +
+                    msg + ENDL
+                    );
+        });
     }
 }

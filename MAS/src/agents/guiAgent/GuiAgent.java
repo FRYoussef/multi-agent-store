@@ -64,7 +64,7 @@ public class GuiAgent extends jade.gui.GuiAgent {
             doDelete(); // calls takeDown()
         }
         else if (cmd == CMD_SEND) {
-            // TODO
+            sendToChatbot((String) guiEvent.getParameter(0));
         }
     }
 

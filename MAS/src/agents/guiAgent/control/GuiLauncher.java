@@ -1,6 +1,5 @@
 package agents.guiAgent.control;
 
-import agents.chatbotAgent.ChatbotAgent;
 import agents.guiAgent.GuiAgent;
 import jade.gui.GuiEvent;
 import javafx.application.Application;
@@ -17,8 +16,7 @@ public class GuiLauncher extends Application {
     private static GuiLauncher guiLauncher;
     private static Stage primaryStage;
     private static GuiAgent guiAgent;
-    private static ChatbotAgent chatbotAgent;
-    private static MainController controller;
+    private static AttachableController controller;
 
     /**
      * Singelton
@@ -34,11 +32,12 @@ public class GuiLauncher extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
-        this.controller = new MainController(guiAgent);
+        controller = new MainController(guiAgent);
         switchView("../views/main-view.fxml", controller);
     }
 
     public void switchView(String viewUri, AttachableController controller) throws IOException {
+        GuiLauncher.controller = controller;
         FXMLLoader loader = new FXMLLoader(getClass().getResource(viewUri));
         primaryStage.setTitle("MAS");
         primaryStage.setResizable(false);
@@ -58,7 +57,7 @@ public class GuiLauncher extends Application {
     }
 
     public void setup(GuiAgent guiAgent){
-        this.guiAgent = guiAgent;
+        GuiLauncher.guiAgent = guiAgent;
         Application.launch();
     }
 
