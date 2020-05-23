@@ -21,7 +21,6 @@ import java.util.ArrayList;
 
 public class MainController implements AttachableController{
     private static final String ENDL = System.lineSeparator();
-    private static final String LOCATION = "/resources/";
 
     private GuiAgent guiAgent;
     private ChatbotAgent chatbotAgent;
@@ -69,7 +68,7 @@ public class MainController implements AttachableController{
         Image im = null;
         for(int i = 0; i < size; i++){
             if(is[i] == -1) im = null;
-            else im = new Image(LOCATION + alClothes.get(is[i]).getImageUri());
+            else im = new Image(alClothes.get(is[i]).getImageUri());
 
             ImageView iv = (ImageView)_hbImages.getChildren().get(i);
             iv.setImage(im);

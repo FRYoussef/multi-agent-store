@@ -36,7 +36,6 @@ public class ItemController implements AttachableController{
     private ChoiceBox _cbSize;
 
     private static final String ENDL = System.lineSeparator();
-    private static final String LOCATION = "/resources/";
     private GuiAgent guiAgent;
     private ChatbotAgent chatbotAgent;
     private ClothTransfer item;
@@ -56,7 +55,7 @@ public class ItemController implements AttachableController{
             onClickBuy();
 
             // Show image, description and size
-            Image im = new Image(LOCATION + item.getImageUri());
+            Image im = new Image(item.getImageUri());
             _ivImage.setImage(im);
 
             _lbTitle.setText(item.getName());
