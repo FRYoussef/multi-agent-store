@@ -15,7 +15,15 @@ SESSION_ID = sys.argv[1]
 session_client = dialogflow_v2.SessionsClient()
 session = session_client.session_path(DIALOGFLOW_PROJECT_ID, SESSION_ID)
 
-text_to_be_analyzed = sys.argv[2]
+text_to_be_analyzed = ""
+
+i = 2
+while i < len(sys.argv):
+	text_to_be_analyzed = text_to_be_analyzed + " " + sys.argv[i]
+	i += 1
+
+print(text_to_be_analyzed)
+
 text_input = dialogflow_v2.types.TextInput(text=text_to_be_analyzed, language_code=DIALOGFLOW_LANGUAGE_CODE)
 query_input = dialogflow_v2.types.QueryInput(text=text_input)
 try:

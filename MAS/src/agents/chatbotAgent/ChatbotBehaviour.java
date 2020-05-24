@@ -18,8 +18,8 @@ public class ChatbotBehaviour extends CyclicBehaviour {
     private static int user_id;
     public ChatbotBehaviour(Agent a) {
         super(a);
-        Random rand = new Random();
-        this.user_id = rand.nextInt();
+
+        this.user_id = (int) (Math.random() * 100001);
     }
 
 
@@ -32,31 +32,10 @@ public class ChatbotBehaviour extends CyclicBehaviour {
             String answer = "Connection failed";
             String user_msg = msg.getContent();
             Boolean end = false;
+
             try {
-                /*Process proc = Runtime.getRuntime().exec(new String[] {"which", "python3"});
-                BufferedReader input =
-                new BufferedReader(new InputStreamReader(proc.getInputStream()));
-        BufferedReader error =
-                new BufferedReader(new InputStreamReader(proc.getErrorStream()));
-
-                String line = null;
-                while ((line = input.readLine()) != null) {
-                    System.out.println(line);
-                }
-                while ((line = error.readLine()) != null) {
-                    System.out.println(line);
-                }
-
-            */
-               /* ProcessBuilder pb = new ProcessBuilder();
-                pb.command("chatbot.py", "run", "" + this.id_user, user_msg);
-                Process p = pb.start();
-                p.waitFor();
-                ProcessHandle.Info a = p.info();*/
-
                 Process api_request = Runtime.getRuntime().exec("python3 chatbot.py " + this.user_id + " " + user_msg);
                 api_request.waitFor();
-
                 File fresult = new File("result.txt");
                 Scanner reader = new Scanner(fresult);
                 end = reader.nextLine().equals("END");
