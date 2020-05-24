@@ -2,3 +2,4 @@
 /MAS/out
 *.txt
 JavaFxApplication.iml
+venv/
