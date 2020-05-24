@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class CSVDao {
-    private static final String CSV_URI = "../DB.csv";
+    private static final String CSV_URI = "../DB/ClothingDB.csv";
     private static final String CSV_SEPARATOR = ",";
     private static final String FIELD_SEPARATOR = ";";
 
@@ -23,11 +23,11 @@ public class CSVDao {
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(CSV_SEPARATOR);
                 alCloths.add(new ClothTransfer(
+                        fields[7],
                         fields[0],
                         fields[1],
-                        fields[2],
                         fields[3],
-                        fields[4].split(FIELD_SEPARATOR)));
+                        fields[5].split(FIELD_SEPARATOR)));
             }
         } catch (IOException e) {
             e.printStackTrace();
