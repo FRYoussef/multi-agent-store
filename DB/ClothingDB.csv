@@ -1,5 +1,5 @@
-Id,Name,Views,Price,Sales,Size,ClothType,Tags,ImageUrl
-0,Casual blue men pants,0,30€,0,L,pants,male,https://cutt.ly/gyO9s4X
-1,Floral summer outfit,0,40€,0,XS;S;L,dress,female,https://cutt.ly/syO9v7b
-2,Formal men outfit,0,200€,0,L;XL,waistcoat,male,https://cutt.ly/uyO9nzr
-3,Pink women top,0,15€,0,None,top,female,https://cutt.ly/gyO9mCV
+Id,Name,Views,Price,Sales,Size,Tags,ImageUrl
+0,Casual blue men pants,0,30€,0,L,pants;male,https://cutt.ly/gyO9s4X
+1,Floral summer outfit,0,40€,0,XS;S;L,dress;female,https://cutt.ly/syO9v7b
+2,Formal men outfit,0,200€,0,L;XL,waistcoat;male,https://cutt.ly/uyO9nzr
+3,Pink women top,0,15€,0,None,top;female,https://cutt.ly/gyO9mCV

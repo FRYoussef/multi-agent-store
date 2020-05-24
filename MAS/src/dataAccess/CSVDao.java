@@ -23,7 +23,7 @@ public class CSVDao {
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(CSV_SEPARATOR);
                 alCloths.add(new ClothTransfer(
-                        fields[8],
+                        fields[7],
                         fields[0],
                         fields[1],
                         fields[3],

@@ -24,6 +24,8 @@ def transform_df(df: pd.DataFrame) -> pd.DataFrame:
 
 def filter_clothing(user: Dict, tags: List[str], df: pd.DataFrame) -> pd.DataFrame:
     dff = df
+
+    # by gender
     dff = dff[dff['Tags'].apply(lambda x: user['Gender'] in x)]
     return dff
 
@@ -54,4 +56,3 @@ if __name__ == '__main__':
 
     # filter clothing
     print(filter_clothing(user=user, tags=tags, df=df))
-    
