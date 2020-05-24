@@ -63,7 +63,7 @@ public class MainController implements AttachableController{
         int[] is = {
                 currentIndex-1,
                 currentIndex,
-                (currentIndex == size) ? -1 : currentIndex+1};
+                (currentIndex+1 >= alClothes.size()) ? -1 : currentIndex+1};
 
         Image im = null;
         for(int i = 0; i < size; i++){
@@ -72,6 +72,8 @@ public class MainController implements AttachableController{
 
             ImageView iv = (ImageView)_hbImages.getChildren().get(i);
             iv.setImage(im);
+            iv.setSmooth(true);
+            iv.setCache(true);
         }
 
         _lbDescription.setText(
