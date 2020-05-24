@@ -27,6 +27,22 @@ def filter_clothing(user: Dict, tags: List[str], df: pd.DataFrame) -> pd.DataFra
 
     # by gender
     dff = dff[dff['Tags'].apply(lambda x: user['Gender'] in x)]
+
+    # by tags
+    for tg in tags:
+        dff = dff[dff['Tags'].apply(lambda x: tg in x)]
+
+    return dff
+
+
+def add_score(df: pd.DataFrame) -> pd.DataFrame:
+    dff = df
+    dff['Score'] = 0
+
+    for i, row in dff.iterrows():
+        dff.loc[i, 'Score'] = row['Sales'] * 0.6 + row['Views'] * 0.4
+
+    dff.sort_values(by=['Score'], ascending=False)
     return dff
 
 
@@ -54,5 +70,10 @@ if __name__ == '__main__':
     # transform clothing df
     df = transform_df(df=df)
 
-    # filter clothing
-    print(filter_clothing(user=user, tags=tags, df=df))
+    # filter clothing and calculate score
+    df = filter_clothing(user=user, tags=tags, df=df)
+    df = add_score(df=df)
+
+    # 5 recommendations
+    # df.head()['Id'].tolist()
+    print(df.head())
