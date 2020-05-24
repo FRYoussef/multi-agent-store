@@ -42,7 +42,7 @@ def add_score(df: pd.DataFrame) -> pd.DataFrame:
     for i, row in dff.iterrows():
         dff.loc[i, 'Score'] = row['Sales'] * 0.6 + row['Views'] * 0.4
 
-    dff.sort_values(by=['Score'], ascending=False)
+    dff = dff.sort_values(by=['Score'], ascending=False)
     return dff
 
 
