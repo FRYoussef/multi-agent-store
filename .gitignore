@@ -3,3 +3,4 @@
 *.txt
 JavaFxApplication.iml
 venv/
+!requirements.txt
