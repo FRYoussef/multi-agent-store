@@ -2,7 +2,7 @@ package agents.guiAgent.control;
 
 import agents.chatbotAgent.ChatbotAgent;
 import agents.guiAgent.GuiAgent;
-import dataAccess.CSVDao;
+import dataAccess.ClothingDao;
 import jade.gui.GuiEvent;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -14,8 +14,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import model.ClothTransfer;
-import jade.lang.acl.ACLMessage;
+import model.Clothing;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ public class MainController implements AttachableController{
 
     private GuiAgent guiAgent;
     private ChatbotAgent chatbotAgent;
-    private ArrayList<ClothTransfer> alClothes;
+    private ArrayList<Clothing> alClothes;
     private int currentIndex = 0;
 
     @FXML
@@ -45,8 +45,8 @@ public class MainController implements AttachableController{
 
     public MainController(GuiAgent guiAgent){
         this.guiAgent = guiAgent;
-        CSVDao dao = new CSVDao();
-        alClothes = dao.getCloths();
+        ClothingDao dao = new ClothingDao();
+        alClothes = new ArrayList<>(dao.getAll());
     }
 
     public void viewSetup(){
