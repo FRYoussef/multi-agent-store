@@ -1,8 +1,8 @@
 package model;
 
-import dataAccess.CSVHandler;
+import dataAccess.CsvHandler;
 
-public class Clothing {
+public class Clothing implements ICsvObjectionable{
     private int id;
     private String name;
     private String price;
@@ -11,6 +11,17 @@ public class Clothing {
     private int sales;
     private String[] sizes;
     private String[] tags;
+
+    public Clothing(){
+        this.id = -1;
+        this.name = "None";
+        this.price = "";
+        this.imageUri = "";
+        this.views = 0;
+        this.sales = 0;
+        this.sizes = new String[]{""};
+        this.tags = new String[]{""};
+    }
 
     public Clothing(int id, String name, String price, String imageUri, int views, int sales, String[] sizes, String[] tags) {
         this.id = id;
@@ -93,41 +104,23 @@ public class Clothing {
     }
 
     public String toCsvFormat(){
-        StringBuilder sb = new StringBuilder(id + CSVHandler.CSV_SEPARATOR)
-                .append(name).append(CSVHandler.CSV_SEPARATOR)
-                .append(views).append(CSVHandler.CSV_SEPARATOR)
-                .append(price).append(CSVHandler.CSV_SEPARATOR)
-                .append(sales).append(CSVHandler.CSV_SEPARATOR);
+        StringBuilder sb = new StringBuilder(id + CsvHandler.CSV_SEPARATOR)
+                .append(name).append(CsvHandler.CSV_SEPARATOR)
+                .append(views).append(CsvHandler.CSV_SEPARATOR)
+                .append(price).append(CsvHandler.CSV_SEPARATOR)
+                .append(sales).append(CsvHandler.CSV_SEPARATOR);
 
         for(String s : sizes)
-            sb.append(s).append(CSVHandler.FIELD_SEPARATOR);
+            sb.append(s).append(CsvHandler.FIELD_SEPARATOR);
 
-        sb.append(CSVHandler.CSV_SEPARATOR);
+        sb.append(CsvHandler.CSV_SEPARATOR);
 
         for(String t : tags)
-            sb.append(t).append(CSVHandler.FIELD_SEPARATOR);
+            sb.append(t).append(CsvHandler.FIELD_SEPARATOR);
 
-        sb.append(CSVHandler.CSV_SEPARATOR)
+        sb.append(CsvHandler.CSV_SEPARATOR)
             .append(imageUri);
 
         return sb.toString();
-    }
-
-    /**
-     * Use this instance instead a null value
-     * @return Clothing
-     */
-    public static Clothing getDefault(){
-        Clothing clothing = new Clothing(
-                -1,
-                "None",
-                "",
-                "",
-                0,
-                0,
-                new String[]{""},
-                new String[]{""}
-        );
-        return clothing;
     }
 }

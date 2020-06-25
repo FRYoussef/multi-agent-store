@@ -28,4 +28,10 @@ public interface IDao<T> {
      * @param objs
      */
     void writeAll(HashSet<T> objs);
+
+    /**
+     * Return the header of the object
+     * @return header as string
+     */
+    String getCsvHeader();
 }

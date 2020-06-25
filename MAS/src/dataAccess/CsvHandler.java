@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class CSVHandler {
+public class CsvHandler {
     public static final String CSV_SEPARATOR = ",";
     public static final String FIELD_SEPARATOR = ";";
 

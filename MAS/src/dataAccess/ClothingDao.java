@@ -19,7 +19,7 @@ public class ClothingDao implements IDao<Clothing>{
     @Override
     public Clothing get(int id) {
         HashSet<Clothing> clothings = getAll();
-        Clothing clothing = Clothing.getDefault();
+        Clothing clothing = new Clothing();
 
         for(Clothing clth : clothings){
             if(clth.getId() == id){
@@ -34,7 +34,7 @@ public class ClothingDao implements IDao<Clothing>{
     @Override
     public HashSet<Clothing> getAll() {
         HashSet<Clothing> clothings = new HashSet<>();
-        ArrayList<ArrayList<String>> clothFields = CSVHandler.readCSV(CSV_URI);
+        ArrayList<ArrayList<String>> clothFields = CsvHandler.readCSV(CSV_URI);
 
         // let's transform strings into objects
         for(ArrayList<String> al : clothFields){
@@ -45,8 +45,8 @@ public class ClothingDao implements IDao<Clothing>{
                     al.get(POS_IMAGE_URI),
                     Integer.parseInt(al.get(POS_VIEWS)),
                     Integer.parseInt(al.get(POS_SALES)),
-                    CSVHandler.fieldSplitter(al.get(POS_SIZES)),
-                    CSVHandler.fieldSplitter(al.get(POS_TAGS))
+                    CsvHandler.fieldSplitter(al.get(POS_SIZES)),
+                    CsvHandler.fieldSplitter(al.get(POS_TAGS))
             );
             clothings.add(clothing);
         }
@@ -73,18 +73,18 @@ public class ClothingDao implements IDao<Clothing>{
         for(Clothing clothing : clothings)
             lines.add(clothing.toCsvFormat());
 
-        CSVHandler.writeCSV(CSV_URI, lines);
+        CsvHandler.writeCSV(CSV_URI, lines);
         lines = null;
     }
 
-    private static String getCsvHeader(){
-        return "Id" + CSVHandler.CSV_SEPARATOR +
-                "Name" + CSVHandler.CSV_SEPARATOR +
-                "Views" + CSVHandler.CSV_SEPARATOR +
-                "Price" + CSVHandler.CSV_SEPARATOR +
-                "Sales" + CSVHandler.CSV_SEPARATOR +
-                "Size" + CSVHandler.CSV_SEPARATOR +
-                "Tags" + CSVHandler.CSV_SEPARATOR +
-                "ImageUrl" + CSVHandler.CSV_SEPARATOR;
+    public String getCsvHeader(){
+        return "Id" + CsvHandler.CSV_SEPARATOR +
+                "Name" + CsvHandler.CSV_SEPARATOR +
+                "Views" + CsvHandler.CSV_SEPARATOR +
+                "Price" + CsvHandler.CSV_SEPARATOR +
+                "Sales" + CsvHandler.CSV_SEPARATOR +
+                "Size" + CsvHandler.CSV_SEPARATOR +
+                "Tags" + CsvHandler.CSV_SEPARATOR +
+                "ImageUrl" + CsvHandler.CSV_SEPARATOR;
     }
 }
