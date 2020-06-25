@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import model.ClothTransfer;
+import model.Clothing;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,9 +38,9 @@ public class ItemController implements AttachableController{
     private static final String ENDL = System.lineSeparator();
     private GuiAgent guiAgent;
     private ChatbotAgent chatbotAgent;
-    private ClothTransfer item;
+    private Clothing item;
 
-    public ItemController(GuiAgent guiAgent, ChatbotAgent chatbotAgent, ClothTransfer item) {
+    public ItemController(GuiAgent guiAgent, ChatbotAgent chatbotAgent, Clothing item) {
         this.guiAgent = guiAgent;
         this.chatbotAgent = chatbotAgent;
         this.item = item;
