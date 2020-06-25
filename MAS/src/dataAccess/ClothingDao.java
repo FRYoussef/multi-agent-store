@@ -85,6 +85,6 @@ public class ClothingDao implements IDao<Clothing>{
                 "Sales" + CsvHandler.CSV_SEPARATOR +
                 "Size" + CsvHandler.CSV_SEPARATOR +
                 "Tags" + CsvHandler.CSV_SEPARATOR +
-                "ImageUrl" + CsvHandler.CSV_SEPARATOR;
+                "ImageUrl";
     }
 }

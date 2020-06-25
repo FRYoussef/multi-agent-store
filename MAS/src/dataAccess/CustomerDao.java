@@ -8,10 +8,12 @@ import java.util.HashSet;
 
 public class CustomerDao implements IDao<Customer>{
     private static final int POS_ID = 0;
-    private static final int POS_NAME = 1;
-    private static final int POS_GENDER = 2;
-    private static final int POS_VIEWS = 3;
-    private static final int POS_PURCHASES = 4;
+    private static final int POS_PASSWORD = 1;
+    private static final int POS_NAME = 2;
+    private static final int POS_GENDER = 3;
+    private static final int POS_VIEWS = 4;
+    private static final int POS_PURCHASES = 5;
+    private static final int POS_PREFERENCES = 6;
     private static final String CSV_URI = "../DB/CustomerDB.csv";
 
     @Override
@@ -50,10 +52,12 @@ public class CustomerDao implements IDao<Customer>{
 
             Customer customer = new Customer(
                     Integer.parseInt(al.get(POS_ID)),
+                    al.get(POS_PASSWORD),
                     al.get(POS_NAME),
                     al.get(POS_GENDER),
                     viewsIds,
-                    purchasesIds
+                    purchasesIds,
+                    CsvHandler.fieldSplitter(al.get(POS_PREFERENCES))
             );
             customers.add(customer);
         }
@@ -86,9 +90,11 @@ public class CustomerDao implements IDao<Customer>{
     @Override
     public String getCsvHeader() {
         return "Id" + CsvHandler.CSV_SEPARATOR +
+                "Password" + CsvHandler.CSV_SEPARATOR +
                 "Name" + CsvHandler.CSV_SEPARATOR +
                 "Gender" + CsvHandler.CSV_SEPARATOR +
                 "Views" + CsvHandler.CSV_SEPARATOR +
-                "Purchases" + CsvHandler.CSV_SEPARATOR;
+                "Purchases" + CsvHandler.CSV_SEPARATOR+
+                "Preferences";
     }
 }

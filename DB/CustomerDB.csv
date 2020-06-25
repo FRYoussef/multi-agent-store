@@ -1,2 +1,2 @@
-Id,Name,Gender,Views,Purchases
-0,Ana,female,None,1
+Id,Password,Name,Gender,Views,Purchases,Preferences
+0,1234,Ana,female,None,1,skirt;blue
