@@ -1,7 +1,7 @@
-package agents.guiAgent.control;
+package control;
 
-import agents.chatbotAgent.ChatbotAgent;
-import agents.guiAgent.GuiAgent;
+import logic.agents.chatbotAgent.ChatbotAgent;
+import logic.agents.guiAgent.GuiAgent;
 import jade.gui.GuiEvent;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -9,7 +9,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import model.Clothing;
+import logic.service.ItemService;
+import logic.transfer.Clothing;
+import logic.transfer.Customer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,13 +39,11 @@ public class ItemController implements AttachableController{
 
     private static final String ENDL = System.lineSeparator();
     private GuiAgent guiAgent;
-    private ChatbotAgent chatbotAgent;
-    private Clothing item;
+    private ItemService service;
 
-    public ItemController(GuiAgent guiAgent, ChatbotAgent chatbotAgent, Clothing item) {
+    public ItemController(GuiAgent guiAgent, Clothing item, Customer customer) {
         this.guiAgent = guiAgent;
-        this.chatbotAgent = chatbotAgent;
-        this.item = item;
+        this.service = new ItemService(item, customer);
     }
 
     @Override
@@ -54,6 +54,7 @@ public class ItemController implements AttachableController{
             onClickSend();
             onClickBuy();
 
+            Clothing item = service.getClothing();
             // Show image, description and size
             Image im = new Image(item.getImageUri());
             _ivImage.setImage(im);
@@ -69,8 +70,10 @@ public class ItemController implements AttachableController{
 
     private void onClickBuy(){
         _btBuy.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-            //TODO
-            System.out.println("You have bought it");
+            service.addNewSale();
+            Platform.runLater(() -> _taPrompt.setText(
+                    _taPrompt.getText() + "You bought: " + service.getClothing().getName() + ENDL
+            ));
         }));
     }
 
@@ -92,9 +95,10 @@ public class ItemController implements AttachableController{
 
     private void onClickBack(){
         _btBack.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-            MainController con = new MainController(guiAgent);
-            String uri = "../views/main-view.fxml";
+            ItemSelectorController con = new ItemSelectorController(guiAgent, service.getCustomer());
+            String uri = "../views/item-selector.fxml";
             try {
+                takeDown();
                 GuiLauncher.instance().switchView(uri, con);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -103,12 +107,15 @@ public class ItemController implements AttachableController{
     }
 
     public void showMessage(String msg) {
-        Platform.runLater(() -> {
-            _taPrompt.setText(
-                    _taPrompt.getText() +
-                            "ChatBot: " +
-                            msg + ENDL
-            );
-        });
+        Platform.runLater(() -> _taPrompt.setText(
+                _taPrompt.getText() +
+                        "ChatBot: " +
+                        msg + ENDL
+        ));
+    }
+
+    @Override
+    public void takeDown() {
+        service.takeDown();
     }
 }

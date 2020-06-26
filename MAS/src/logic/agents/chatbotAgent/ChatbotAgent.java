@@ -1,4 +1,4 @@
-package agents.chatbotAgent;
+package logic.agents.chatbotAgent;
 
 import jade.core.Agent;
 import jade.domain.DFService;

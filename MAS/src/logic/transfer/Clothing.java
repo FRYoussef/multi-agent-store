@@ -1,8 +1,10 @@
-package model;
+package logic.transfer;
 
 import dataAccess.CsvHandler;
 
-public class Clothing implements ICsvObjectionable{
+import static java.lang.Math.abs;
+
+public class Clothing implements ICsvObjectionable, Comparable<Clothing>{
     private int id;
     private String name;
     private String price;
@@ -38,64 +40,40 @@ public class Clothing implements ICsvObjectionable{
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
     public String getImageUri() {
         return imageUri;
-    }
-
-    public void setImageUri(String imageUri) {
-        this.imageUri = imageUri;
     }
 
     public int getViews() {
         return views;
     }
 
-    public void setViews(int views) {
-        this.views = views;
+    public void addNewView(){
+        this.views++;
     }
 
     public int getSales() {
         return sales;
     }
 
-    public void setSales(int sales) {
-        this.sales = sales;
+    public void addNewSale(){
+        this.sales++;
     }
 
     public String[] getSizes() {
         return sizes;
     }
 
-    public void setSizes(String[] sizes) {
-        this.sizes = sizes;
-    }
-
     public String[] getTags() {
         return tags;
-    }
-
-    public void setTags(String[] tags) {
-        this.tags = tags;
     }
 
     @Override
@@ -113,14 +91,28 @@ public class Clothing implements ICsvObjectionable{
         for(String s : sizes)
             sb.append(s).append(CsvHandler.FIELD_SEPARATOR);
 
-        sb.append(CsvHandler.CSV_SEPARATOR);
+        sb.deleteCharAt(sb.length()-1);
 
+        sb.append(CsvHandler.CSV_SEPARATOR);
         for(String t : tags)
             sb.append(t).append(CsvHandler.FIELD_SEPARATOR);
 
-        sb.append(CsvHandler.CSV_SEPARATOR)
-            .append(imageUri);
+        sb.deleteCharAt(sb.length()-1);
+        sb.append(CsvHandler.CSV_SEPARATOR).append(imageUri);
 
         return sb.toString();
+    }
+
+
+    @Override
+    public int compareTo(Clothing o) {
+        if(id < 0 && o.getId() < 0)
+            return abs(id) - abs(o.getId());
+        else if(id < 0)
+            return -1;
+        else if(o.getId() < 0)
+            return 1;
+
+        return id - o.getId();
     }
 }

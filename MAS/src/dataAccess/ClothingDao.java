@@ -1,9 +1,9 @@
 package dataAccess;
 
-import model.Clothing;
+import logic.transfer.Clothing;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.TreeSet;
 
 public class ClothingDao implements IDao<Clothing>{
     private static final int POS_ID = 0;
@@ -14,11 +14,12 @@ public class ClothingDao implements IDao<Clothing>{
     private static final int POS_SIZES = 5;
     private static final int POS_TAGS = 6;
     private static final int POS_IMAGE_URI = 7;
+    private static final int N_FIELDS = 8;
     private static final String CSV_URI = "../DB/ClothingDB.csv";
 
     @Override
     public Clothing get(int id) {
-        HashSet<Clothing> clothings = getAll();
+        TreeSet<Clothing> clothings = getAll();
         Clothing clothing = new Clothing();
 
         for(Clothing clth : clothings){
@@ -32,9 +33,9 @@ public class ClothingDao implements IDao<Clothing>{
     }
 
     @Override
-    public HashSet<Clothing> getAll() {
-        HashSet<Clothing> clothings = new HashSet<>();
-        ArrayList<ArrayList<String>> clothFields = CsvHandler.readCSV(CSV_URI);
+    public TreeSet<Clothing> getAll() {
+        TreeSet<Clothing> clothings = new TreeSet<>();
+        ArrayList<ArrayList<String>> clothFields = CsvHandler.readCSV(CSV_URI, N_FIELDS);
 
         // let's transform strings into objects
         for(ArrayList<String> al : clothFields){
@@ -56,7 +57,7 @@ public class ClothingDao implements IDao<Clothing>{
 
     @Override
     public void write(Clothing clothing) {
-        HashSet<Clothing> clothings = getAll();
+        TreeSet<Clothing> clothings = getAll();
 
         // if exists remove it in order to add it again (modification)
         clothings.remove(clothing);
@@ -66,7 +67,7 @@ public class ClothingDao implements IDao<Clothing>{
     }
 
     @Override
-    public void writeAll(HashSet<Clothing> clothings) {
+    public void writeAll(TreeSet<Clothing> clothings) {
         ArrayList<String> lines = new ArrayList<>();
         lines.add(getCsvHeader());
 

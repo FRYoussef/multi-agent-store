@@ -18,9 +18,9 @@ public class Main {
         AgentController agentControllerChatbot = null;
 
         try {
-            agentControllerGUI = container.createNewAgent("GuiAgent", "agents.guiAgent.GuiAgent", null);
+            agentControllerGUI = container.createNewAgent("GuiAgent", "logic.agents.guiAgent.GuiAgent", null);
             agentControllerGUI.start();
-            agentControllerChatbot = container.createNewAgent("ChatbotAgent", "agents.chatbotAgent.ChatbotAgent", null);
+            agentControllerChatbot = container.createNewAgent("ChatbotAgent", "logic.agents.chatbotAgent.ChatbotAgent", null);
             agentControllerChatbot.start();
 
         } catch (StaleProxyException e) {

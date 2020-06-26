@@ -1,7 +1,7 @@
-package agents.guiAgent;
+package logic.agents.guiAgent;
 
 import jade.core.AID;
-import agents.guiAgent.control.GuiLauncher;
+import control.GuiLauncher;
 import jade.core.Runtime;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;

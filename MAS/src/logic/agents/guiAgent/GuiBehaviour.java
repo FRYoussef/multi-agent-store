@@ -1,9 +1,9 @@
-package agents.guiAgent;
+package logic.agents.guiAgent;
 
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
-import agents.guiAgent.control.GuiLauncher;
+import control.GuiLauncher;
 
 public class GuiBehaviour extends CyclicBehaviour {
     private static final long serialVersionUID = 1L;
