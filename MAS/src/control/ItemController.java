@@ -9,7 +9,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import logic.service.ItemService;
 import logic.transfer.Clothing;
+import logic.transfer.Customer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,13 +39,11 @@ public class ItemController implements AttachableController{
 
     private static final String ENDL = System.lineSeparator();
     private GuiAgent guiAgent;
-    private ChatbotAgent chatbotAgent;
-    private Clothing item;
+    private ItemService service;
 
-    public ItemController(GuiAgent guiAgent, ChatbotAgent chatbotAgent, Clothing item) {
+    public ItemController(GuiAgent guiAgent, Clothing item, Customer customer) {
         this.guiAgent = guiAgent;
-        this.chatbotAgent = chatbotAgent;
-        this.item = item;
+        this.service = new ItemService(item, customer);
     }
 
     @Override
@@ -54,6 +54,7 @@ public class ItemController implements AttachableController{
             onClickSend();
             onClickBuy();
 
+            Clothing item = service.getClothing();
             // Show image, description and size
             Image im = new Image(item.getImageUri());
             _ivImage.setImage(im);
@@ -69,7 +70,7 @@ public class ItemController implements AttachableController{
 
     private void onClickBuy(){
         _btBuy.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-            //TODO
+            service.addNewSale();
             System.out.println("You have bought it");
         }));
     }
@@ -92,9 +93,10 @@ public class ItemController implements AttachableController{
 
     private void onClickBack(){
         _btBack.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-            MainController con = new MainController(guiAgent);
-            String uri = "../views/main-view.fxml";
+            ItemSelectorController con = new ItemSelectorController(guiAgent, service.getCustomer());
+            String uri = "../views/item-selector.fxml";
             try {
+                takeDown();
                 GuiLauncher.instance().switchView(uri, con);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -110,5 +112,10 @@ public class ItemController implements AttachableController{
                             msg + ENDL
             );
         });
+    }
+
+    @Override
+    public void takeDown() {
+        service.takeDown();
     }
 }

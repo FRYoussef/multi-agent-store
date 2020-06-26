@@ -38,64 +38,40 @@ public class Clothing implements ICsvObjectionable{
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
     public String getImageUri() {
         return imageUri;
-    }
-
-    public void setImageUri(String imageUri) {
-        this.imageUri = imageUri;
     }
 
     public int getViews() {
         return views;
     }
 
-    public void setViews(int views) {
-        this.views = views;
+    public void addNewView(){
+        this.views++;
     }
 
     public int getSales() {
         return sales;
     }
 
-    public void setSales(int sales) {
-        this.sales = sales;
+    public void addNewSale(){
+        this.sales++;
     }
 
     public String[] getSizes() {
         return sizes;
     }
 
-    public void setSizes(String[] sizes) {
-        this.sizes = sizes;
-    }
-
     public String[] getTags() {
         return tags;
-    }
-
-    public void setTags(String[] tags) {
-        this.tags = tags;
     }
 
     @Override

@@ -14,17 +14,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import logic.service.ItemSelectorService;
 import logic.transfer.Clothing;
+import logic.transfer.Customer;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MainController implements AttachableController{
+public class ItemSelectorController implements AttachableController{
     private static final String ENDL = System.lineSeparator();
 
     private GuiAgent guiAgent;
-    private ChatbotAgent chatbotAgent;
-    private ArrayList<Clothing> alClothes;
+    private ItemSelectorService service;
     private int currentIndex = 0;
 
     @FXML
@@ -43,10 +44,9 @@ public class MainController implements AttachableController{
     private TextField _tfInput;
 
 
-    public MainController(GuiAgent guiAgent){
+    public ItemSelectorController(GuiAgent guiAgent, Customer customer){
         this.guiAgent = guiAgent;
-        ClothingDao dao = new ClothingDao();
-        alClothes = new ArrayList<>(dao.getAll());
+        this.service = new ItemSelectorService(customer);
     }
 
     public void viewSetup(){
@@ -63,12 +63,12 @@ public class MainController implements AttachableController{
         int[] is = {
                 currentIndex-1,
                 currentIndex,
-                (currentIndex+1 >= alClothes.size()) ? -1 : currentIndex+1};
+                (currentIndex+1 >= service.getNumberItems()) ? -1 : currentIndex+1};
 
         Image im = null;
         for(int i = 0; i < size; i++){
             if(is[i] == -1) im = null;
-            else im = new Image(alClothes.get(is[i]).getImageUri());
+            else im = new Image(service.getItem(is[i]).getImageUri());
 
             ImageView iv = (ImageView)_hbImages.getChildren().get(i);
             iv.setImage(im);
@@ -77,9 +77,8 @@ public class MainController implements AttachableController{
         }
 
         _lbDescription.setText(
-                alClothes.get(currentIndex).getPrice() +
-                ENDL +
-                alClothes.get(currentIndex).getName());
+                service.getItem(currentIndex).getPrice() + ENDL +
+                service.getItem(currentIndex).getName());
     }
 
     private void onClickPager() {
@@ -98,7 +97,7 @@ public class MainController implements AttachableController{
             }
             else if(bt == _btRight){
                 currentIndex++;
-                if(currentIndex == alClothes.size()-1)
+                if(currentIndex == service.getNumberItems()-1)
                     _btRight.setDisable(true);
             }
 
@@ -106,7 +105,7 @@ public class MainController implements AttachableController{
 
             if(currentIndex > 0)
                 _btLeft.setDisable(false);
-            if(currentIndex < alClothes.size()-1)
+            if(currentIndex < service.getNumberItems()-1)
                 _btRight.setDisable(false);
         });
     }
@@ -129,10 +128,11 @@ public class MainController implements AttachableController{
 
     private void onClickImage() {
         _hbImages.getChildren().get(1).setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-            ItemController con = new ItemController(guiAgent, chatbotAgent, alClothes.get(currentIndex));
+            ItemController con = new ItemController(guiAgent, service.getItem(currentIndex), service.getCustomer());
             String uri = "../views/item.fxml";
 
             try {
+                takeDown();
                 GuiLauncher.instance().switchView(uri, con);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -148,5 +148,10 @@ public class MainController implements AttachableController{
                     msg + ENDL
                     );
         });
+    }
+
+    @Override
+    public void takeDown() {
+        service.takeDown();
     }
 }

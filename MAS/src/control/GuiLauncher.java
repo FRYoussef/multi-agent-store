@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import logic.transfer.Customer;
 
 import java.io.IOException;
 
@@ -32,8 +33,8 @@ public class GuiLauncher extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
-        controller = new MainController(guiAgent);
-        switchView("../views/main-view.fxml", controller);
+        controller = new ItemSelectorController(guiAgent, new Customer());
+        switchView("../views/item-selector.fxml", controller);
     }
 
     public void switchView(String viewUri, AttachableController controller) throws IOException {
@@ -49,6 +50,7 @@ public class GuiLauncher extends Application {
         primaryStage.setOnCloseRequest(new EventHandler<>() {
             @Override
             public void handle(WindowEvent windowEvent) {
+                controller.takeDown();
                 GuiEvent ev = new GuiEvent(this, GuiAgent.CMD_EXIT);
                 guiAgent.postGuiEvent(ev);
                 Platform.exit();

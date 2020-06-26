@@ -12,4 +12,9 @@ public interface AttachableController {
      * @param msg
      */
     void showMessage(String msg);
+
+    /**
+     * Use it before destroy the controller.
+     */
+    void takeDown();
 }

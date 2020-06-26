@@ -2,13 +2,16 @@ package logic.transfer;
 
 import dataAccess.CsvHandler;
 
+import java.util.ArrayList;
+import java.util.*;
+
 public class Customer implements ICsvObjectionable{
     private int id;
     private String password;
     private String name;
     private String gender;
-    private int[] viewsId;
-    private int[] purchasesId;
+    private ArrayList<Integer> viewsId;
+    private ArrayList<Integer> purchasesId;
     private String[] preferences;
 
     public Customer(){
@@ -16,8 +19,8 @@ public class Customer implements ICsvObjectionable{
         this.password = "";
         this.name = "None";
         this.gender = "";
-        this.viewsId = new int[]{-1};
-        this.purchasesId = new int[]{-1};
+        this.viewsId = new ArrayList<>();
+        this.purchasesId = new ArrayList<>();
         this.preferences = new String[]{""};
     }
 
@@ -26,65 +29,43 @@ public class Customer implements ICsvObjectionable{
         this.password = password;
         this.name = name;
         this.gender = gender;
-        this.viewsId = viewsId;
-        this.purchasesId = purchasesId;
+        this.viewsId = new ArrayList<>(viewsId.length);
+        this.purchasesId = new ArrayList<>(purchasesId.length);
         this.preferences = preferences;
+
+        for(int v : viewsId)
+            this.viewsId.add(v);
+
+        for(int p : purchasesId)
+            this.purchasesId.add(p);
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void addNewView(int id) {
+        viewsId.add(id);
     }
 
-    public int[] getViewsId() {
-        return viewsId;
-    }
-
-    public void setViewsId(int[] viewsId) {
-        this.viewsId = viewsId;
-    }
-
-    public int[] getPurchasesId() {
-        return purchasesId;
-    }
-
-    public void setPurchasesId(int[] purchasesId) {
-        this.purchasesId = purchasesId;
+    public void addNewPurchase(int id){
+        purchasesId.add(id);
     }
 
     public String[] getPreferences() {
         return preferences;
-    }
-
-    public void setPreferences(String[] preferences) {
-        this.preferences = preferences;
     }
 
     @Override
