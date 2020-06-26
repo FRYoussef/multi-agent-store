@@ -1,6 +1,6 @@
 package dataAccess;
 
-import java.util.HashSet;
+import java.util.TreeSet;
 
 public interface IDao<T> {
 
@@ -15,7 +15,7 @@ public interface IDao<T> {
      * Reads from DB all objects
      * @return a set of all objects
      */
-    HashSet<T> getAll();
+    TreeSet<T> getAll();
 
     /**
      * Writes 'obj' to DB.
@@ -27,7 +27,7 @@ public interface IDao<T> {
      * Writes all instances in the DB.
      * @param objs
      */
-    void writeAll(HashSet<T> objs);
+    void writeAll(TreeSet<T> objs);
 
     /**
      * Return the header of the object

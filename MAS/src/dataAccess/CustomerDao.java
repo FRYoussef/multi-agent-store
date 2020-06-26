@@ -4,6 +4,7 @@ import logic.transfer.Customer;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.TreeSet;
 
 public class CustomerDao implements IDao<Customer>{
     private static final int POS_ID = 0;
@@ -17,7 +18,7 @@ public class CustomerDao implements IDao<Customer>{
 
     @Override
     public Customer get(int id) {
-        HashSet<Customer> customers = getAll();
+        TreeSet<Customer> customers = getAll();
         Customer customer = new Customer();
 
         for(Customer c : customers){
@@ -40,8 +41,8 @@ public class CustomerDao implements IDao<Customer>{
     }
 
     @Override
-    public HashSet<Customer> getAll() {
-        HashSet<Customer> customers = new HashSet<>();
+    public TreeSet<Customer> getAll() {
+        TreeSet<Customer> customers = new TreeSet<>();
         ArrayList<ArrayList<String>> custFields = CsvHandler.readCSV(CSV_URI);
 
         // let's transform strings into objects
@@ -65,7 +66,7 @@ public class CustomerDao implements IDao<Customer>{
 
     @Override
     public void write(Customer customer) {
-        HashSet<Customer> customers = getAll();
+        TreeSet<Customer> customers = getAll();
 
         // if exists remove it in order to add it again (modification)
         customers.remove(customer);
@@ -75,7 +76,7 @@ public class CustomerDao implements IDao<Customer>{
     }
 
     @Override
-    public void writeAll(HashSet<Customer> customers) {
+    public void writeAll(TreeSet<Customer> customers) {
         ArrayList<String> lines = new ArrayList<>();
         lines.add(getCsvHeader());
 
