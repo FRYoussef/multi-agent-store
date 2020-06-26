@@ -5,7 +5,9 @@ import dataAccess.CsvHandler;
 import java.util.ArrayList;
 import java.util.*;
 
-public class Customer implements ICsvObjectionable{
+import static java.lang.Math.abs;
+
+public class Customer implements ICsvObjectionable, Comparable<Customer>{
     private int id;
     private String password;
     private String name;
@@ -91,5 +93,17 @@ public class Customer implements ICsvObjectionable{
             sb.append(p).append(CsvHandler.FIELD_SEPARATOR);
 
         return sb.toString();
+    }
+
+    @Override
+    public int compareTo(Customer o) {
+        if(id < 0 && o.getId() < 0)
+            return abs(id) - abs(o.getId());
+        else if(id < 0)
+            return -1;
+        else if(o.getId() < 0)
+            return 1;
+
+        return id - o.getId();
     }
 }

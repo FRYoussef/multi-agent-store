@@ -2,7 +2,9 @@ package logic.transfer;
 
 import dataAccess.CsvHandler;
 
-public class Clothing implements ICsvObjectionable{
+import static java.lang.Math.abs;
+
+public class Clothing implements ICsvObjectionable, Comparable<Clothing>{
     private int id;
     private String name;
     private String price;
@@ -98,5 +100,18 @@ public class Clothing implements ICsvObjectionable{
             .append(imageUri);
 
         return sb.toString();
+    }
+
+
+    @Override
+    public int compareTo(Clothing o) {
+        if(id < 0 && o.getId() < 0)
+            return abs(id) - abs(o.getId());
+        else if(id < 0)
+            return -1;
+        else if(o.getId() < 0)
+            return 1;
+
+        return id - o.getId();
     }
 }
