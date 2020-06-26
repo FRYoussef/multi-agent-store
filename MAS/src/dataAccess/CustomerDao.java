@@ -36,7 +36,7 @@ public class CustomerDao implements IDao<Customer>{
         int cont = 0;
 
         for(String e : list)
-            intList[cont++] = Integer.parseInt(e);
+            try{ intList[cont++] = Integer.parseInt(e); } catch (Exception ex){ }
 
         return intList;
     }

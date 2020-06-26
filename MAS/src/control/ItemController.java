@@ -71,7 +71,9 @@ public class ItemController implements AttachableController{
     private void onClickBuy(){
         _btBuy.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
             service.addNewSale();
-            System.out.println("You have bought it");
+            Platform.runLater(() -> _taPrompt.setText(
+                    _taPrompt.getText() + "You bought: " + service.getClothing().getName() + ENDL
+            ));
         }));
     }
 
@@ -105,13 +107,11 @@ public class ItemController implements AttachableController{
     }
 
     public void showMessage(String msg) {
-        Platform.runLater(() -> {
-            _taPrompt.setText(
-                    _taPrompt.getText() +
-                            "ChatBot: " +
-                            msg + ENDL
-            );
-        });
+        Platform.runLater(() -> _taPrompt.setText(
+                _taPrompt.getText() +
+                        "ChatBot: " +
+                        msg + ENDL
+        ));
     }
 
     @Override
