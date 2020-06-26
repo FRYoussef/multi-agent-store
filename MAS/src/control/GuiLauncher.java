@@ -1,6 +1,6 @@
-package agents.guiAgent.control;
+package control;
 
-import agents.guiAgent.GuiAgent;
+import logic.agents.guiAgent.GuiAgent;
 import jade.gui.GuiEvent;
 import javafx.application.Application;
 import javafx.application.Platform;

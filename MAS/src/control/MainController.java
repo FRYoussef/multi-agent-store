@@ -1,7 +1,7 @@
-package agents.guiAgent.control;
+package control;
 
-import agents.chatbotAgent.ChatbotAgent;
-import agents.guiAgent.GuiAgent;
+import logic.agents.chatbotAgent.ChatbotAgent;
+import logic.agents.guiAgent.GuiAgent;
 import dataAccess.ClothingDao;
 import jade.gui.GuiEvent;
 import javafx.application.Platform;
@@ -14,7 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import model.Clothing;
+import logic.transfer.Clothing;
 
 import java.io.IOException;
 import java.util.ArrayList;

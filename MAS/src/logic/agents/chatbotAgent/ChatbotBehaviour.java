@@ -1,16 +1,12 @@
-package agents.chatbotAgent;
+package logic.agents.chatbotAgent;
 
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Random;
 import java.util.Scanner;
 import java.io.IOException;
 import java.io.File;
-import java.util.concurrent.TimeUnit;
 
 public class ChatbotBehaviour extends CyclicBehaviour {
 

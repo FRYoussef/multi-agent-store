@@ -1,7 +1,6 @@
 package dataAccess;
 
-import model.Clothing;
-import model.Customer;
+import logic.transfer.Customer;
 
 import java.util.ArrayList;
 import java.util.HashSet;
