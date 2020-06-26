@@ -130,7 +130,7 @@ public class MainController implements AttachableController{
     private void onClickImage() {
         _hbImages.getChildren().get(1).setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
             ItemController con = new ItemController(guiAgent, chatbotAgent, alClothes.get(currentIndex));
-            String uri = "../views/item-view.fxml";
+            String uri = "../views/item.fxml";
 
             try {
                 GuiLauncher.instance().switchView(uri, con);
