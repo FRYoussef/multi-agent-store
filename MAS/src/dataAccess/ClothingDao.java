@@ -14,6 +14,7 @@ public class ClothingDao implements IDao<Clothing>{
     private static final int POS_SIZES = 5;
     private static final int POS_TAGS = 6;
     private static final int POS_IMAGE_URI = 7;
+    private static final int N_FIELDS = 8;
     private static final String CSV_URI = "../DB/ClothingDB.csv";
 
     @Override
@@ -34,7 +35,7 @@ public class ClothingDao implements IDao<Clothing>{
     @Override
     public TreeSet<Clothing> getAll() {
         TreeSet<Clothing> clothings = new TreeSet<>();
-        ArrayList<ArrayList<String>> clothFields = CsvHandler.readCSV(CSV_URI);
+        ArrayList<ArrayList<String>> clothFields = CsvHandler.readCSV(CSV_URI, N_FIELDS);
 
         // let's transform strings into objects
         for(ArrayList<String> al : clothFields){

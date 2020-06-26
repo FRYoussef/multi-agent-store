@@ -14,6 +14,7 @@ public class CustomerDao implements IDao<Customer>{
     private static final int POS_VIEWS = 4;
     private static final int POS_PURCHASES = 5;
     private static final int POS_PREFERENCES = 6;
+    private static final int N_FIELDS = 7;
     private static final String CSV_URI = "../DB/CustomerDB.csv";
 
     @Override
@@ -43,7 +44,7 @@ public class CustomerDao implements IDao<Customer>{
     @Override
     public TreeSet<Customer> getAll() {
         TreeSet<Customer> customers = new TreeSet<>();
-        ArrayList<ArrayList<String>> custFields = CsvHandler.readCSV(CSV_URI);
+        ArrayList<ArrayList<String>> custFields = CsvHandler.readCSV(CSV_URI, N_FIELDS);
 
         // let's transform strings into objects
         for(ArrayList<String> al : custFields){

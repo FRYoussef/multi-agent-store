@@ -7,8 +7,10 @@ import java.util.Collections;
 public class CsvHandler {
     public static final String CSV_SEPARATOR = ",";
     public static final String FIELD_SEPARATOR = ";";
+    public static final String EMPTY_FIELD = ",,";
+    public static final String FILL_EMPTY_FIELD = ",\"\",";
 
-    public static ArrayList<ArrayList<String>> readCSV(String csvPath){
+    public static ArrayList<ArrayList<String>> readCSV(String csvPath, int nFields){
         ArrayList<ArrayList<String>> fields = new ArrayList<>();
         String line = "";
         int cont = 0;
@@ -18,9 +20,16 @@ public class CsvHandler {
             br.readLine();
 
             while ((line = br.readLine()) != null) {
-                fields.add(new ArrayList<>());
+                line.replace(EMPTY_FIELD, FILL_EMPTY_FIELD);
                 String[] lineFields = line.split(CSV_SEPARATOR);
-                Collections.addAll(fields.get(cont++), lineFields);
+                fields.add(new ArrayList<>());
+                Collections.addAll(fields.get(cont), lineFields);
+
+                if(fields.get(cont).size() < nFields)
+                    for(int i = fields.get(cont).size(); i <= nFields; i++)
+                        fields.get(cont).add("");
+
+                cont++;
             }
         } catch (IOException e) {
             e.printStackTrace();
