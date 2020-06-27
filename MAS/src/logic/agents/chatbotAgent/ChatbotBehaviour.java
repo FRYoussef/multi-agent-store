@@ -24,7 +24,6 @@ public class ChatbotBehaviour extends CyclicBehaviour {
     public void action() {
         ACLMessage  msg = myAgent.receive();
         if(msg != null){
-            String content = msg.getContent();
             ACLMessage reply = msg.createReply();
             String answer = "Connection failed";
             String user_msg = msg.getContent();
