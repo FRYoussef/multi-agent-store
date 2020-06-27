@@ -18,7 +18,7 @@ public class LoginController implements AttachableController{
     @FXML
     private TextField _tfPassword;
 
-    private LoginService service;
+    private final LoginService service;
 
     public LoginController(GuiAgent guiAgent) {
         service = new LoginService(guiAgent);
@@ -54,13 +54,13 @@ public class LoginController implements AttachableController{
 
     private void onClickRegister(){
         _btRegister.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-
+            service.onClickRegister();
         }));
     }
 
     @Override
     public void handleACLMsg(ACLMessage msg) {
-        // no acml msg expected
+        service.handleACLMsg(msg);
     }
 
     @Override

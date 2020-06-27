@@ -3,7 +3,6 @@ package dataAccess;
 import logic.transfer.Customer;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.TreeSet;
 
 public class CustomerDao implements IDao<Customer>{
@@ -39,7 +38,7 @@ public class CustomerDao implements IDao<Customer>{
         int cont = 0;
 
         for(String e : list)
-            try{ intList[cont++] = Integer.parseInt(e); } catch (Exception ex){ }
+            try{ intList[cont++] = Integer.parseInt(e); } catch (Exception ignored){ }
 
         return intList;
     }

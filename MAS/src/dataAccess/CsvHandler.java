@@ -45,7 +45,6 @@ public class CsvHandler {
                 bw.write(line);
                 bw.write(System.lineSeparator());
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }

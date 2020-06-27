@@ -2,6 +2,7 @@ package logic.service;
 
 import control.GuiLauncher;
 import control.ItemSelectorController;
+import control.RegisterController;
 import dataAccess.CustomerDao;
 import jade.lang.acl.ACLMessage;
 import logic.agents.guiAgent.GuiAgent;
@@ -62,10 +63,8 @@ public class LoginService implements IService{
     }
 
     public void onClickRegister(){
-        // TODO
-
-        ItemSelectorController con = new ItemSelectorController(guiAgent, customer);
-        String uri = "../views/item-selector.fxml";
+        RegisterController con = new RegisterController(guiAgent, customers);
+        String uri = "../views/register.fxml";
 
         try {
             takeDown();

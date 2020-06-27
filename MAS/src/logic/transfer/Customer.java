@@ -26,6 +26,16 @@ public class Customer implements ICsvObjectionable, Comparable<Customer>{
         this.preferences = new ArrayList<>();
     }
 
+    public Customer(int id, String name, String password){
+        this.id = id;
+        this.password = password;
+        this.name = name;
+        this.gender = "";
+        this.viewsId = new ArrayList<>();
+        this.purchasesId = new ArrayList<>();
+        this.preferences = new ArrayList<>();
+    }
+
     public Customer(int id, String password, String name, String gender, int[] viewsId, int[] purchasesId, String[] preferences) {
         this.id = id;
         this.password = password;
