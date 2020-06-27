@@ -113,7 +113,7 @@ public class ItemSelectorController implements AttachableController{
     private void onClickSend() {
         _btSend.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
             String input = _tfInput.getText();
-            if(input == null)
+            if(input == null || input.equals(""))
                 return;
 
             StringBuilder sb = new StringBuilder(_taPrompt.getText());
