@@ -96,6 +96,7 @@ if __name__ == '__main__':
         
 
         kinship = user_kinship(user_id, views, purchases)
+        
         n_users = 5
         result = ""
         ids_best_kinship, is_ok = good_recomender(kinship)
@@ -129,6 +130,9 @@ if __name__ == '__main__':
 
                 items += [item]
 
+            #It's possible that exist duplicates items -> remove them
+            items = list(dict.fromkeys(items))
+
             #Always 0 < len(item) < 5 
             if len(item) != 0: #When the user viewed every random item checked -> no recommendation
                 for s in items:
@@ -136,6 +140,12 @@ if __name__ == '__main__':
                 result = result[:-1] #Drop last comma
             
         #write result into the file
+        print(result)
+        f = open("result.txt", "w")
+        f.write(result)
     except:
         #write empty string into the file
+        print("No recommendation")
+        f = open("result.txt", "w")
+        f.write(result)
         exit(1)
