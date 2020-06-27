@@ -1,5 +1,6 @@
 package control;
 
+import jade.lang.acl.ACLMessage;
 import logic.agents.guiAgent.GuiAgent;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -59,6 +60,11 @@ public class ItemController implements AttachableController{
                 _cbSize.setDisable(true);
             _cbSize.setItems(FXCollections.observableList(new ArrayList<>(Arrays.asList(item.getSizes()))));
         });
+    }
+
+    @Override
+    public void handleACLMsg(ACLMessage msg) {
+        service.handleACLMsg(msg);
     }
 
     private void onClickBuy(){

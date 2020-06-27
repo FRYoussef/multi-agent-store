@@ -1,5 +1,6 @@
 package control;
 
+import jade.lang.acl.ACLMessage;
 import logic.agents.chatbotAgent.ChatbotAgent;
 import logic.agents.guiAgent.GuiAgent;
 import dataAccess.ClothingDao;
@@ -56,6 +57,11 @@ public class ItemSelectorController implements AttachableController{
             onClickPager();
             onClickSend();
         });
+    }
+
+    @Override
+    public void handleACLMsg(ACLMessage msg) {
+        service.handleACLMsg(msg);
     }
 
     private void updateClothes(){
@@ -141,13 +147,11 @@ public class ItemSelectorController implements AttachableController{
     }
 
     public void showMessage(String msg) {
-        Platform.runLater(() -> {
-            _taPrompt.setText(
-                    _taPrompt.getText() +
-                    "ChatBot: " +
-                    msg + ENDL
-                    );
-        });
+        Platform.runLater(() -> _taPrompt.setText(
+                _taPrompt.getText() +
+                "ChatBot: " +
+                msg + ENDL
+                ));
     }
 
     @Override

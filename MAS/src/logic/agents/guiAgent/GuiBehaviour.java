@@ -16,8 +16,7 @@ public class GuiBehaviour extends CyclicBehaviour {
     public void action() {
         ACLMessage  msg = myAgent.receive();
         if(msg != null){
-            String content = msg.getContent();
-            new Thread(() -> GuiLauncher.instance().showMessage(content)).start();
+            new Thread(() -> GuiLauncher.instance().handleACLMsg(msg)).start();
         }
         block();
     }

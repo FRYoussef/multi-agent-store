@@ -2,6 +2,9 @@ package logic.service;
 
 import dataAccess.ClothingDao;
 import dataAccess.CustomerDao;
+import jade.lang.acl.ACLMessage;
+import logic.agents.chatbotAgent.ChatbotAgent;
+import logic.agents.recommenderAgent.RecommenderAgent;
 import logic.transfer.Clothing;
 import logic.transfer.Customer;
 
@@ -43,5 +46,15 @@ public class ItemSelectorService implements IService{
     public void takeDown() {
         CustomerDao cusDao = new CustomerDao();
         cusDao.write(customer);
+    }
+
+    @Override
+    public void handleACLMsg(ACLMessage msg) {
+        if(msg.getSender().getName().equals(ChatbotAgent.NAME)){
+
+        }
+        else if(msg.getSender().getName().equals(RecommenderAgent.NAME)){
+
+        }
     }
 }

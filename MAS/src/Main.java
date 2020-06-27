@@ -3,6 +3,9 @@ import jade.core.Runtime;
 import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
+import logic.agents.chatbotAgent.ChatbotAgent;
+import logic.agents.guiAgent.GuiAgent;
+import logic.agents.recommenderAgent.RecommenderAgent;
 
 public class Main {
 
@@ -19,15 +22,15 @@ public class Main {
         AgentController agentControllerRecommender = null;
 
         try {
-            agentControllerGUI = container.createNewAgent("GuiAgent",
+            agentControllerGUI = container.createNewAgent(GuiAgent.NAME,
                     "logic.agents.guiAgent.GuiAgent", null);
             agentControllerGUI.start();
 
-            agentControllerChatbot = container.createNewAgent("ChatbotAgent",
+            agentControllerChatbot = container.createNewAgent(ChatbotAgent.NAME,
                     "logic.agents.chatbotAgent.ChatbotAgent", null);
             agentControllerChatbot.start();
 
-            agentControllerRecommender = container.createNewAgent("RecommenderAgent",
+            agentControllerRecommender = container.createNewAgent(RecommenderAgent.NAME,
                     "logic.agents.recommenderAgent.RecommenderAgent", null);
             agentControllerRecommender.start();
 

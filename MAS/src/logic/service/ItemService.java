@@ -2,6 +2,7 @@ package logic.service;
 
 import dataAccess.ClothingDao;
 import dataAccess.CustomerDao;
+import jade.lang.acl.ACLMessage;
 import logic.transfer.Clothing;
 import logic.transfer.Customer;
 
@@ -44,5 +45,10 @@ public class ItemService implements IService{
         clothingDao.write(clothing);
         CustomerDao customerDao = new CustomerDao();
         customerDao.write(customer);
+    }
+
+    @Override
+    public void handleACLMsg(ACLMessage msg) {
+        // no actions are needed in this service
     }
 }

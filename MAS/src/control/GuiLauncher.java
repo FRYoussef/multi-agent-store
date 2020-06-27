@@ -1,5 +1,6 @@
 package control;
 
+import jade.lang.acl.ACLMessage;
 import logic.agents.guiAgent.GuiAgent;
 import jade.gui.GuiEvent;
 import javafx.application.Application;
@@ -63,7 +64,7 @@ public class GuiLauncher extends Application {
         Application.launch();
     }
 
-    public void showMessage(String msg){
-        controller.showMessage(msg);
+    public void handleACLMsg(ACLMessage msg){
+        controller.handleACLMsg(msg);
     }
 }

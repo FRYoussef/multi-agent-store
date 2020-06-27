@@ -7,13 +7,15 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 
 public class RecommenderAgent extends Agent {
+    public static final String NAME = "RecommenderAgent";
+
     @Override
     protected void setup() {
-        System.out.println("RecommenderAgent(" + getAID().getName() + ") is running");
+        System.out.println(NAME + "(" + getAID().getName() + ") is running");
 
         DFAgentDescription dfd = new DFAgentDescription();
         ServiceDescription sd = new ServiceDescription();
-        sd.setType("RecommenderAgent");
+        sd.setType(NAME);
         sd.setName(getName());
         sd.setOwnership("UCM");
         dfd.setName(getAID());

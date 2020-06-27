@@ -7,13 +7,15 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 
 public class ChatbotAgent extends Agent {
+    public static final String NAME = "ChatbotAgent";
+
     @Override
     protected void setup() {
-        System.out.println("ChatbotAgent(" + getAID().getName() + ") is running");
+        System.out.println(NAME + "(" + getAID().getName() + ") is running");
 
         DFAgentDescription dfd = new DFAgentDescription();
         ServiceDescription sd = new ServiceDescription();
-        sd.setType("ChatbotAgent");
+        sd.setType(NAME);
         sd.setName(getName());
         sd.setOwnership("UCM");
         dfd.setName(getAID());
