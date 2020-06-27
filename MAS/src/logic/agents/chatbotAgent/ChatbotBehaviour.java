@@ -12,6 +12,7 @@ public class ChatbotBehaviour extends CyclicBehaviour {
 
     private static final long serialVersionUID = 1L;
     private static int user_id;
+
     public ChatbotBehaviour(Agent a) {
         super(a);
 

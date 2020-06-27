@@ -1,26 +1,26 @@
-package logic.agents.chatbotAgent;
+package logic.agents.recommenderAgent;
 
 import jade.core.Agent;
 import jade.domain.DFService;
-import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.domain.FIPAException;
 
-public class ChatbotAgent extends Agent {
+public class RecommenderAgent extends Agent {
     @Override
     protected void setup() {
-        System.out.println("ChatbotAgent(" + getAID().getName() + ") is running");
+        System.out.println("RecommenderAgent(" + getAID().getName() + ") is running");
 
         DFAgentDescription dfd = new DFAgentDescription();
         ServiceDescription sd = new ServiceDescription();
-        sd.setType("ChatbotAgent");
+        sd.setType("RecommenderAgent");
         sd.setName(getName());
         sd.setOwnership("UCM");
         dfd.setName(getAID());
         dfd.addServices(sd);
         try {
             DFService.register(this, dfd);
-            addBehaviour(new ChatbotBehaviour(this));
+            addBehaviour(new RecommenderBehaviour(this));
         } catch (FIPAException e) {
             doDelete();
         }
@@ -34,7 +34,6 @@ public class ChatbotAgent extends Agent {
         catch (FIPAException fe) {
             fe.printStackTrace();
         }
-
         super.takeDown();
     }
 }

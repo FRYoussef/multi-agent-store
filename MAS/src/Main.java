@@ -16,12 +16,20 @@ public class Main {
         AgentContainer container = rt.createMainContainer(profile);
         AgentController agentControllerGUI = null;
         AgentController agentControllerChatbot = null;
+        AgentController agentControllerRecommender = null;
 
         try {
-            agentControllerGUI = container.createNewAgent("GuiAgent", "logic.agents.guiAgent.GuiAgent", null);
+            agentControllerGUI = container.createNewAgent("GuiAgent",
+                    "logic.agents.guiAgent.GuiAgent", null);
             agentControllerGUI.start();
-            agentControllerChatbot = container.createNewAgent("ChatbotAgent", "logic.agents.chatbotAgent.ChatbotAgent", null);
+
+            agentControllerChatbot = container.createNewAgent("ChatbotAgent",
+                    "logic.agents.chatbotAgent.ChatbotAgent", null);
             agentControllerChatbot.start();
+
+            agentControllerRecommender = container.createNewAgent("RecommenderAgent",
+                    "logic.agents.recommenderAgent.RecommenderAgent", null);
+            agentControllerRecommender.start();
 
         } catch (StaleProxyException e) {
             e.printStackTrace();
