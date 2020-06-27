@@ -10,6 +10,7 @@ import java.io.File;
 
 public class ChatbotBehaviour extends CyclicBehaviour {
 
+    private static final String CHATBOT_LOCATION = "src/logic/agents/chatbotAgent/chatbot.py";
     private static final long serialVersionUID = 1L;
     private static int user_id;
 
@@ -30,7 +31,8 @@ public class ChatbotBehaviour extends CyclicBehaviour {
             Boolean end = false;
 
             try {
-                Process api_request = Runtime.getRuntime().exec("python3 chatbot.py " + this.user_id + " " + user_msg);
+                Process api_request = Runtime.getRuntime().exec("python3 "
+                        + CHATBOT_LOCATION + " " + this.user_id + " " + user_msg);
                 api_request.waitFor();
                 File fresult = new File("result.txt");
                 Scanner reader = new Scanner(fresult);

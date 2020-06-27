@@ -4,10 +4,11 @@ import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 
-public class RecommenderBehaviour extends CyclicBehaviour {
+import java.io.IOException;
 
-    private static final String CONTENT_BASED_ROCOMMENDER = "";
-    private static final String COLABORATIVE_FILTER_ROCOMMENDER = "";//TODO poner ruta
+public class RecommenderBehaviour extends CyclicBehaviour {
+    private static final String CONTENT_BASED_ROCOMMENDER = "src/logic/agents/recommenderAgent/content-based-rocommender.py";
+    private static final String COLABORATIVE_FILTER_ROCOMMENDER = "src/logic/agents/recommenderAgent/";//TODO poner ruta completa
 
     public RecommenderBehaviour(Agent a){
         super(a);
@@ -21,8 +22,13 @@ public class RecommenderBehaviour extends CyclicBehaviour {
             ACLMessage response = msg.createReply();
             String content = msg.getContent();
 
-            Process recommender = Runtime.getRuntime().exec( + content);
-            recommender.waitFor();
+            Process recommender = null;
+            try {
+                recommender = Runtime.getRuntime().exec("python3 " + CONTENT_BASED_ROCOMMENDER + " " + content);
+                recommender.waitFor();
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
 
             response.setPerformative(ACLMessage.INFORM);
             response.setContent();
