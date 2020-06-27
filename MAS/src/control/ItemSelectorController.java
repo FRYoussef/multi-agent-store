@@ -1,9 +1,7 @@
 package control;
 
 import jade.lang.acl.ACLMessage;
-import logic.agents.chatbotAgent.ChatbotAgent;
 import logic.agents.guiAgent.GuiAgent;
-import dataAccess.ClothingDao;
 import jade.gui.GuiEvent;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -16,16 +14,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import logic.service.ItemSelectorService;
-import logic.transfer.Clothing;
 import logic.transfer.Customer;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class ItemSelectorController implements AttachableController{
     private static final String ENDL = System.lineSeparator();
 
-    private GuiAgent guiAgent;
     private ItemSelectorService service;
     private int currentIndex = 0;
 
@@ -46,8 +41,7 @@ public class ItemSelectorController implements AttachableController{
 
 
     public ItemSelectorController(GuiAgent guiAgent, Customer customer){
-        this.guiAgent = guiAgent;
-        this.service = new ItemSelectorService(customer);
+        this.service = new ItemSelectorService(customer, this, guiAgent);
     }
 
     public void viewSetup(){
@@ -119,13 +113,13 @@ public class ItemSelectorController implements AttachableController{
     private void onClickSend() {
         _btSend.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
             String input = _tfInput.getText();
+            if(input == null)
+                return;
+
             StringBuilder sb = new StringBuilder(_taPrompt.getText());
             sb.append("You: ").append(input).append(ENDL);
 
-            // notify gui agent
-            GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND);
-            ge.addParameter(input);
-            guiAgent.postGuiEvent(ge);
+            service.onClickSend(input);
 
             _tfInput.setText("");
             _taPrompt.setText(sb.toString());
@@ -133,17 +127,8 @@ public class ItemSelectorController implements AttachableController{
     }
 
     private void onClickImage() {
-        _hbImages.getChildren().get(1).setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-            ItemController con = new ItemController(guiAgent, service.getItem(currentIndex), service.getCustomer());
-            String uri = "../views/item.fxml";
-
-            try {
-                takeDown();
-                GuiLauncher.instance().switchView(uri, con);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }));
+        _hbImages.getChildren().get(1).setOnMouseClicked(
+                mouseEvent -> Platform.runLater(() -> service.onClickItem(currentIndex)));
     }
 
     public void showMessage(String msg) {

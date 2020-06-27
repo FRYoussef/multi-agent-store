@@ -33,12 +33,10 @@ public class ItemController implements AttachableController{
     private ChoiceBox _cbSize;
 
     private static final String ENDL = System.lineSeparator();
-    private GuiAgent guiAgent;
     private ItemService service;
 
     public ItemController(GuiAgent guiAgent, Clothing item, Customer customer) {
-        this.guiAgent = guiAgent;
-        this.service = new ItemService(item, customer);
+        this.service = new ItemService(item, customer, guiAgent);
     }
 
     @Override
@@ -88,16 +86,7 @@ public class ItemController implements AttachableController{
     }
 
     private void onClickBack(){
-        _btBack.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-            ItemSelectorController con = new ItemSelectorController(guiAgent, service.getCustomer());
-            String uri = "../views/item-selector.fxml";
-            try {
-                takeDown();
-                GuiLauncher.instance().switchView(uri, con);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }));
+        _btBack.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> service.goBack()));
     }
 
     public void showMessage(String msg) {
