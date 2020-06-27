@@ -72,7 +72,7 @@ public class ItemSelectorService implements IService{
 
     public void onClickSend(String msg){
         // notify gui agent
-        GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND);
+        GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND_CHATBOT);
         ge.addParameter(msg);
         guiAgent.postGuiEvent(ge);
     }

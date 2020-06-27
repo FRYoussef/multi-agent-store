@@ -16,7 +16,8 @@ import java.util.Iterator;
 
 public class GuiAgent extends jade.gui.GuiAgent {
     public static final int CMD_EXIT = 0;
-    public static final int CMD_SEND = 1;
+    public static final int CMD_SEND_CHATBOT = 1;
+    public static final int CMD_SEND_RECOMMENDER = 2;
     public static final String NAME = "GuiAgent";
 
     @Override
@@ -63,8 +64,11 @@ public class GuiAgent extends jade.gui.GuiAgent {
         if (cmd == CMD_EXIT) {
             doDelete(); // calls takeDown()
         }
-        else if (cmd == CMD_SEND) {
+        else if (cmd == CMD_SEND_CHATBOT) {
             sendToChatbot((String) guiEvent.getParameter(0));
+        }
+        else if(cmd == CMD_SEND_RECOMMENDER){
+            //TODO
         }
     }
 
