@@ -22,13 +22,9 @@ def transform_df(df: pd.DataFrame) -> pd.DataFrame:
     return dff
 
 
-def filter_clothing(user: Dict, tags: List[str], df: pd.DataFrame) -> pd.DataFrame:
+def filter_clothing(tags: List[str], df: pd.DataFrame) -> pd.DataFrame:
     dff = df
 
-    # by gender
-    dff = dff[dff['Tags'].apply(lambda x: user['Gender'] in x)]
-
-    # by tags
     for tg in tags:
         dff = dff[dff['Tags'].apply(lambda x: tg in x)]
 
@@ -40,40 +36,54 @@ def add_score(df: pd.DataFrame) -> pd.DataFrame:
     dff['Score'] = 0
 
     for i, row in dff.iterrows():
-        dff.loc[i, 'Score'] = row['Sales'] * 0.6 + row['Views'] * 0.4
+        dff.loc[i, 'Score'] = row['Sales'] * 0.7 + row['Views'] * 0.3
 
     dff = dff.sort_values(by=['Score'], ascending=False)
     return dff
+
+
+def getStringFormat(ids: List[str]) -> str:
+    result: str = ""
+
+    for i in ids:
+        result += i + ","
+    
+    # for last comma
+    result = result[:-1]
+
+    return result
+
+
+def write_result(text: str) -> None:
+    with open("result.txt", "w+") as file:
+        file.write(text)
 
 
 if __name__ == '__main__':
     # chack arguments
     if len(sys.argv) < 2:
         print('Invalid number of arguments')
-        print(f'Help: content-based-recommender.py user-id [list-of-tags]')
+        print(f'Help: content-based-recommender.py [list-of-tags]')
         exit(1)
 
-    user_id: int = sys.argv[1]
-    tags: List[str] = sys.argv[2:] if len(sys.argv) > 2 else list()
+    try:
+        tags: List[str] = sys.argv[1:]
 
-    # load clothing
-    filename: str = os.path.join('DB', 'ClothingDB.csv')
-    df: pd.DataFrame = pd.read_csv(filename, header=0)
+        # load clothing
+        filename: str = os.path.join('DB', 'ClothingDB.csv')
+        df: pd.DataFrame = pd.read_csv(filename, header=0)
+        
+        # transform clothing df
+        df = transform_df(df=df)
 
-    # load users
-    filename: str = os.path.join('DB', 'UserDB.csv')
-    users: pd.DataFrame = pd.read_csv(filename, header=0)
-    users['Id'].apply(lambda x: int(x))
+        # filter clothing and calculate score
+        df = filter_clothing(tags=tags, df=df)
+        df = add_score(df=df)
 
-    user: Dict = get_user(user_id=int(user_id), users=users)
-    
-    # transform clothing df
-    df = transform_df(df=df)
+        # 5 recommendations
+        ids: List[str] = df.head()['Id'].tolist()
+        write_result(text=getStringFormat(ids=ids))
 
-    # filter clothing and calculate score
-    df = filter_clothing(user=user, tags=tags, df=df)
-    df = add_score(df=df)
-
-    # 5 recommendations
-    # df.head()['Id'].tolist()
-    print(df.head())
+    except Exception as e:
+        write_result(text="error")
+        print(e)

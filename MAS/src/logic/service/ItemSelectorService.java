@@ -10,6 +10,8 @@ import jade.lang.acl.ACLMessage;
 import logic.agents.chatbotAgent.ChatbotAgent;
 import logic.agents.guiAgent.GuiAgent;
 import logic.agents.recommenderAgent.RecommenderAgent;
+import logic.agents.recommenderAgent.RecommenderMsg;
+import logic.agents.recommenderAgent.pythonArgsAdapter.ContentBasedAdapter;
 import logic.transfer.Clothing;
 import logic.transfer.Customer;
 
@@ -72,9 +74,17 @@ public class ItemSelectorService implements IService{
     }
 
     public void onClickSend(String msg){
-        // notify gui agent
+        /*// notify gui agent
         GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND_CHATBOT);
         ge.addParameter(msg);
+        guiAgent.postGuiEvent(ge);
+        */
+
+        customer.addPreference("blue");
+        ContentBasedAdapter adapter = new ContentBasedAdapter(customer);
+        RecommenderMsg rMsg = new RecommenderMsg(RecommenderMsg.CONTENT_BASED_TYPE, adapter.getPythonArgs());
+        GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND_RECOMMENDER);
+        ge.addParameter(rMsg);
         guiAgent.postGuiEvent(ge);
     }
 
@@ -89,6 +99,14 @@ public class ItemSelectorService implements IService{
 
     private void handleChatbotMsg(String msg) {
         //TODO
+
+        // Example of how to send msg to recommender agent
+        ContentBasedAdapter adapter = new ContentBasedAdapter(customer);
+        RecommenderMsg rMsg = new RecommenderMsg(RecommenderMsg.CONTENT_BASED_TYPE, adapter.getPythonArgs());
+        GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND_RECOMMENDER);
+        ge.addParameter(rMsg);
+        guiAgent.postGuiEvent(ge);
+        // END Example
 
         controller.showMessage(msg);
     }

@@ -14,10 +14,12 @@ public class ContentBasedAdapter implements IPythonArgs{
     public String getPythonArgs() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(customer.getId()).append(" ").append(customer.getGender());
+        sb.append(customer.getGender()).append(" ");
 
         for (String p : customer.getPreferences())
             sb.append(p).append(" ");
+
+        sb.deleteCharAt(sb.length()-1);
 
         return sb.toString();
     }

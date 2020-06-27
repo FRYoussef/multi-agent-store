@@ -14,7 +14,7 @@ public class Customer implements ICsvObjectionable, Comparable<Customer>{
     private String gender;
     private ArrayList<Integer> viewsId;
     private ArrayList<Integer> purchasesId;
-    private String[] preferences;
+    private ArrayList<String> preferences;
 
     public Customer(){
         this.id = -1;
@@ -23,7 +23,7 @@ public class Customer implements ICsvObjectionable, Comparable<Customer>{
         this.gender = "";
         this.viewsId = new ArrayList<>();
         this.purchasesId = new ArrayList<>();
-        this.preferences = new String[]{""};
+        this.preferences = new ArrayList<>();
     }
 
     public Customer(int id, String password, String name, String gender, int[] viewsId, int[] purchasesId, String[] preferences) {
@@ -33,7 +33,7 @@ public class Customer implements ICsvObjectionable, Comparable<Customer>{
         this.gender = gender;
         this.viewsId = new ArrayList<>(viewsId.length);
         this.purchasesId = new ArrayList<>(purchasesId.length);
-        this.preferences = preferences;
+        this.preferences = new ArrayList<>(Arrays.asList(preferences));
 
         for(int v : viewsId)
             this.viewsId.add(v);
@@ -44,10 +44,6 @@ public class Customer implements ICsvObjectionable, Comparable<Customer>{
 
     public int getId() {
         return id;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public String getName() {
@@ -66,8 +62,12 @@ public class Customer implements ICsvObjectionable, Comparable<Customer>{
         purchasesId.add(id);
     }
 
-    public String[] getPreferences() {
+    public ArrayList<String> getPreferences() {
         return preferences;
+    }
+
+    public void addPreference(String preference){
+        this.preferences.add(preference);
     }
 
     @Override
