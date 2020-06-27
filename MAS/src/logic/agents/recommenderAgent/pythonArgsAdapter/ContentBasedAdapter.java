@@ -1,12 +1,12 @@
-package logic.transfer.pythonArgsAdapter;
+package logic.agents.recommenderAgent.pythonArgsAdapter;
 
 import logic.transfer.Customer;
 
-public class CustomerAdapter implements IPythonArgs{
+public class ContentBasedAdapter implements IPythonArgs{
 
     private Customer customer;
 
-    public CustomerAdapter(Customer customer) {
+    public ContentBasedAdapter(Customer customer) {
         this.customer = customer;
     }
 

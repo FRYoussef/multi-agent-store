@@ -1,4 +1,4 @@
-package logic.transfer.pythonArgsAdapter;
+package logic.agents.recommenderAgent.pythonArgsAdapter;
 
 public interface IPythonArgs {
 
