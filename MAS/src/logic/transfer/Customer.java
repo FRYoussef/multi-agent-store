@@ -42,6 +42,10 @@ public class Customer implements ICsvObjectionable, Comparable<Customer>{
             this.purchasesId.add(p);
     }
 
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     public int getId() {
         return id;
     }

@@ -74,48 +74,48 @@ public class ItemSelectorService implements IService{
     }
 
     public void onClickSend(String msg){
-        /*// notify gui agent
+        // TODO uncomment for chatbot interaction
+       /* // notify gui agent
         GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND_CHATBOT);
         ge.addParameter(msg);
         guiAgent.postGuiEvent(ge);
         */
 
+
+        // TODO comment. It's just for testing
         customer.addPreference("blue");
+        customer.setGender("male");
         ContentBasedAdapter adapter = new ContentBasedAdapter(customer);
         RecommenderMsg rMsg = new RecommenderMsg(RecommenderMsg.CONTENT_BASED_TYPE, adapter.getPythonArgs());
         GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND_RECOMMENDER);
-        ge.addParameter(rMsg);
+        ge.addParameter(rMsg.getRawMsg());
         guiAgent.postGuiEvent(ge);
     }
 
     @Override
     public void handleACLMsg(ACLMessage msg) {
-        if(msg.getSender().getName().equals(ChatbotAgent.NAME))
+        if(msg.getSender().getName().contains(ChatbotAgent.NAME))
             handleChatbotMsg(msg.getContent());
 
-        else if(msg.getSender().getName().equals(RecommenderAgent.NAME))
+        else if(msg.getSender().getName().contains(RecommenderAgent.NAME))
             handleRecommenderMsg(msg.getContent());
     }
 
     private void handleChatbotMsg(String msg) {
         //TODO
 
-        // Example of how to send msg to recommender agent
-        ContentBasedAdapter adapter = new ContentBasedAdapter(customer);
-        RecommenderMsg rMsg = new RecommenderMsg(RecommenderMsg.CONTENT_BASED_TYPE, adapter.getPythonArgs());
-        GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND_RECOMMENDER);
-        ge.addParameter(rMsg);
-        guiAgent.postGuiEvent(ge);
-        // END Example
-
         controller.showMessage(msg);
     }
 
     private void handleRecommenderMsg(String msg){
-        if(msg.equals(""))
+        if(msg.equals("")) {
             controller.showMessage("I don't found recommendations for you, sorry :(");
-        else if(msg.equals(ERROR_RECOMMENDATION))
+            return;
+        }
+        else if(msg.equals(ERROR_RECOMMENDATION)) {
             controller.showMessage("Internal error");
+            return;
+        }
 
         // Transform string to int
         String[] chunks = msg.split(",");
@@ -129,6 +129,6 @@ public class ItemSelectorService implements IService{
         recomendations = dao.getFromIds(ids, clothings);
 
         controller.showRecomendations();
-        controller.showMessage("I' ve found " + recomendations.size() + " for you, I hope you like them");
+        controller.showMessage("I' ve found " + recomendations.size() + " cloths for you, I hope you like them.");
     }
 }

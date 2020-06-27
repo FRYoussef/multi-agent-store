@@ -46,10 +46,11 @@ def getStringFormat(ids: List[str]) -> str:
     result: str = ""
 
     for i in ids:
-        result += i + ","
+        result += str(i) + ","
     
     # for last comma
-    result = result[:-1]
+    if len(result) > 0:
+        result = result[:-1]
 
     return result
 
@@ -60,7 +61,7 @@ def write_result(text: str) -> None:
 
 
 if __name__ == '__main__':
-    # chack arguments
+    # check arguments
     if len(sys.argv) < 2:
         print('Invalid number of arguments')
         print(f'Help: content-based-recommender.py [list-of-tags]')
@@ -70,7 +71,7 @@ if __name__ == '__main__':
         tags: List[str] = sys.argv[1:]
 
         # load clothing
-        filename: str = os.path.join('DB', 'ClothingDB.csv')
+        filename: str = os.path.join('..', 'DB', 'ClothingDB.csv')
         df: pd.DataFrame = pd.read_csv(filename, header=0)
         
         # transform clothing df

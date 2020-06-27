@@ -124,10 +124,10 @@ public class ItemSelectorController implements AttachableController{
             StringBuilder sb = new StringBuilder(_taPrompt.getText());
             sb.append("You: ").append(input).append(ENDL);
 
-            service.onClickSend(input);
-
             _tfInput.setText("");
             _taPrompt.setText(sb.toString());
+
+            service.onClickSend(input);
         }));
     }
 

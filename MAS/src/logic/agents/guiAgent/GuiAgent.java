@@ -10,6 +10,7 @@ import jade.domain.FIPAException;
 import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
 import logic.agents.chatbotAgent.ChatbotAgent;
+import logic.agents.recommenderAgent.RecommenderAgent;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -64,31 +65,29 @@ public class GuiAgent extends jade.gui.GuiAgent {
         if (cmd == CMD_EXIT) {
             doDelete(); // calls takeDown()
         }
-        else if (cmd == CMD_SEND_CHATBOT) {
-            sendToChatbot((String) guiEvent.getParameter(0));
-        }
-        else if(cmd == CMD_SEND_RECOMMENDER){
-            //TODO
-        }
+        else if (cmd == CMD_SEND_CHATBOT)
+            sendTo((String) guiEvent.getParameter(0), ChatbotAgent.NAME);
+        else if(cmd == CMD_SEND_RECOMMENDER)
+            sendTo((String) guiEvent.getParameter(0), RecommenderAgent.NAME);
     }
 
-    public void sendToChatbot(String input) {
+    public void sendTo(String input, String to) {
         ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
         msg.setContent(input);
-        ArrayList<AID> agents =  searchAgents();
+        ArrayList<AID> agents =  searchAgents(to);
         for ( AID agent: agents ) {
             msg.addReceiver( agent );
         }
         send(msg);
     }
 
-    private ArrayList<AID> searchAgents() {
+    private ArrayList<AID> searchAgents(String name) {
         ArrayList<AID> agents = new ArrayList<>();
 
         try {
             DFAgentDescription templateAD = new DFAgentDescription();
             ServiceDescription templateSD = new ServiceDescription();
-            templateSD.setType(ChatbotAgent.NAME);
+            templateSD.setType(name);
             templateAD.addServices(templateSD);
 
             DFAgentDescription[] results = DFService.search(this, templateAD);
@@ -100,7 +99,7 @@ public class GuiAgent extends jade.gui.GuiAgent {
 
                 while (it.hasNext()) {
                     ServiceDescription sd = (ServiceDescription) it.next();
-                    if (sd.getType().equals(ChatbotAgent.NAME))
+                    if (sd.getType().equals(name))
                         agents.add(provider);
                 }
             }

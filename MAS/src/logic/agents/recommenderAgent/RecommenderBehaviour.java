@@ -4,13 +4,14 @@ import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
 public class RecommenderBehaviour extends CyclicBehaviour {
     private static final String CONTENT_BASED_RECOMMENDER = "src/logic/agents/recommenderAgent/content-based-rocommender.py";
     private static final String COLABORATIVE_FILTER_RECOMMENDER = "src/logic/agents/recommenderAgent/";//TODO poner ruta completa
-    private static final String RESULT_PATH = "src/logic/agents/recommenderAgent/result.txt";
+    private static final String RESULT_PATH = "result.txt";
 
     public RecommenderBehaviour(Agent a){
         super(a);
@@ -30,20 +31,22 @@ public class RecommenderBehaviour extends CyclicBehaviour {
             else if(recommenderMsg.getType() == RecommenderMsg.COLABORATIVE_FILTER_TYPE)
                 recommender = COLABORATIVE_FILTER_RECOMMENDER;
 
-            Process request;
             try {
-                request = Runtime.getRuntime().exec("python3 " + recommender + " " + recommenderMsg.getMsg());
+                String call = "python3 " + recommender + " " + recommenderMsg.getMsg();
+                Process request = Runtime.getRuntime().exec(call);
                 request.waitFor();
 
                 // Read recommendation
-                Scanner reader = new Scanner(RESULT_PATH);
-                result = reader.nextLine();
+                Scanner reader = new Scanner(new File(RESULT_PATH));
+                result = (reader.hasNext()) ? reader.nextLine() : "";
             } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
+                System.out.println(recommender + "has produced an error.");
             }
 
             response.setPerformative(ACLMessage.INFORM);
             response.setContent(result);
+            response.setSender(getAgent().getAID());
             myAgent.send(response);
         }
 
