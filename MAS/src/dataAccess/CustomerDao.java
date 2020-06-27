@@ -15,10 +15,11 @@ public class CustomerDao implements IDao<Customer>{
     private static final int POS_PREFERENCES = 6;
     private static final int N_FIELDS = 7;
     private static final String CSV_URI = "../DB/CustomerDB.csv";
+    private static ArrayList<Customer> alCustomers;
 
     @Override
     public Customer get(int id) {
-        TreeSet<Customer> customers = getAll();
+        ArrayList<Customer> customers = getAll();
         Customer customer = new Customer();
 
         for(Customer c : customers){
@@ -44,8 +45,11 @@ public class CustomerDao implements IDao<Customer>{
     }
 
     @Override
-    public TreeSet<Customer> getAll() {
-        TreeSet<Customer> customers = new TreeSet<>();
+    public ArrayList<Customer> getAll() {
+        if(alCustomers != null)
+            return alCustomers;
+
+        alCustomers = new ArrayList<>();
         ArrayList<ArrayList<String>> custFields = CsvHandler.readCSV(CSV_URI, N_FIELDS);
 
         // let's transform strings into objects
@@ -62,14 +66,14 @@ public class CustomerDao implements IDao<Customer>{
                     purchasesIds,
                     CsvHandler.fieldSplitter(al.get(POS_PREFERENCES))
             );
-            customers.add(customer);
+            alCustomers.add(customer);
         }
-        return customers;
+        return alCustomers;
     }
 
     @Override
     public void write(Customer customer) {
-        TreeSet<Customer> customers = getAll();
+        ArrayList<Customer> customers = getAll();
 
         // if exists remove it in order to add it again (modification)
         customers.remove(customer);
@@ -79,7 +83,8 @@ public class CustomerDao implements IDao<Customer>{
     }
 
     @Override
-    public void writeAll(TreeSet<Customer> customers) {
+    public void writeAll(ArrayList<Customer> customers) {
+        alCustomers = customers;
         ArrayList<String> lines = new ArrayList<>();
         lines.add(getCsvHeader());
 
@@ -87,7 +92,6 @@ public class CustomerDao implements IDao<Customer>{
             lines.add(customer.toCsvFormat());
 
         CsvHandler.writeCSV(CSV_URI, lines);
-        lines = null;
     }
 
     @Override

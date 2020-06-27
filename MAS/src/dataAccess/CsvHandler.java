@@ -16,7 +16,7 @@ public class CsvHandler {
         String line = "";
         int cont = 0;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvPath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(new File(csvPath)))) {
             // headers
             br.readLine();
 
@@ -40,10 +40,11 @@ public class CsvHandler {
     }
 
     public static void writeCSV(String csvPath, ArrayList<String> lines){
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(csvPath))) {
-            for (String line : lines) {
-                bw.write(line);
-                bw.write(System.lineSeparator());
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File(csvPath)))) {
+            for (int i = 0; i < lines.size(); i++) {
+                bw.write(lines.get(i));
+                if(i < lines.size()-1)
+                    bw.newLine();
             }
         } catch (IOException e) {
             e.printStackTrace();

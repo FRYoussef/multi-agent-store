@@ -126,7 +126,7 @@ public class ItemSelectorService implements IService{
 
         // get DB ids as Clothing objects
         ClothingDao dao = new ClothingDao();
-        recomendations = dao.getFromIds(ids, clothings);
+        recomendations = dao.getFromIds(ids);
 
         controller.showRecomendations();
         controller.showMessage("I' ve found " + recomendations.size() + " cloths for you, I hope you like them.");

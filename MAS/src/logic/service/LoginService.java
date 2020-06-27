@@ -63,7 +63,7 @@ public class LoginService implements IService{
     }
 
     public void onClickRegister(){
-        RegisterController con = new RegisterController(guiAgent, customers);
+        RegisterController con = new RegisterController(guiAgent);
         String uri = "../views/register.fxml";
 
         try {

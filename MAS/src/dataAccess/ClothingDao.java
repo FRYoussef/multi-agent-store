@@ -16,9 +16,11 @@ public class ClothingDao implements IDao<Clothing>{
     private static final int N_FIELDS = 8;
     private static final String CSV_URI = "../DB/ClothingDB.csv";
 
+    private static ArrayList<Clothing> alClothings;
+
     @Override
     public Clothing get(int id) {
-        TreeSet<Clothing> clothings = getAll();
+        ArrayList<Clothing> clothings = getAll();
         Clothing clothing = new Clothing();
 
         for(Clothing clth : clothings){
@@ -31,7 +33,8 @@ public class ClothingDao implements IDao<Clothing>{
         return clothing;
     }
 
-    public ArrayList<Clothing> getFromIds(int ids[], ArrayList<Clothing> all){
+    public ArrayList<Clothing> getFromIds(int ids[]){
+        ArrayList<Clothing> all = getAll();
         Set<Integer> sIds = new HashSet<>(ids.length);
         for(int id : ids)
             sIds.add(id);
@@ -47,8 +50,11 @@ public class ClothingDao implements IDao<Clothing>{
     }
 
     @Override
-    public TreeSet<Clothing> getAll() {
-        TreeSet<Clothing> clothings = new TreeSet<>();
+    public ArrayList<Clothing> getAll() {
+        if(alClothings != null)
+            return alClothings;
+
+        alClothings = new ArrayList<>();
         ArrayList<ArrayList<String>> clothFields = CsvHandler.readCSV(CSV_URI, N_FIELDS);
 
         // let's transform strings into objects
@@ -63,15 +69,15 @@ public class ClothingDao implements IDao<Clothing>{
                     CsvHandler.fieldSplitter(al.get(POS_SIZES)),
                     CsvHandler.fieldSplitter(al.get(POS_TAGS))
             );
-            clothings.add(clothing);
+            alClothings.add(clothing);
         }
 
-        return clothings;
+        return alClothings;
     }
 
     @Override
     public void write(Clothing clothing) {
-        TreeSet<Clothing> clothings = getAll();
+        ArrayList<Clothing> clothings = getAll();
 
         // if exists remove it in order to add it again (modification)
         clothings.remove(clothing);
@@ -81,7 +87,7 @@ public class ClothingDao implements IDao<Clothing>{
     }
 
     @Override
-    public void writeAll(TreeSet<Clothing> clothings) {
+    public void writeAll(ArrayList<Clothing> clothings) {
         ArrayList<String> lines = new ArrayList<>();
         lines.add(getCsvHeader());
 
@@ -89,7 +95,6 @@ public class ClothingDao implements IDao<Clothing>{
             lines.add(clothing.toCsvFormat());
 
         CsvHandler.writeCSV(CSV_URI, lines);
-        lines = null;
     }
 
     public String getCsvHeader(){

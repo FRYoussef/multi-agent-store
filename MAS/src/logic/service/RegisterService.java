@@ -17,9 +17,10 @@ public class RegisterService implements IService{
     private Customer newCustomer;
     private ArrayList<Customer> customers;
 
-    public RegisterService(GuiAgent guiAgent, ArrayList<Customer> customers) {
+    public RegisterService(GuiAgent guiAgent) {
         this.guiAgent = guiAgent;
-        this.customers = customers;
+        CustomerDao dao = new CustomerDao();
+        this.customers = dao.getAll();
     }
 
     public boolean checkUser(String user, String check){
@@ -79,7 +80,7 @@ public class RegisterService implements IService{
     public void takeDown() {
         if(newCustomer != null){
             CustomerDao dao = new CustomerDao();
-            dao.writeAll(new TreeSet<>(customers));
+            dao.writeAll(customers);
         }
     }
 

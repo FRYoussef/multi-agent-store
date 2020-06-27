@@ -27,8 +27,8 @@ public class RegisterController implements AttachableController{
 
     private final RegisterService service;
 
-    public RegisterController(GuiAgent guiAgent, ArrayList<Customer> customers) {
-        service = new RegisterService(guiAgent, customers);
+    public RegisterController(GuiAgent guiAgent) {
+        service = new RegisterService(guiAgent);
     }
 
     @Override
