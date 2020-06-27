@@ -34,8 +34,8 @@ public class GuiLauncher extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
-        controller = new ItemSelectorController(guiAgent, new Customer());
-        switchView("../views/item-selector.fxml", controller);
+        controller = new LoginController(guiAgent);
+        switchView("../views/login.fxml", controller);
     }
 
     public void switchView(String viewUri, AttachableController controller) throws IOException {

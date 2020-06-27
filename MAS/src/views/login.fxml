@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
@@ -54,12 +53,12 @@
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="_tfPassword" alignment="CENTER" focusTraversable="false" layoutX="108.0" layoutY="50.0" promptText="*****" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="110.0">
+                  <TextField fx:id="_tfPassword" alignment="CENTER" focusTraversable="false" layoutX="108.0" layoutY="50.0" promptText="*****" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="100.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <Label layoutX="10.0" layoutY="10.0" text="Password:" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="113.0">
+                  <Label layoutX="10.0" layoutY="10.0" text="Password:" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="103.0">
                      <font>
                         <Font size="16.0" />
                      </font>

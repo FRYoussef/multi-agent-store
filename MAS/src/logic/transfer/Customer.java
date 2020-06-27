@@ -42,6 +42,10 @@ public class Customer implements ICsvObjectionable, Comparable<Customer>{
             this.purchasesId.add(p);
     }
 
+    public boolean isValidPassword(String password){
+        return this.password.equals(password);
+    }
+
     public void setGender(String gender) {
         this.gender = gender;
     }

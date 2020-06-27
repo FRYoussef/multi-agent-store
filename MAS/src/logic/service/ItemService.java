@@ -42,10 +42,6 @@ public class ItemService implements IService{
         return clothing;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
     @Override
     public void takeDown() {
         ClothingDao clothingDao = new ClothingDao();
