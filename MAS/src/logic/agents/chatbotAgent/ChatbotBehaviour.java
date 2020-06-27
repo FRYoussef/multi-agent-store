@@ -10,8 +10,11 @@ import java.io.File;
 
 public class ChatbotBehaviour extends CyclicBehaviour {
 
+    private static final String CHATBOT_LOCATION = "src/logic/agents/chatbotAgent/chatbot.py";
+    private static final String RESULT_PATH = "result.txt";
     private static final long serialVersionUID = 1L;
     private static int user_id;
+
     public ChatbotBehaviour(Agent a) {
         super(a);
 
@@ -23,16 +26,16 @@ public class ChatbotBehaviour extends CyclicBehaviour {
     public void action() {
         ACLMessage  msg = myAgent.receive();
         if(msg != null){
-            String content = msg.getContent();
             ACLMessage reply = msg.createReply();
             String answer = "Connection failed";
             String user_msg = msg.getContent();
             Boolean end = false;
 
             try {
-                Process api_request = Runtime.getRuntime().exec("python3 chatbot.py " + this.user_id + " " + user_msg);
+                Process api_request = Runtime.getRuntime().exec("python3 "
+                        + CHATBOT_LOCATION + " " + this.user_id + " " + user_msg);
                 api_request.waitFor();
-                File fresult = new File("result.txt");
+                File fresult = new File(RESULT_PATH);
                 Scanner reader = new Scanner(fresult);
                 end = reader.nextLine().equals("END");
                 answer = reader.nextLine();

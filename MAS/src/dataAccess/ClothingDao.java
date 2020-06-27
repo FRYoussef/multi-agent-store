@@ -2,8 +2,7 @@ package dataAccess;
 
 import logic.transfer.Clothing;
 
-import java.util.ArrayList;
-import java.util.TreeSet;
+import java.util.*;
 
 public class ClothingDao implements IDao<Clothing>{
     private static final int POS_ID = 0;
@@ -30,6 +29,22 @@ public class ClothingDao implements IDao<Clothing>{
         }
 
         return clothing;
+    }
+
+
+    public ArrayList<Clothing> getFromIds(int ids[], ArrayList<Clothing> all){
+        Set<Integer> sIds = new HashSet<>(ids.length);
+        for(int id : ids)
+            sIds.add(id);
+
+        ArrayList<Clothing> clothings = new ArrayList<>(ids.length);
+
+        for(Clothing c : all){
+            if(sIds.contains(c.getId()))
+                clothings.add(c);
+        }
+
+        return clothings;
     }
 
     @Override

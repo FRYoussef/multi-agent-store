@@ -9,22 +9,26 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
+import logic.agents.chatbotAgent.ChatbotAgent;
+import logic.agents.recommenderAgent.RecommenderAgent;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class GuiAgent extends jade.gui.GuiAgent {
     public static final int CMD_EXIT = 0;
-    public static final int CMD_SEND = 1;
+    public static final int CMD_SEND_CHATBOT = 1;
+    public static final int CMD_SEND_RECOMMENDER = 2;
+    public static final String NAME = "GuiAgent";
 
     @Override
     protected void setup(){
-        System.out.println("GuiAgent(" + getAID().getName() + ") is running");
+        System.out.println(NAME + "(" + getAID().getName() + ") is running");
 
         //DF register
         DFAgentDescription dfd = new DFAgentDescription();
         ServiceDescription sd = new ServiceDescription();
-        sd.setType("GuiAgent");
+        sd.setType(NAME);
         sd.setName(getName());
         sd.setOwnership("UCM");
         dfd.setName(getAID());
@@ -61,28 +65,29 @@ public class GuiAgent extends jade.gui.GuiAgent {
         if (cmd == CMD_EXIT) {
             doDelete(); // calls takeDown()
         }
-        else if (cmd == CMD_SEND) {
-            sendToChatbot((String) guiEvent.getParameter(0));
-        }
+        else if (cmd == CMD_SEND_CHATBOT)
+            sendTo((String) guiEvent.getParameter(0), ChatbotAgent.NAME);
+        else if(cmd == CMD_SEND_RECOMMENDER)
+            sendTo((String) guiEvent.getParameter(0), RecommenderAgent.NAME);
     }
 
-    public void sendToChatbot(String input) {
+    public void sendTo(String input, String to) {
         ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
         msg.setContent(input);
-        ArrayList<AID> agents =  searchAgents();
+        ArrayList<AID> agents =  searchAgents(to);
         for ( AID agent: agents ) {
             msg.addReceiver( agent );
         }
         send(msg);
     }
 
-    private ArrayList<AID> searchAgents() {
-        ArrayList<AID> agents = new ArrayList<AID>();
+    private ArrayList<AID> searchAgents(String name) {
+        ArrayList<AID> agents = new ArrayList<>();
 
         try {
             DFAgentDescription templateAD = new DFAgentDescription();
             ServiceDescription templateSD = new ServiceDescription();
-            templateSD.setType("ChatbotAgent");
+            templateSD.setType(name);
             templateAD.addServices(templateSD);
 
             DFAgentDescription[] results = DFService.search(this, templateAD);
@@ -91,11 +96,11 @@ public class GuiAgent extends jade.gui.GuiAgent {
                 DFAgentDescription dfd = results[i];
                 AID provider = dfd.getName();
                 Iterator it = dfd.getAllServices();
+
                 while (it.hasNext()) {
                     ServiceDescription sd = (ServiceDescription) it.next();
-                    if (sd.getType().equals("ChatbotAgent")) {
+                    if (sd.getType().equals(name))
                         agents.add(provider);
-                    }
                 }
             }
         }

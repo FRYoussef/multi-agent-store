@@ -1,5 +1,7 @@
 package control;
 
+import jade.lang.acl.ACLMessage;
+
 public interface AttachableController {
 
     /**
@@ -8,10 +10,10 @@ public interface AttachableController {
     void viewSetup();
 
     /**
-     *
+     * Should call its service to handle the msg
      * @param msg
      */
-    void showMessage(String msg);
+    void handleACLMsg(ACLMessage msg);
 
     /**
      * Use it before destroy the controller.

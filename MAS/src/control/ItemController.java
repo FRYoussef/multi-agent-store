@@ -1,8 +1,7 @@
 package control;
 
-import logic.agents.chatbotAgent.ChatbotAgent;
+import jade.lang.acl.ACLMessage;
 import logic.agents.guiAgent.GuiAgent;
-import jade.gui.GuiEvent;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -23,11 +22,7 @@ public class ItemController implements AttachableController{
     @FXML
     private Button _btBuy;
     @FXML
-    private Button _btSend;
-    @FXML
     private TextArea _taPrompt;
-    @FXML
-    private TextField _tfInput;
     @FXML
     private ImageView _ivImage;
     @FXML
@@ -38,12 +33,10 @@ public class ItemController implements AttachableController{
     private ChoiceBox _cbSize;
 
     private static final String ENDL = System.lineSeparator();
-    private GuiAgent guiAgent;
     private ItemService service;
 
     public ItemController(GuiAgent guiAgent, Clothing item, Customer customer) {
-        this.guiAgent = guiAgent;
-        this.service = new ItemService(item, customer);
+        this.service = new ItemService(item, customer, guiAgent);
     }
 
     @Override
@@ -51,7 +44,6 @@ public class ItemController implements AttachableController{
         Platform.runLater(() -> {
             // assign events
             onClickBack();
-            onClickSend();
             onClickBuy();
 
             Clothing item = service.getClothing();
@@ -68,50 +60,37 @@ public class ItemController implements AttachableController{
         });
     }
 
-    private void onClickBuy(){
-        _btBuy.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-            service.addNewSale();
-            Platform.runLater(() -> _taPrompt.setText(
-                    _taPrompt.getText() + "You bought: " + service.getClothing().getName() + ENDL
-            ));
-        }));
+    @Override
+    public void handleACLMsg(ACLMessage msg) {
+        service.handleACLMsg(msg);
     }
 
-    private void onClickSend() {
-        _btSend.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-            String input = _tfInput.getText();
-            StringBuilder sb = new StringBuilder(_taPrompt.getText());
-            sb.append("You: ").append(input).append(ENDL);
+    private void onClickBuy(){
+        _btBuy.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
+            String msg;
+            String size = (String) _cbSize.getSelectionModel().getSelectedItem();
 
-            // notify gui agent
-            GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND);
-            ge.addParameter(input);
-            guiAgent.postGuiEvent(ge);
+            if(size == null){
+                msg = "Please select a size.";
+                showMessage(msg);
+                return;
+            }
 
-            _tfInput.setText("");
-            _taPrompt.setText(sb.toString());
+            service.addNewSale();
+            msg = "You bought: " + "\""
+                  + service.getClothing().getName()
+                  + "\" with size \"" + size + "\""
+                  + " for " + service.getClothing().getPrice();
+            showMessage(msg);
         }));
     }
 
     private void onClickBack(){
-        _btBack.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-            ItemSelectorController con = new ItemSelectorController(guiAgent, service.getCustomer());
-            String uri = "../views/item-selector.fxml";
-            try {
-                takeDown();
-                GuiLauncher.instance().switchView(uri, con);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }));
+        _btBack.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> service.goBack()));
     }
 
     public void showMessage(String msg) {
-        Platform.runLater(() -> _taPrompt.setText(
-                _taPrompt.getText() +
-                        "ChatBot: " +
-                        msg + ENDL
-        ));
+        Platform.runLater(() -> _taPrompt.setText(_taPrompt.getText() + msg + ENDL));
     }
 
     @Override

@@ -1,13 +1,13 @@
-package logic.agents.chatbotAgent;
+package logic.agents.recommenderAgent;
 
 import jade.core.Agent;
 import jade.domain.DFService;
-import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.domain.FIPAException;
 
-public class ChatbotAgent extends Agent {
-    public static final String NAME = "ChatbotAgent";
+public class RecommenderAgent extends Agent {
+    public static final String NAME = "RecommenderAgent";
 
     @Override
     protected void setup() {
@@ -22,7 +22,7 @@ public class ChatbotAgent extends Agent {
         dfd.addServices(sd);
         try {
             DFService.register(this, dfd);
-            addBehaviour(new ChatbotBehaviour(this));
+            addBehaviour(new RecommenderBehaviour(this));
         } catch (FIPAException e) {
             doDelete();
         }
@@ -36,7 +36,6 @@ public class ChatbotAgent extends Agent {
         catch (FIPAException fe) {
             fe.printStackTrace();
         }
-
         super.takeDown();
     }
 }
