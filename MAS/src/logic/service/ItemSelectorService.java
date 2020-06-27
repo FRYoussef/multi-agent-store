@@ -18,8 +18,10 @@ import java.util.ArrayList;
 
 public class ItemSelectorService implements IService{
 
+    private static final String ERROR_RECOMMENDATION = "error";
     private Customer customer;
     private ArrayList<Clothing> clothings;
+    private ArrayList<Clothing> recomendations;
     private ItemSelectorController controller;
     private GuiAgent guiAgent;
 
@@ -38,18 +40,17 @@ public class ItemSelectorService implements IService{
     }
 
     public int getNumberItems(){
-        return clothings.size();
+        ArrayList<Clothing> cs = (recomendations == null) ? clothings : recomendations;
+        return cs.size();
     }
 
     public Clothing getItem(int i){
-        if(i < 0 || i >= clothings.size())
+        ArrayList<Clothing> cs = (recomendations == null) ? clothings : recomendations;
+
+        if(i < 0 || i >= cs.size())
             return new Clothing();
 
-        return clothings.get(i);
-    }
-
-    public Customer getCustomer() {
-        return customer;
+        return cs.get(i);
     }
 
     @Override
@@ -79,14 +80,37 @@ public class ItemSelectorService implements IService{
 
     @Override
     public void handleACLMsg(ACLMessage msg) {
-        if(msg.getSender().getName().equals(ChatbotAgent.NAME)){
-            String content = msg.getContent();
-            //TODO
+        if(msg.getSender().getName().equals(ChatbotAgent.NAME))
+            handleChatbotMsg(msg.getContent());
 
-            controller.showMessage(content);
+        else if(msg.getSender().getName().equals(RecommenderAgent.NAME))
+            handleRecommenderMsg(msg.getContent());
+    }
+
+    private void handleChatbotMsg(String msg) {
+        //TODO
+
+        controller.showMessage(msg);
+    }
+
+    private void handleRecommenderMsg(String msg){
+        if(msg.equals(""))
+            controller.showMessage("I don't found recommendations for you, sorry :(");
+        else if(msg.equals(ERROR_RECOMMENDATION))
+            controller.showMessage("Internal error");
+
+        // Transform string to int
+        String[] chunks = msg.split(",");
+        int[] ids = new int[chunks.length];
+        for(int i = 0; i < chunks.length; i++){
+            try{ ids[i] = Integer.parseInt(chunks[i]); } catch (Exception ignored){}
         }
-        else if(msg.getSender().getName().equals(RecommenderAgent.NAME)){
-            //TODO
-        }
+
+        // get DB ids as Clothing objects
+        ClothingDao dao = new ClothingDao();
+        recomendations = dao.getFromIds(ids, clothings);
+
+        controller.showRecomendations();
+        controller.showMessage("I' ve found " + recomendations.size() + " for you, I hope you like them");
     }
 }

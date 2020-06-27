@@ -81,6 +81,11 @@ public class ItemSelectorController implements AttachableController{
                 service.getItem(currentIndex).getName());
     }
 
+    public void showRecomendations(){
+        currentIndex = 0;
+        updateClothes();
+    }
+
     private void onClickPager() {
         _btRight.setOnMouseClicked(this::pagerAction);
         _btLeft.setOnMouseClicked(this::pagerAction);
