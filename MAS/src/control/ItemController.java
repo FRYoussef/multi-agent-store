@@ -1,8 +1,6 @@
 package control;
 
-import logic.agents.chatbotAgent.ChatbotAgent;
 import logic.agents.guiAgent.GuiAgent;
-import jade.gui.GuiEvent;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -23,11 +21,7 @@ public class ItemController implements AttachableController{
     @FXML
     private Button _btBuy;
     @FXML
-    private Button _btSend;
-    @FXML
     private TextArea _taPrompt;
-    @FXML
-    private TextField _tfInput;
     @FXML
     private ImageView _ivImage;
     @FXML
@@ -51,7 +45,6 @@ public class ItemController implements AttachableController{
         Platform.runLater(() -> {
             // assign events
             onClickBack();
-            onClickSend();
             onClickBuy();
 
             Clothing item = service.getClothing();
@@ -70,26 +63,21 @@ public class ItemController implements AttachableController{
 
     private void onClickBuy(){
         _btBuy.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
+            String msg;
+            String size = (String) _cbSize.getSelectionModel().getSelectedItem();
+
+            if(size == null){
+                msg = "Please select a size.";
+                showMessage(msg);
+                return;
+            }
+
             service.addNewSale();
-            Platform.runLater(() -> _taPrompt.setText(
-                    _taPrompt.getText() + "You bought: " + service.getClothing().getName() + ENDL
-            ));
-        }));
-    }
-
-    private void onClickSend() {
-        _btSend.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-            String input = _tfInput.getText();
-            StringBuilder sb = new StringBuilder(_taPrompt.getText());
-            sb.append("You: ").append(input).append(ENDL);
-
-            // notify gui agent
-            GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND);
-            ge.addParameter(input);
-            guiAgent.postGuiEvent(ge);
-
-            _tfInput.setText("");
-            _taPrompt.setText(sb.toString());
+            msg = "You bought: " + "\""
+                  + service.getClothing().getName()
+                  + "\" with size \"" + size + "\""
+                  + " for " + service.getClothing().getPrice();
+            showMessage(msg);
         }));
     }
 
@@ -107,11 +95,7 @@ public class ItemController implements AttachableController{
     }
 
     public void showMessage(String msg) {
-        Platform.runLater(() -> _taPrompt.setText(
-                _taPrompt.getText() +
-                        "ChatBot: " +
-                        msg + ENDL
-        ));
+        Platform.runLater(() -> _taPrompt.setText(_taPrompt.getText() + msg + ENDL));
     }
 
     @Override
