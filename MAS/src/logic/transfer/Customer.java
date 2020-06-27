@@ -92,19 +92,22 @@ public class Customer implements ICsvObjectionable, Comparable<Customer>{
         for(int id : viewsId)
             sb.append(id).append(CsvHandler.FIELD_SEPARATOR);
 
-        sb.deleteCharAt(sb.length()-1);
+        if(viewsId.size() > 0)
+            sb.deleteCharAt(sb.length()-1);
 
         sb.append(CsvHandler.CSV_SEPARATOR);
         for(int id : purchasesId)
             sb.append(id).append(CsvHandler.FIELD_SEPARATOR);
 
-        sb.deleteCharAt(sb.length()-1);
+        if(purchasesId.size() > 0)
+            sb.deleteCharAt(sb.length()-1);
 
         sb.append(CsvHandler.CSV_SEPARATOR);
         for(String p : preferences)
             sb.append(p).append(CsvHandler.FIELD_SEPARATOR);
 
-        sb.deleteCharAt(sb.length()-1);
+        if(preferences.size() > 0)
+            sb.deleteCharAt(sb.length()-1);
 
         return sb.toString();
     }

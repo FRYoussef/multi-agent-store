@@ -31,7 +31,6 @@ public class ClothingDao implements IDao<Clothing>{
         return clothing;
     }
 
-
     public ArrayList<Clothing> getFromIds(int ids[], ArrayList<Clothing> all){
         Set<Integer> sIds = new HashSet<>(ids.length);
         for(int id : ids)

@@ -91,13 +91,16 @@ public class Clothing implements ICsvObjectionable, Comparable<Clothing>{
         for(String s : sizes)
             sb.append(s).append(CsvHandler.FIELD_SEPARATOR);
 
-        sb.deleteCharAt(sb.length()-1);
+        if(sizes.length > 0)
+            sb.deleteCharAt(sb.length()-1);
 
         sb.append(CsvHandler.CSV_SEPARATOR);
         for(String t : tags)
             sb.append(t).append(CsvHandler.FIELD_SEPARATOR);
 
-        sb.deleteCharAt(sb.length()-1);
+        if(tags.length > 0)
+            sb.deleteCharAt(sb.length()-1);
+
         sb.append(CsvHandler.CSV_SEPARATOR).append(imageUri);
 
         return sb.toString();

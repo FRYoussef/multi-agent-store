@@ -32,6 +32,9 @@ public class CustomerDao implements IDao<Customer>{
     }
 
     private int[] toIntArray(String[] list){
+        if(list[0].equals(""))
+            return new int[0];
+
         int[] intList = new int[list.length];
         int cont = 0;
 

@@ -2,6 +2,7 @@ package dataAccess;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class CsvHandler {
@@ -22,11 +23,11 @@ public class CsvHandler {
             while ((line = br.readLine()) != null) {
                 line.replace(EMPTY_FIELD, FILL_EMPTY_FIELD);
                 String[] lineFields = line.split(CSV_SEPARATOR);
-                fields.add(new ArrayList<>());
-                Collections.addAll(fields.get(cont), lineFields);
+                fields.add(new ArrayList<>(Arrays.asList(lineFields)));
 
+                // fill empty fields
                 if(fields.get(cont).size() < nFields)
-                    for(int i = fields.get(cont).size(); i <= nFields; i++)
+                    for (int i = fields.get(cont).size(); i <= nFields; i++)
                         fields.get(cont).add("");
 
                 cont++;
