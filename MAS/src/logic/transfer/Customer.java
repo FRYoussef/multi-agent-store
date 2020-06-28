@@ -43,13 +43,25 @@ public class Customer implements ICsvObjectionable, Comparable<Customer>{
         this.gender = gender;
         this.viewsId = new ArrayList<>(viewsId.length);
         this.purchasesId = new ArrayList<>(purchasesId.length);
-        this.preferences = new ArrayList<>(Arrays.asList(preferences));
+        combineArrays(preferences, this.preferences);
 
         for(int v : viewsId)
             this.viewsId.add(v);
 
         for(int p : purchasesId)
             this.purchasesId.add(p);
+    }
+
+    private void combineArrays(String[] array, ArrayList<String> al){
+        if(array == null){
+            al = new ArrayList<>();
+            return;
+        }
+        if(array.length > 0 && array[0].equals("")){
+            al = new ArrayList<>();
+            return;
+        }
+        al = new ArrayList<>(Arrays.asList(array));
     }
 
     public boolean isValidPassword(String password){
