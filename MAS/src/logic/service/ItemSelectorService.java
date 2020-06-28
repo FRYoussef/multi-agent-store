@@ -83,8 +83,17 @@ public class ItemSelectorService implements IService{
                 guiAgent.postGuiEvent(ge0);
                 break;
             case Q2:
-                if(yes){
-                    compareToIgnoreCase
+
+                if(msg.compareToIgnoreCase("YES") == 0){
+                    ContentBasedAdapter adapter = new ContentBasedAdapter(customer);
+                    RecommenderMsg rMsg = new RecommenderMsg(RecommenderMsg.CONTENT_BASED_TYPE, adapter.getPythonArgs());
+                    GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND_RECOMMENDER);
+                    ge.addParameter(rMsg.getRawMsg());
+                    guiAgent.postGuiEvent(ge);
+                    dfa.nextState(Alphabet.YES);
+                }
+                else if (msg.compareToIgnoreCase("NO") == 0) {
+                    controller.showMessage("Sorry, I don't understand you");
                 }
                 break;
             case Q3:
@@ -164,9 +173,9 @@ public class ItemSelectorService implements IService{
                 break;
             case Q2:
                 //ask about preview preferences
-                String msg_gui = ""
+                String msg_gui = "";
                 ArrayList<String> preferences = customer.getPreferences();
-                if(preferences.get(0).equals("")){
+                if(preferences.isEmpty()){
 
                     msg_gui = "Oh, it's seems like we don't have previous preferences of you stored";
 
@@ -179,9 +188,14 @@ public class ItemSelectorService implements IService{
                     controller.showMessage(msg_gui);
                 }
                 else {
-
-                    msg_gui = "Would you like" + preferences.get(0) + " " + preferences.get(1) + "?";
-                    controller.showMessage(msg_gui);
+                    if (preferences.size() == 2) {
+                        msg_gui = "Would you like " + preferences.get(0) + " " + preferences.get(1) + "?";
+                        controller.showMessage(msg_gui);
+                    }
+                    if (preferences.size() == 1) {
+                        msg_gui = "Would you like " + preferences.get(0) + "?";
+                        controller.showMessage(msg_gui);
+                    }
 
                 }
                 break;
