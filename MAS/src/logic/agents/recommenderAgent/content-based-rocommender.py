@@ -88,9 +88,10 @@ if __name__ == '__main__':
         # get 10 recomendations. First 3 are always the same, 
         # and the other 2 are random
         ids: List[str] = df['Id'].tolist()
-        randoms = ids[3:]
-        ids = ids[:3]
-        ids = ids + random.choices(population=randoms, k=2)
+        if len(ids) > 5:
+            randoms = ids[3:]
+            ids = ids[:3]
+            ids = ids + random.choices(population=randoms, k=2)
 
         write_result(text=getStringFormat(ids=ids))
 
