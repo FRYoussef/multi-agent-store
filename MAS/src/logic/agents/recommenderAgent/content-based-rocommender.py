@@ -2,6 +2,7 @@ import sys
 import os
 import pandas as pd
 from typing import List, Dict
+import random
 
 
 def get_user(user_id: int, users: pd.DataFrame) -> Dict:
@@ -61,6 +62,9 @@ def write_result(text: str) -> None:
 
 
 if __name__ == '__main__':
+    # remove previous data
+    write_result(text="")
+
     # check arguments
     if len(sys.argv) < 2:
         print('Invalid number of arguments')
@@ -81,8 +85,13 @@ if __name__ == '__main__':
         df = filter_clothing(tags=tags, df=df)
         df = add_score(df=df)
 
-        # 5 recommendations
-        ids: List[str] = df.head()['Id'].tolist()
+        # get 10 recomendations. First 3 are always the same, 
+        # and the other 2 are random
+        ids: List[str] = df['Id'].tolist()
+        randoms = ids[3:]
+        ids = ids[:3]
+        ids = ids + random.choices(population=randoms, k=2)
+
         write_result(text=getStringFormat(ids=ids))
 
     except Exception as e:
