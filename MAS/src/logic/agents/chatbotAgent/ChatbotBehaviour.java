@@ -37,19 +37,13 @@ public class ChatbotBehaviour extends CyclicBehaviour {
                 api_request.waitFor();
                 File fresult = new File(RESULT_PATH);
                 Scanner reader = new Scanner(fresult);
-                end = reader.nextLine().equals("END");
-                answer = reader.nextLine();
+                answer = reader.nextLine() + "-" + reader.nextLine();
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
 
             reply.setPerformative(ACLMessage.INFORM);
             reply.setContent(answer);
-
-            if(end) {
-                System.out.print("END");
-                //Now, analyze the "answer"
-            }
             myAgent.send(reply);
         }
         else {
