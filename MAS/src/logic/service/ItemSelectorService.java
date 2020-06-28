@@ -83,19 +83,20 @@ public class ItemSelectorService implements IService{
                 guiAgent.postGuiEvent(ge0);
                 break;
             case Q2:
-                //ask about preview preferences
-                System.out.println(customer.getPreferences());
+                if(yes){
+                    compareToIgnoreCase
+                }
                 break;
             case Q3:
-                //content based recommender
+
 
                 break;
             case Q4:
-                String s = "no";
+                /*String s = "no";
                 GuiEvent ge4 = new GuiEvent(this, GuiAgent.CMD_SEND_CHATBOT);
                 ge4.addParameter(s);
                 guiAgent.postGuiEvent(ge4);
-                dfa.nextState(Alphabet.NO);
+                dfa.nextState(Alphabet.NO);*/
                 break;
             case Q5:
                 break;
@@ -149,46 +150,62 @@ public class ItemSelectorService implements IService{
             intent = Intents.parseIntent(intention);
             controller.showMessage(msgs);
         }
-        if (!intent.equals(Intents.WELCOME)) {
-            switch (actualState) {
-                case Q0:
-                    if (intent != null) {
-                        if (intent.equals(Intents.YES_RECOMMENDER)) {
-                            dfa.nextState(Alphabet.YES);
-                            handleChatbotMsg("");
-                        } else if (intent.equals(Intents.NO_RECOMMENDER))
-                            dfa.nextState(Alphabet.NO);
-                        break;
-                    }
-                case Q2:
-                    //ask about preview preferences
-                    System.out.println(customer.getPreferences().get(0));
-                    break;
-                case Q3:
-                    //content based recommender
 
-                    break;
-                case Q4:
-                    String s = "no";
+        switch (actualState) {
+            case Q0:
+                if (!intent.equals(Intents.WELCOME)) {
+                    if (intent.equals(Intents.YES_RECOMMENDER)) {
+                        dfa.nextState(Alphabet.YES);
+                        handleChatbotMsg("");
+                    } else if (intent.equals(Intents.NO_RECOMMENDER))
+                        dfa.nextState(Alphabet.NO);
+
+                }
+                break;
+            case Q2:
+                //ask about preview preferences
+                String msg_gui = ""
+                ArrayList<String> preferences = customer.getPreferences();
+                if(preferences.get(0).equals("")){
+
+                    msg_gui = "Oh, it's seems like we don't have previous preferences of you stored";
+
                     GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND_CHATBOT);
-                    ge.addParameter(s);
+                    ge.addParameter(Alphabet.NO.getSymbol());
                     guiAgent.postGuiEvent(ge);
-                    dfa.nextState(Alphabet.NO);
-                    break;
-                case Q5:
-                    break;
-                case Q6:
-                    break;
-                case Q7:
-                    break;
-                case Q8:
-                    //error
-                    break;
-                default:
-                    break;
-            }
 
+                    dfa.nextState(Alphabet.NO);
+
+                    controller.showMessage(msg_gui);
+                }
+                else {
+
+                    msg_gui = "Would you like" + preferences.get(0) + " " + preferences.get(1) + "?";
+                    controller.showMessage(msg_gui);
+
+                }
+                break;
+            case Q3:
+                //content based recommender
+
+                break;
+            case Q4:
+
+                break;
+            case Q5:
+                break;
+            case Q6:
+                break;
+            case Q7:
+                break;
+            case Q8:
+                //error
+                break;
+            default:
+                break;
         }
+
+
         System.out.println(dfa.getState());
     }
 

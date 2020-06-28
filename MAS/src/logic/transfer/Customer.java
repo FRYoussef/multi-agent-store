@@ -133,4 +133,7 @@ public class Customer implements ICsvObjectionable, Comparable<Customer>{
 
         return id - o.getId();
     }
+    public void delPeference(String preference){
+        this.preferences.clear();
+    }
 }
