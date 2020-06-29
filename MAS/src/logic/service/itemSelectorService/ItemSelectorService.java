@@ -28,6 +28,7 @@ public class ItemSelectorService implements IService {
     private Customer customer;
     private ArrayList<Clothing> clothings;
     private ArrayList<Clothing> recomendations;
+    private boolean showRecomendations;
     private ItemSelectorController controller;
     private GuiAgent guiAgent;
     private DfaItemSelectorService dfa;
@@ -36,6 +37,7 @@ public class ItemSelectorService implements IService {
         this.customer = customer;
         this.controller = controller;
         this.guiAgent = guiAgent;
+        this.showRecomendations = false;
 
         ClothingDao dao = new ClothingDao();
         this.clothings = new ArrayList<>(dao.getAll());
@@ -52,17 +54,25 @@ public class ItemSelectorService implements IService {
     }
 
     public int getNumberItems(){
-        ArrayList<Clothing> cs = (recomendations == null) ? clothings : recomendations;
+        ArrayList<Clothing> cs = (recomendations == null || !showRecomendations) ? clothings : recomendations;
         return cs.size();
     }
 
     public Clothing getItem(int i){
-        ArrayList<Clothing> cs = (recomendations == null) ? clothings : recomendations;
+        ArrayList<Clothing> cs = (recomendations == null || !showRecomendations) ? clothings : recomendations;
 
         if(i < 0 || i >= cs.size())
             return new Clothing();
 
         return cs.get(i);
+    }
+
+    public void switchCloths(){
+        if(recomendations == null)
+            return;
+
+        showRecomendations = !showRecomendations;
+        controller.refreshItems();
     }
 
     @Override
@@ -148,7 +158,7 @@ public class ItemSelectorService implements IService {
         ClothingDao dao = new ClothingDao();
         recomendations = dao.getFromIds(ids);
 
-        controller.refreshItems();
+        controller.selectRecommendationToggle();
         controller.showMessage("I' ve found " + recomendations.size() + " clothe(s) for you, I hope you like them.");
         controller.showMessage("Talk to me for more advises.");
     }

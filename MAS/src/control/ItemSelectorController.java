@@ -1,19 +1,20 @@
 package control;
 
 import jade.lang.acl.ACLMessage;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.*;
 import logic.agents.guiAgent.GuiAgent;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import logic.service.itemSelectorService.ItemSelectorService;
 import logic.transfer.Customer;
+
+import java.util.function.Function;
 
 public class ItemSelectorController implements AttachableController{
     private static final String ENDL = System.lineSeparator();
@@ -35,10 +36,16 @@ public class ItemSelectorController implements AttachableController{
     private TextArea _taPrompt;
     @FXML
     private TextField _tfInput;
+    @FXML
+    private ToggleButton _tbAll;
+    @FXML
+    private ToggleButton _tbRecommendation;
+    private final ToggleGroup _tgGroup;
 
 
     public ItemSelectorController(GuiAgent guiAgent, Customer customer){
         this.service = new ItemSelectorService(customer, this, guiAgent);
+        _tgGroup = new ToggleGroup();
     }
 
     public void viewSetup(){
@@ -47,6 +54,7 @@ public class ItemSelectorController implements AttachableController{
             onClickImage();
             onClickPager();
             onClickSend();
+            onClickToggle();
             service.setup();
         });
     }
@@ -84,6 +92,8 @@ public class ItemSelectorController implements AttachableController{
     }
 
     public void refreshItems(){
+        _tbAll.setDisable(false);
+        _tbRecommendation.setDisable(false);
         currentIndex = 0;
         updateClothes();
     }
@@ -118,24 +128,44 @@ public class ItemSelectorController implements AttachableController{
     }
 
     private void onClickSend() {
-        _btSend.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-            String input = _tfInput.getText();
-            if(input == null || input.equals(""))
-                return;
+        _tfInput.setOnAction(actionEvent -> Platform.runLater(this::send));
+        _btSend.setOnMouseClicked(mouseEvent -> Platform.runLater(this::send));
+    }
 
-            StringBuilder sb = new StringBuilder(_taPrompt.getText());
-            sb.append("You: ").append(input).append(ENDL);
+    private void send(){
+        String input = _tfInput.getText();
+        if (input == null || input.equals(""))
+            return;
 
-            _tfInput.setText("");
-            _taPrompt.setText(sb.toString());
+        StringBuilder sb = new StringBuilder(_taPrompt.getText());
+        sb.append("You: ").append(input).append(ENDL);
 
-            service.onClickSend(input);
-        }));
+        _tfInput.setText("");
+        _taPrompt.setText(sb.toString());
+
+        service.onClickSend(input);
     }
 
     private void onClickImage() {
         _hbImages.getChildren().get(1).setOnMouseClicked(
                 mouseEvent -> Platform.runLater(() -> service.onClickItem(currentIndex)));
+    }
+
+    private void onClickToggle() {
+        Platform.runLater(() -> {
+            _tbAll.setToggleGroup(_tgGroup);
+            _tbAll.setDisable(true);
+            _tbRecommendation.setDisable(true);
+            _tbRecommendation.setToggleGroup(_tgGroup);
+
+            _tgGroup.selectedToggleProperty().addListener((observableValue, toggle, t1) -> service.switchCloths());
+        });
+    }
+
+    public void selectRecommendationToggle(){
+        Platform.runLater(() -> {
+            _tgGroup.selectToggle(_tbRecommendation);
+        });
     }
 
     public void showMessage(String msg) {

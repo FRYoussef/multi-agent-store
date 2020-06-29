@@ -33,29 +33,39 @@ public class LoginController implements AttachableController{
     }
 
     private void onClickLogin(){
-        _btLogin.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-            _tfUser.setStyle("-fx-text-inner-color: black;");
-            _tfPassword.setStyle("-fx-text-inner-color: black;");
+        _tfUser.setOnAction(actionEvent -> Platform.runLater(this::login));
+        _tfPassword.setOnAction(actionEvent -> Platform.runLater(this::login));
+        _btLogin.setOnMouseClicked(mouseEvent -> Platform.runLater(this::login));
+    }
 
-            String user = _tfUser.getText();
-            if(!service.isValidUser(user)){
-                _tfUser.setStyle("-fx-text-inner-color: red;");
-                return;
-            }
-            String password = _tfPassword.getText();
-            if(!service.isPasswordValid(password)){
-                _tfPassword.setStyle("-fx-text-inner-color: red;");
-                return;
-            }
+    private void login(){
+        _tfUser.setStyle("-fx-text-inner-color: black;");
+        _tfPassword.setStyle("-fx-text-inner-color: black;");
 
-            service.loginComplete();
-        }));
+        String user = _tfUser.getText();
+        if(!service.isValidUser(user)){
+            _tfUser.setStyle("-fx-text-inner-color: red;");
+            return;
+        }
+        String password = _tfPassword.getText();
+        if(!service.isPasswordValid(password)){
+            _tfPassword.setStyle("-fx-text-inner-color: red;");
+            return;
+        }
+
+        disable();
+        service.loginComplete();
+    }
+
+    private void disable(){
+        _btLogin.setDisable(true);
+        _btRegister.setDisable(true);
+        _tfUser.setDisable(true);
+        _tfPassword.setDisable(true);
     }
 
     private void onClickRegister(){
-        _btRegister.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-            service.onClickRegister();
-        }));
+        _btRegister.setOnMouseClicked(mouseEvent -> Platform.runLater(service::onClickRegister));
     }
 
     @Override

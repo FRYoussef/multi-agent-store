@@ -44,32 +44,38 @@ public class RegisterController implements AttachableController{
     }
 
     private void onClickCreate(){
-        _btCreate.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-            _tfNUser.setStyle("-fx-text-inner-color: black;");
-            _tfCNUser.setStyle("-fx-text-inner-color: black;");
-            _tfPassword.setStyle("-fx-text-inner-color: black;");
-            _tfCPassword.setStyle("-fx-text-inner-color: black;");
+        _tfNUser.setOnMouseClicked(mouseEvent -> Platform.runLater(this::create));
+        _tfCNUser.setOnMouseClicked(mouseEvent -> Platform.runLater(this::create));
+        _tfPassword.setOnMouseClicked(mouseEvent -> Platform.runLater(this::create));
+        _tfCPassword.setOnMouseClicked(mouseEvent -> Platform.runLater(this::create));
+        _btCreate.setOnMouseClicked(mouseEvent -> Platform.runLater(this::create));
+    }
 
-            String user = _tfNUser.getText();
-            String cUser = _tfCNUser.getText();
+    private void create(){
+        _tfNUser.setStyle("-fx-text-inner-color: black;");
+        _tfCNUser.setStyle("-fx-text-inner-color: black;");
+        _tfPassword.setStyle("-fx-text-inner-color: black;");
+        _tfCPassword.setStyle("-fx-text-inner-color: black;");
 
-            if(!service.checkUser(user, cUser)){
-                _tfNUser.setStyle("-fx-text-inner-color: red;");
-                _tfCNUser.setStyle("-fx-text-inner-color: red;");
-                return;
-            }
+        String user = _tfNUser.getText();
+        String cUser = _tfCNUser.getText();
 
-            String pass = _tfPassword.getText();
-            String cPass = _tfCPassword.getText();
+        if(!service.checkUser(user, cUser)){
+            _tfNUser.setStyle("-fx-text-inner-color: red;");
+            _tfCNUser.setStyle("-fx-text-inner-color: red;");
+            return;
+        }
 
-            if(!service.checkPassword(pass, cPass)){
-                _tfPassword.setStyle("-fx-text-inner-color: red;");
-                _tfCPassword.setStyle("-fx-text-inner-color: red;");
-                return;
-            }
+        String pass = _tfPassword.getText();
+        String cPass = _tfCPassword.getText();
 
-            service.registerUser(user, pass);
-        }));
+        if(!service.checkPassword(pass, cPass)){
+            _tfPassword.setStyle("-fx-text-inner-color: red;");
+            _tfCPassword.setStyle("-fx-text-inner-color: red;");
+            return;
+        }
+
+        service.registerUser(user, pass);
     }
 
     @Override
