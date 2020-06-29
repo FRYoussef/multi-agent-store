@@ -37,7 +37,7 @@ public class ChatbotBehaviour extends CyclicBehaviour {
                 api_request.waitFor();
                 File fresult = new File(RESULT_PATH);
                 Scanner reader = new Scanner(fresult);
-                answer = reader.nextLine() + "-" + reader.nextLine();
+                answer = reader.nextLine() + "-" + reader.nextLine() + "-" + reader.nextLine() + "-" + reader.nextLine();
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }

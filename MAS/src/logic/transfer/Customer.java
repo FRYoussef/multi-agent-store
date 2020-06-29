@@ -43,7 +43,7 @@ public class Customer implements ICsvObjectionable, Comparable<Customer>{
         this.gender = gender;
         this.viewsId = new ArrayList<>(viewsId.length);
         this.purchasesId = new ArrayList<>(purchasesId.length);
-        combineArrays(preferences, this.preferences);
+        combineArrays(preferences);
 
         for(int v : viewsId)
             this.viewsId.add(v);
@@ -52,16 +52,16 @@ public class Customer implements ICsvObjectionable, Comparable<Customer>{
             this.purchasesId.add(p);
     }
 
-    private void combineArrays(String[] array, ArrayList<String> al){
+    private void combineArrays(String[] array){
         if(array == null){
-            al = new ArrayList<>();
+            this.preferences= new ArrayList<>();
             return;
         }
         if(array.length > 0 && array[0].equals("")){
-            al = new ArrayList<>();
+            this.preferences = new ArrayList<>();
             return;
         }
-        al = new ArrayList<>(Arrays.asList(array));
+        this.preferences = new ArrayList<>(Arrays.asList(array));
     }
 
     public boolean isValidPassword(String password){
@@ -145,7 +145,7 @@ public class Customer implements ICsvObjectionable, Comparable<Customer>{
 
         return id - o.getId();
     }
-    public void delPeference(String preference){
+    public void delPeferences(){
         this.preferences.clear();
     }
 }

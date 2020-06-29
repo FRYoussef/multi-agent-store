@@ -1,7 +1,7 @@
 package logic.agents.chatbotAgent;
 
 public enum Intents {
-    DEFAULT("Default Fallback Intent"), WELCOME("Welcome"), NO_RECOMMENDER("No recommender"), YES_RECOMMENDER("Yes recommender"), ASK_PREFERENCES("Ask preferences"), WANTS_QUESTIONS("Wants questions"), NO_WANT_QUESTIONS("No want questions"), ASK_QUESTIONS("Ask questions"), PREV_PREFERENCES("Yes to prev preferences");
+    DEFAULT("Default Fallback Intent"), WELCOME("Welcome"), NO_RECOMMENDER("No recommender"), YES_RECOMMENDER("Yes recommender"), ASK_PREFERENCES("Ask preferences"), WANTS_QUESTIONS("Want questions"), NO_WANT_QUESTIONS("No want questions"), ASK_QUESTIONS("Ask questions"), PREV_PREFERENCES("Yes to prev preferences");
 
     final private String s;
 

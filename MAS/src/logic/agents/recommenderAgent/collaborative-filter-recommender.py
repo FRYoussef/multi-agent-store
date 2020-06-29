@@ -141,11 +141,13 @@ if __name__ == '__main__':
             
         #write result into the file
         print(result)
-        f = open("result.txt", "w")
+        f = open("result.txt", "w+")
         f.write(result)
+	os.chmod("result.txt", 0o777)
     except:
         #write empty string into the file
         print("No recommendation")
-        f = open("result.txt", "w")
+        f = open("result.txt", "w+")
+	os.chmod("result.txt", 0o777)
         f.write(result)
         exit(1)

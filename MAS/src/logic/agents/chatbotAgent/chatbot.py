@@ -36,12 +36,22 @@ try:
 
 except InvalidArgument:
 	raise
-
+all_required = response.query_result.all_required_params_present
 intent = format(response.query_result.intent.display_name)
 msg = format(response.query_result.fulfillment_text)
-f = open("result.txt", "w")
 
-f.write(msg + "\n" + intent)
+params_s = ""
+params_list = response.query_result.parameters.ListFields()
+if(len(params_list) > 0):
+	gender = params_list[0][1]['Gender'].string_value
+	color = params_list[0][1]['Color'].string_value
+	item = params_list[0][1]['Clothes'].string_value
+	params_s = gender + "," + color + "," + item
+f = open("result.txt", "w")
+if (params_s != ""):
+	f.write(params_s + "\n" + str(all_required) + "\n" + msg + "\n" + intent)
+else:
+	f.write("no_params" + "\n" + str(all_required) + "\n" + msg + "\n" + intent)
 
 f.close()
 
