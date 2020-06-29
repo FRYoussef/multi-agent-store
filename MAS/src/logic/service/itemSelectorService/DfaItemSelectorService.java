@@ -12,7 +12,6 @@ public class DfaItemSelectorService {
     private static final int Q5 = 5;
     private static final int Q6 = 6;
     private static final int Q7 = 7;
-    private static final int Q8 = 8;
 
     private static final String ERROR = "Sorry, I don't understand you.";
 
@@ -24,7 +23,7 @@ public class DfaItemSelectorService {
         this.service = service;
     }
 
-    public void runDFA(String msg){
+    public void runDFA(String msg, boolean isChatbot){
         String chatbotMsg = parseChatbotMsg(msg);
         Intents intent = parseIntent(msg);
 
@@ -98,11 +97,7 @@ public class DfaItemSelectorService {
                 // customer response to Q5
                 CustomerResponse response1 = new CustomerResponse(msg);
                 if(response1.isPositive()) {
-                    String toCB = msg;
-                    if (service.getCustomer().getGender() != null)
-                        toCB = toCB + " for ";
-
-                    service.notifyChatbotAgent(toCB + service.getCustomer().getGender());
+                    service.notifyChatbotAgent(msg);
                     state = Q7;
                 }
                 else if(response1.isNegative()){
@@ -114,21 +109,26 @@ public class DfaItemSelectorService {
                 System.out.println("Q6");
                 break;
             case Q7:
-                // chatbot questions //TODO
-                service.showMessage(chatbotMsg);
-                state = Q8;
-                System.out.println("Q7");
-                break;
-            case Q8:
-                // chatbot response with labels for CB recommender
-                service.showMessage(chatbotMsg);
-                String[] params = msg.split("-")[0].split(",");
-                service.getCustomer().setGender(params[0]);
-                service.getCustomer().addPreferences(params, 1, params.length-1);
+                if (isChatbot) { // chatbot questions
+                    service.showMessage(chatbotMsg);
+                    String all_params_required = msg.split("-")[1];
+                    if (all_params_required.equals("True")) {
+                        // chatbot response with labels for CB recommender
+                        String[] params = msg.split("-")[0].split(",");
+                        service.getCustomer().setGender(params[0]);
+                        service.getCustomer().addPreferences(params, 1, params.length-1);
+                        service.notifyCBRecommender(true);
+                        state = Q0;
+                    }
+                }
+                else { // user response
+                    String gender = service.getCustomer().getGender();
+                    if (!gender.equals(""))
+                        msg += " for " + service.getCustomer().getGender();
 
-                service.notifyCBRecommender(true);
-                state = Q0;
-                System.out.println("Q8");
+                    service.notifyChatbotAgent(msg);
+                }
+                System.out.println("Q7");
                 break;
             default:
                 break;

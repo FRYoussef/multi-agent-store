@@ -50,7 +50,7 @@ public class ItemSelectorService implements IService {
     }
 
     public void setup(){
-        dfa.runDFA("");
+        dfa.runDFA("", true);
     }
 
     public int getNumberItems(){
@@ -121,7 +121,7 @@ public class ItemSelectorService implements IService {
     }
 
     public void onClickSend(String msg){
-        dfa.runDFA(msg);
+        dfa.runDFA(msg, false);
     }
 
     @Override
@@ -134,7 +134,7 @@ public class ItemSelectorService implements IService {
     }
 
     private void handleChatbotMsg(String msg) {
-        dfa.runDFA(msg);
+        dfa.runDFA(msg, true);
     }
 
     private void handleRecommenderMsg(String msg){

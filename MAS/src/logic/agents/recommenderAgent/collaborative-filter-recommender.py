@@ -84,11 +84,15 @@ if __name__ == '__main__':
    
     try:
         filename: str = os.path.join('..', 'DB', 'CustomerDB.csv')
+	filename_c: str = os.path.join('..', 'DB', 'ClothingDB.csv')
 
         customers = pd.read_csv(filename, sep=',')
         
         n_customers = len(customers)
         
+	clothing = pd.read_csv(filename_c, sep=',')
+        
+        n_clothing = len(clothing)
 
         views = customers.drop(['Password', 'Preferences', 'Name', 'Gender', 'Purchases'], axis=1).dropna()
         
@@ -133,20 +137,24 @@ if __name__ == '__main__':
             #It's possible that exist duplicates items -> remove them
             items = list(dict.fromkeys(items))
 
-            #Always 0 < len(item) < 5 
-            if len(item) != 0: #When the user viewed every random item checked -> no recommendation
-                for s in items:
-                    result += s + ","
-                result = result[:-1] #Drop last comma
             
+            if len(item) == 0: #When the user viewed every random item checked -> random items
+		for i in range(5):                
+			random_item = random.randrange(n_clothing)
+			if random_item not in items:
+				items += [random_item]
+
+            for s in items:
+            	result += s + ","
+                result = result[:-1] #Drop last comma
+
         #write result into the file
         print(result)
         f = open("result.txt", "w+")
         f.write(result)
         f.close()
     except Exception as e:
-        #write empty string into the file
-        print("No recommendation")
+        print("Error")
         f = open("result.txt", "w+")
         f.write(f"error\n {e}")
         f.close()

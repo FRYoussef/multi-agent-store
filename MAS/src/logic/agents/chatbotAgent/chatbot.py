@@ -47,11 +47,10 @@ if(len(params_list) > 0):
 	color = params_list[0][1]['Color'].string_value
 	item = params_list[0][1]['Clothes'].string_value
 	params_s = gender + "," + color + "," + item
-f = open("result.txt", "w+")
-if (params_s != ""):
-	f.write(params_s + "\n" + str(all_required) + "\n" + msg + "\n" + intent)
-else:
-	f.write("no_params" + "\n" + str(all_required) + "\n" + msg + "\n" + intent)
+with open("result.txt", "w+") as file:
+	if (params_s != ""):
+		file.write(params_s + "\n" + str(all_required) + "\n" + msg + "\n" + intent)
+	else:
+		file.write("no_params" + "\n" + str(all_required) + "\n" + msg + "\n" + intent)
 
-f.close()
 
