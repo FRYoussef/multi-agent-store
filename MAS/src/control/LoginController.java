@@ -56,20 +56,16 @@ public class LoginController implements AttachableController{
         disable();
         service.loginComplete();
     }
-    
+
     private void disable(){
-        Platform.runLater(() -> {
-            _btLogin.setDisable(true);
-            _btRegister.setDisable(true);
-            _tfUser.setDisable(true);
-            _tfPassword.setDisable(true);
-        });
+        _btLogin.setDisable(true);
+        _btRegister.setDisable(true);
+        _tfUser.setDisable(true);
+        _tfPassword.setDisable(true);
     }
 
     private void onClickRegister(){
-        _btRegister.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-            service.onClickRegister();
-        }));
+        _btRegister.setOnMouseClicked(mouseEvent -> Platform.runLater(service::onClickRegister));
     }
 
     @Override
