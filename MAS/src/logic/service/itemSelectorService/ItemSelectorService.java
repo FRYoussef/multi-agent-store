@@ -7,6 +7,7 @@ import dataAccess.ClothingDao;
 import dataAccess.CustomerDao;
 import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
+import logic.transfer.CustomerResponse;
 import logic.agents.chatbotAgent.ChatbotAgent;
 import logic.agents.chatbotAgent.Intents;
 import logic.agents.guiAgent.GuiAgent;
@@ -29,15 +30,25 @@ public class ItemSelectorService implements IService {
     private ArrayList<Clothing> recomendations;
     private ItemSelectorController controller;
     private GuiAgent guiAgent;
-    private DFA dfa;
+    private DfaItemSelectorService dfa;
 
     public ItemSelectorService(Customer customer, ItemSelectorController controller, GuiAgent guiAgent) {
-        dfa = new DFA();
         this.customer = customer;
         this.controller = controller;
         this.guiAgent = guiAgent;
+
         ClothingDao dao = new ClothingDao();
         this.clothings = new ArrayList<>(dao.getAll());
+
+        this.dfa = new DfaItemSelectorService(this);
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setup(){
+        dfa.runDFA("");
     }
 
     public int getNumberItems(){
@@ -72,80 +83,35 @@ public class ItemSelectorService implements IService {
         }
     }
 
-    public void onClickSend(String msg){
-        States actualState = dfa.getState();
-        System.out.println("onClickSend");
-        switch (actualState) {
-            case Q0:
-                GuiEvent ge0 = new GuiEvent(this, GuiAgent.CMD_SEND_CHATBOT);
-                ge0.addParameter(msg);
-                guiAgent.postGuiEvent(ge0);
-                break;
-            case Q2:
+    public void showMessage(String msg){
+        if(msg != null && !msg.equals(""))
+            controller.showMessage(msg);
+    }
 
-                if(msg.compareToIgnoreCase("YES") == 0){
-                    ContentBasedAdapter adapter = new ContentBasedAdapter(customer, true);
-                    RecommenderMsg rMsg = new RecommenderMsg(RecommenderMsg.CONTENT_BASED_TYPE, adapter.getPythonArgs());
-                    GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND_RECOMMENDER);
-                    ge.addParameter(rMsg.getRawMsg());
-                    guiAgent.postGuiEvent(ge);
-                    dfa.nextState(Alphabet.YES);
-                }
-                else if (msg.compareToIgnoreCase("NO") == 0) {
-                    GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND_CHATBOT);
-                    ge.addParameter(Alphabet.NO.getSymbol());
-                    guiAgent.postGuiEvent(ge);
-                    customer.delPeferences();
-                    dfa.nextState(Alphabet.NO);
-                }
-                else {
-                    controller.showMessage("Sorry, I don't understand you");
-                }
-                break;
-            case Q4:
-                GuiEvent ge4 = new GuiEvent(this, GuiAgent.CMD_SEND_CHATBOT);
-                ge4.addParameter(msg);
-                guiAgent.postGuiEvent(ge4);
-                break;
-            case Q5:
-                GuiEvent ge5 = new GuiEvent(this, GuiAgent.CMD_SEND_CHATBOT);
-                if (customer.getGender() != null) {
-                    ge5.addParameter(msg + " for " + customer.getGender());
-                }
-                else {
-                    ge5.addParameter(msg + customer.getGender());
-                }
-                guiAgent.postGuiEvent(ge5);
-                break;
-            case Q6:
-                break;
-            case Q7:
-                break;
-            case Q8:
-                //error
-                break;
-            default:
-                break;
-        }
+    public void notifyChatbotAgent(String str){
+        GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND_CHATBOT);
+        ge.addParameter(str);
+        guiAgent.postGuiEvent(ge);
+    }
 
-        // TODO uncomment for chatbot interaction
-        // notify gui agent
-        /*GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND_CHATBOT);
-        ge.addParameter(msg);
-        guiAgent.postGuiEvent(ge);*/
-
-
-
-        // TODO comment. It's just for testing
-        /*customer.addPreference("blue");
-        customer.setGender("male");
-        ContentBasedAdapter adapter = new ContentBasedAdapter(customer);
+    public void notifyCBRecommender(boolean addGender){
+        ContentBasedAdapter adapter = new ContentBasedAdapter(customer, addGender);
         RecommenderMsg rMsg = new RecommenderMsg(RecommenderMsg.CONTENT_BASED_TYPE, adapter.getPythonArgs());
         GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND_RECOMMENDER);
         ge.addParameter(rMsg.getRawMsg());
-        guiAgent.postGuiEvent(ge);*/
+        guiAgent.postGuiEvent(ge);
+    }
 
+    public void notifyCFRecommender(){
+        ColaborativeFilterAdapter adapter = new ColaborativeFilterAdapter(customer);
+        RecommenderMsg rMsg = new RecommenderMsg(RecommenderMsg.COLABORATIVE_FILTER_TYPE, adapter.getPythonArgs());
+        GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND_RECOMMENDER);
+        ge.addParameter(rMsg.getRawMsg());
+        guiAgent.postGuiEvent(ge);
+    }
 
+    public void onClickSend(String msg){
+        dfa.runDFA(msg);
     }
 
     @Override
@@ -158,102 +124,7 @@ public class ItemSelectorService implements IService {
     }
 
     private void handleChatbotMsg(String msg) {
-        System.out.println("handleChatbotMsg");
-        States actualState = dfa.getState();
-        Intents intent = Intents.DEFAULT;
-        String end_state = "";
-        String msgs = "";
-        String[] params = null;
-        if (msg.length() > 0) {
-            params =  msg.split("-")[0].split(",");
-            end_state = msg.split("-")[1];
-            msgs = msg.split("-")[2];
-            String intention = msg.split("-")[3];
-            intent = Intents.parseIntent(intention);
-            controller.showMessage(msgs);
-        }
-
-        switch (actualState) {
-            case Q0:
-
-                if (!intent.equals(Intents.WELCOME)) {
-                    if (intent.equals(Intents.YES_RECOMMENDER)) {
-                        dfa.nextState(Alphabet.YES);
-                        handleChatbotMsg("");
-                    } else if (intent.equals(Intents.NO_RECOMMENDER))
-                        dfa.nextState(Alphabet.NO);
-
-                }
-
-                break;
-            case Q2:
-                //ask about preview preferences
-                String msg_gui = "";
-                ArrayList<String> preferences = customer.getPreferences();
-                if(preferences.isEmpty()){
-                    GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND_CHATBOT);
-                    ge.addParameter(Alphabet.NO.getSymbol());
-                    guiAgent.postGuiEvent(ge);
-
-                    dfa.nextState(Alphabet.NO);
-
-                }
-                else {
-                    if (preferences.size() == 2) {
-                        msg_gui = "Would you like " + preferences.get(0) + " " + preferences.get(1) + "?";
-                        controller.showMessage(msg_gui);
-                    }
-                    if (preferences.size() == 1) {
-                        msg_gui = "Would you like " + preferences.get(0) + "?";
-                        controller.showMessage(msg_gui);
-                    }
-
-                }
-                break;
-            case Q4:
-                if (intent.equals(Intents.WANTS_QUESTIONS)) {
-                    dfa.nextState(Alphabet.YES);
-                } else if (intent.equals(Intents.NO_WANT_QUESTIONS)) {
-                    dfa.nextState(Alphabet.NO);
-                    handleChatbotMsg("");
-                }
-                break;
-            case Q5:
-                if (end_state.equals("True")){
-                    customer.setGender(params[0]);
-                    customer.addPreference(params[1]);
-                    if (params.length>2){
-                        customer.addPreference(params[2]);
-                    }
-                    dfa.nextState(Alphabet.YES);
-                    handleChatbotMsg("");
-                }
-                break;
-            case Q6:
-                //collaborative filter
-                ColaborativeFilterAdapter adapter = new ColaborativeFilterAdapter(customer);
-                RecommenderMsg rMsg = new RecommenderMsg(RecommenderMsg.COLABORATIVE_FILTER_TYPE, adapter.getPythonArgs());
-                GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND_RECOMMENDER);
-                ge.addParameter(rMsg.getRawMsg());
-                guiAgent.postGuiEvent(ge);
-                break;
-            case Q7:
-                //content-based filter
-                ContentBasedAdapter adapter_cb = new ContentBasedAdapter(customer, true);
-                RecommenderMsg rMsg_cb = new RecommenderMsg(RecommenderMsg.CONTENT_BASED_TYPE, adapter_cb.getPythonArgs());
-                GuiEvent ge_cb = new GuiEvent(this, GuiAgent.CMD_SEND_RECOMMENDER);
-                ge_cb.addParameter(rMsg_cb.getRawMsg());
-                guiAgent.postGuiEvent(ge_cb);
-                break;
-            case Q8:
-                //error
-                break;
-            default:
-                break;
-        }
-
-
-        System.out.println(dfa.getState());
+        dfa.runDFA(msg);
     }
 
     private void handleRecommenderMsg(String msg){
@@ -279,5 +150,6 @@ public class ItemSelectorService implements IService {
 
         controller.refreshItems();
         controller.showMessage("I' ve found " + recomendations.size() + " clothes for you, I hope you like them.");
+        controller.showMessage("Talk to for more advises.");
     }
 }

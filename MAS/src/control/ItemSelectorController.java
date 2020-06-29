@@ -47,6 +47,7 @@ public class ItemSelectorController implements AttachableController{
             onClickImage();
             onClickPager();
             onClickSend();
+            service.setup();
         });
     }
 

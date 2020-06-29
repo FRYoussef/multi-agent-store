@@ -93,8 +93,34 @@ public class Customer implements ICsvObjectionable, Comparable<Customer>{
         return preferences;
     }
 
-    public void addPreference(String preference){
-        this.preferences.add(preference);
+    public void addPreferences(String[] preferences, int start, int end){
+        if(start > end)
+            return;
+        if(start < 0)
+            return;
+
+        for(int i = start; i < end; i++)
+            this.preferences.add(preferences[i]);
+    }
+
+    public boolean hasPreferences(){
+        return !preferences.isEmpty();
+    }
+
+    public void deletePreferences(){
+        this.preferences.clear();
+    }
+
+    public String preferencesToString(){
+        StringBuilder sb = new StringBuilder();
+
+        for(String p : preferences)
+            sb.append(p).append(" ");
+
+        if(preferences.size() > 0)
+            sb.deleteCharAt(sb.length()-1);
+
+        return sb.toString();
     }
 
     @Override
@@ -141,8 +167,5 @@ public class Customer implements ICsvObjectionable, Comparable<Customer>{
             return 1;
 
         return id - o.getId();
-    }
-    public void delPeferences(){
-        this.preferences.clear();
     }
 }
