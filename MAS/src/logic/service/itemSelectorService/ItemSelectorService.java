@@ -1,6 +1,5 @@
-package logic.service;
+package logic.service.itemSelectorService;
 
-import com.sun.javafx.geom.AreaOp;
 import control.GuiLauncher;
 import control.ItemController;
 import control.ItemSelectorController;
@@ -15,15 +14,14 @@ import logic.agents.recommenderAgent.RecommenderAgent;
 import logic.agents.recommenderAgent.RecommenderMsg;
 import logic.agents.recommenderAgent.pythonArgsAdapter.ColaborativeFilterAdapter;
 import logic.agents.recommenderAgent.pythonArgsAdapter.ContentBasedAdapter;
+import logic.service.IService;
 import logic.transfer.Clothing;
 import logic.transfer.Customer;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 
-public class ItemSelectorService implements IService{
+public class ItemSelectorService implements IService {
 
     private static final String ERROR_RECOMMENDATION = "error";
     private Customer customer;

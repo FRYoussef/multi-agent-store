@@ -1,4 +1,4 @@
-package logic.service;
+package logic.service.itemSelectorService;
 
 public enum States {
 

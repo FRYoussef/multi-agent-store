@@ -2,7 +2,6 @@ package control;
 
 import jade.lang.acl.ACLMessage;
 import logic.agents.guiAgent.GuiAgent;
-import jade.gui.GuiEvent;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,10 +12,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import logic.service.ItemSelectorService;
+import logic.service.itemSelectorService.ItemSelectorService;
 import logic.transfer.Customer;
-
-import java.io.IOException;
 
 public class ItemSelectorController implements AttachableController{
     private static final String ENDL = System.lineSeparator();
