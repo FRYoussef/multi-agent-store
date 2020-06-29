@@ -283,7 +283,7 @@ public class ItemSelectorService implements IService{
         ClothingDao dao = new ClothingDao();
         recomendations = dao.getFromIds(ids);
 
-        controller.showRecomendations();
+        controller.refreshItems();
         controller.showMessage("I' ve found " + recomendations.size() + " clothes for you, I hope you like them.");
     }
 }

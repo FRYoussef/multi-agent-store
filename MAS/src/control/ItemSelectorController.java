@@ -81,7 +81,7 @@ public class ItemSelectorController implements AttachableController{
                 service.getItem(currentIndex).getName());
     }
 
-    public void showRecomendations(){
+    public void refreshItems(){
         currentIndex = 0;
         updateClothes();
     }
