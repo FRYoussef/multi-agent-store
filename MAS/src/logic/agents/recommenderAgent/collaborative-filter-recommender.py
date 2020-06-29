@@ -83,7 +83,7 @@ if __name__ == '__main__':
         exit(1)
    
     try:
-        filename = '../../../../../DB/CustomerDB.csv'
+        filename: str = os.path.join('..', 'DB', 'CustomerDB.csv')
 
         customers = pd.read_csv(filename, sep=',')
         
@@ -144,9 +144,10 @@ if __name__ == '__main__':
         f = open("result.txt", "w+")
         f.write(result)
         f.close()
-    except:
+    except Exception as e:
         #write empty string into the file
         print("No recommendation")
         f = open("result.txt", "w+")
-        f.write(result)
+        f.write(f"error\n {e}")
+        f.close()
         exit(1)

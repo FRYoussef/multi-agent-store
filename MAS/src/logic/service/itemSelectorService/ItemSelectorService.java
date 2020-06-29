@@ -149,7 +149,7 @@ public class ItemSelectorService implements IService {
         recomendations = dao.getFromIds(ids);
 
         controller.refreshItems();
-        controller.showMessage("I' ve found " + recomendations.size() + " clothes for you, I hope you like them.");
-        controller.showMessage("Talk to for more advises.");
+        controller.showMessage("I' ve found " + recomendations.size() + " clothe(s) for you, I hope you like them.");
+        controller.showMessage("Talk to me for more advises.");
     }
 }

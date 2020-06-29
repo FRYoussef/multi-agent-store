@@ -74,9 +74,13 @@ public class ItemSelectorController implements AttachableController{
             iv.setCache(true);
         }
 
-        _lbDescription.setText(
-                service.getItem(currentIndex).getPrice() + ENDL +
-                service.getItem(currentIndex).getName());
+        Platform.runLater(() -> {
+            _btRight.setDisable(is[2] == -1);
+
+            _lbDescription.setText(
+                    service.getItem(currentIndex).getPrice() + ENDL +
+                            service.getItem(currentIndex).getName());
+        });
     }
 
     public void refreshItems(){

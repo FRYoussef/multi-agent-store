@@ -11,6 +11,8 @@ public class DfaItemSelectorService {
     private static final int Q4 = 4;
     private static final int Q5 = 5;
     private static final int Q6 = 6;
+    private static final int Q7 = 7;
+    private static final int Q8 = 8;
 
     private static final String ERROR = "Sorry, I don't understand you.";
 
@@ -87,26 +89,37 @@ public class DfaItemSelectorService {
                 System.out.println("Q4");
                 break;
             case Q5:
-                // check chatbot intent for answers
+                // ask for preferences?
                 service.showMessage(chatbotMsg);
-
-                if(intent.equals(Intents.WANTS_QUESTIONS)){
-                    // customer answers for content based recommender
+                state = Q6;
+                System.out.println("Q5");
+                break;
+            case Q6:
+                // customer response to Q5
+                CustomerResponse response1 = new CustomerResponse(msg);
+                if(response1.isPositive()) {
                     String toCB = msg;
                     if (service.getCustomer().getGender() != null)
                         toCB = toCB + " for ";
 
                     service.notifyChatbotAgent(toCB + service.getCustomer().getGender());
-                    state = Q6;
+                    state = Q7;
                 }
-
-                else if(intent.equals(Intents.NO_WANT_QUESTIONS)){
+                else if(response1.isNegative()){
                     service.notifyCFRecommender();
                     state = Q0;
                 }
-                System.out.println("Q5");
+                else
+                    state = Q0;
+                System.out.println("Q6");
                 break;
-            case Q6:
+            case Q7:
+                // chatbot questions //TODO
+                service.showMessage(chatbotMsg);
+                state = Q8;
+                System.out.println("Q7");
+                break;
+            case Q8:
                 // chatbot response with labels for CB recommender
                 service.showMessage(chatbotMsg);
                 String[] params = msg.split("-")[0].split(",");
@@ -115,7 +128,7 @@ public class DfaItemSelectorService {
 
                 service.notifyCBRecommender(true);
                 state = Q0;
-                System.out.println("Q6");
+                System.out.println("Q8");
                 break;
             default:
                 break;
