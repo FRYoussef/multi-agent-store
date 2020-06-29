@@ -11,8 +11,6 @@ public class DfaItemSelectorService {
     private static final int Q4 = 4;
     private static final int Q5 = 5;
     private static final int Q6 = 6;
-    private static final int Q7 = 7;
-    private static final int Q8 = 8;
 
     private static final String ERROR = "Sorry, I don't understand you.";
 
@@ -35,19 +33,21 @@ public class DfaItemSelectorService {
                 String to = (msg.equals("")) ? "hello" : msg;
                 service.notifyChatbotAgent(to);
                 state = Q1;
+                System.out.println("Q0");
                 break;
             case Q1:
                 // show chatbot message, offering help
                 service.showMessage(chatbotMsg);
                 state = Q2;
+                System.out.println("Q1");
                 break;
             case Q2:
                 // user replication to help offering
                 service.notifyChatbotAgent(msg);
                 state = Q3;
+                System.out.println("Q2");
                 break;
             case Q3:
-                service.showMessage(chatbotMsg);
                 // chatbot confirming customer response
                 if (intent.equals(Intents.YES_RECOMMENDER)) {
                     if(service.getCustomer().hasPreferences()){
@@ -65,11 +65,9 @@ public class DfaItemSelectorService {
                 else{
                     // he doesn't want recommendations, or answer error
                     state = Q0;
-                    if(intent.equals(Intents.NO_RECOMMENDER))
-                        service.showMessage("Ok, talk to me if you want any help.");
-                    else
-                        service.showMessage(ERROR);
+                    service.showMessage(chatbotMsg);
                 }
+                System.out.println("Q3");
                 break;
             case Q4:
                 // customer response of previous recommendations
@@ -85,39 +83,39 @@ public class DfaItemSelectorService {
                     state = Q5;
                 }
                 else
-                    service.showMessage(ERROR);
+                    state = Q0;
+                System.out.println("Q4");
                 break;
             case Q5:
                 // check chatbot intent for answers
                 service.showMessage(chatbotMsg);
 
-                if(intent.equals(Intents.WANTS_QUESTIONS))
+                if(intent.equals(Intents.WANTS_QUESTIONS)){
+                    // customer answers for content based recommender
+                    String toCB = msg;
+                    if (service.getCustomer().getGender() != null)
+                        toCB = toCB + " for ";
+
+                    service.notifyChatbotAgent(toCB + service.getCustomer().getGender());
                     state = Q6;
+                }
 
                 else if(intent.equals(Intents.NO_WANT_QUESTIONS)){
                     service.notifyCFRecommender();
                     state = Q0;
                 }
+                System.out.println("Q5");
                 break;
             case Q6:
-                // customer answers for content based recommender
-                String toCB = msg;
-                if (service.getCustomer().getGender() != null)
-                    toCB = toCB + " for ";
-
-                service.notifyChatbotAgent(toCB + service.getCustomer().getGender());
-                state = Q7;
-                break;
-            case Q7:
                 // chatbot response with labels for CB recommender
+                service.showMessage(chatbotMsg);
                 String[] params = msg.split("-")[0].split(",");
                 service.getCustomer().setGender(params[0]);
                 service.getCustomer().addPreferences(params, 1, params.length-1);
 
                 service.notifyCBRecommender(true);
                 state = Q0;
-                break;
-            case Q8:
+                System.out.println("Q6");
                 break;
             default:
                 break;
@@ -126,9 +124,13 @@ public class DfaItemSelectorService {
 
     private String parseChatbotMsg(String msg){
         String msgs = "";
+        String[] list;
 
-        if (msg.length() > 0)
-            msgs = msg.split("-")[2];
+        if (msg.length() > 0) {
+            list = msg.split("-");
+            if(list.length > 2)
+                msgs = list[2];
+        }
 
         return msgs;
     }
@@ -136,8 +138,9 @@ public class DfaItemSelectorService {
     private Intents parseIntent(String str){
         Intents intent = Intents.DEFAULT;
         if (str.length() > 0) {
-            String intention = str.split("-")[3];
-            intent = Intents.parseIntent(intention);
+            String[] intention = str.split("-");
+            if(intention.length > 3)
+                intent = Intents.parseIntent(intention[3]);
         }
         return intent;
     }

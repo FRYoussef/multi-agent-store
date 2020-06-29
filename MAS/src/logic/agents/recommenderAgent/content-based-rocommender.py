@@ -95,5 +95,5 @@ if __name__ == '__main__':
         write_result(text=getStringFormat(ids=ids))
 
     except Exception as e:
-        write_result(text="error")
+        write_result(text=f"error\n{e}")
         print(e)
