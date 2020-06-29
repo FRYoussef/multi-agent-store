@@ -77,13 +77,10 @@ public class ClothingDao implements IDao<Clothing>{
 
     @Override
     public void write(Clothing clothing) {
-        ArrayList<Clothing> clothings = getAll();
+        /*clothings.remove(clothing);
+        clothings.add(clothing);*/
 
-        // if exists remove it in order to add it again (modification)
-        clothings.remove(clothing);
-        clothings.add(clothing);
-
-        writeAll(clothings);
+        writeAll(getAll());
     }
 
     @Override

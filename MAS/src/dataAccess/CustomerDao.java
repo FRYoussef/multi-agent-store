@@ -73,13 +73,10 @@ public class CustomerDao implements IDao<Customer>{
 
     @Override
     public void write(Customer customer) {
-        ArrayList<Customer> customers = getAll();
+        /*customers.remove(customer);
+        customers.add(customer);*/
 
-        // if exists remove it in order to add it again (modification)
-        customers.remove(customer);
-        customers.add(customer);
-
-        writeAll(customers);
+        writeAll(getAll());
     }
 
     @Override
