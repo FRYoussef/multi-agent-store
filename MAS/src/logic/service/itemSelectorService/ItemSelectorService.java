@@ -139,7 +139,7 @@ public class ItemSelectorService implements IService {
 
     private void handleRecommenderMsg(String msg){
         if(msg.equals("")) {
-            controller.showMessage("I don't found recommendations for you, sorry :(");
+            controller.showMessage("I didn't find recommendations for you, sorry :(");
             return;
         }
         else if(msg.equals(ERROR_RECOMMENDATION)) {
@@ -159,7 +159,7 @@ public class ItemSelectorService implements IService {
         recomendations = dao.getFromIds(ids);
 
         controller.selectRecommendationToggle();
-        controller.showMessage("I' ve found " + recomendations.size() + " clothe(s) for you, I hope you like them.");
+        controller.showMessage("I' ve found " + recomendations.size() + " clothing(s) for you, I hope you like them.");
         controller.showMessage("Talk to me for more advises.");
     }
 }

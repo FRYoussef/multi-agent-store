@@ -116,7 +116,7 @@ public class DfaItemSelectorService {
                         // chatbot response with labels for CB recommender
                         String[] params = msg.split("-")[0].split(",");
                         service.getCustomer().setGender(params[0]);
-                        service.getCustomer().addPreferences(params, 1, params.length-1);
+                        service.getCustomer().addPreferences(params, 1, params.length);
                         service.notifyCBRecommender(true);
                         state = Q0;
                     }
