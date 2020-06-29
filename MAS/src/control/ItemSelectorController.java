@@ -15,6 +15,8 @@ import javafx.scene.layout.HBox;
 import logic.service.itemSelectorService.ItemSelectorService;
 import logic.transfer.Customer;
 
+import java.util.function.Function;
+
 public class ItemSelectorController implements AttachableController{
     private static final String ENDL = System.lineSeparator();
 
@@ -118,19 +120,22 @@ public class ItemSelectorController implements AttachableController{
     }
 
     private void onClickSend() {
-        _btSend.setOnMouseClicked(mouseEvent -> Platform.runLater(() -> {
-            String input = _tfInput.getText();
-            if(input == null || input.equals(""))
-                return;
+        _tfInput.setOnAction(actionEvent -> Platform.runLater(this::send));
+        _btSend.setOnMouseClicked(mouseEvent -> Platform.runLater(this::send));
+    }
 
-            StringBuilder sb = new StringBuilder(_taPrompt.getText());
-            sb.append("You: ").append(input).append(ENDL);
+    private void send(){
+        String input = _tfInput.getText();
+        if (input == null || input.equals(""))
+            return;
 
-            _tfInput.setText("");
-            _taPrompt.setText(sb.toString());
+        StringBuilder sb = new StringBuilder(_taPrompt.getText());
+        sb.append("You: ").append(input).append(ENDL);
 
-            service.onClickSend(input);
-        }));
+        _tfInput.setText("");
+        _taPrompt.setText(sb.toString());
+
+        service.onClickSend(input);
     }
 
     private void onClickImage() {
