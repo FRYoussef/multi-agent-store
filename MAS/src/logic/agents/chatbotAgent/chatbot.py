@@ -4,7 +4,7 @@ import sys
 
 from google.api_core.exceptions import InvalidArgument
 
-#os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'credentials.json'
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'credentials.json'
 
 DIALOGFLOW_PROJECT_ID = 'xenon-height-273419'
 DIALOGFLOW_LANGUAGE_CODE = 'en'

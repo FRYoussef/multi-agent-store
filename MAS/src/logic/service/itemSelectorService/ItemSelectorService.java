@@ -84,7 +84,7 @@ public class ItemSelectorService implements IService {
             case Q2:
 
                 if(msg.compareToIgnoreCase("YES") == 0){
-                    ContentBasedAdapter adapter = new ContentBasedAdapter(customer);
+                    ContentBasedAdapter adapter = new ContentBasedAdapter(customer, true);
                     RecommenderMsg rMsg = new RecommenderMsg(RecommenderMsg.CONTENT_BASED_TYPE, adapter.getPythonArgs());
                     GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND_RECOMMENDER);
                     ge.addParameter(rMsg.getRawMsg());
@@ -191,16 +191,12 @@ public class ItemSelectorService implements IService {
                 String msg_gui = "";
                 ArrayList<String> preferences = customer.getPreferences();
                 if(preferences.isEmpty()){
-
-                    msg_gui = "Oh, it's seems like we don't have previous preferences of you stored";
-
                     GuiEvent ge = new GuiEvent(this, GuiAgent.CMD_SEND_CHATBOT);
                     ge.addParameter(Alphabet.NO.getSymbol());
                     guiAgent.postGuiEvent(ge);
 
                     dfa.nextState(Alphabet.NO);
 
-                    controller.showMessage(msg_gui);
                 }
                 else {
                     if (preferences.size() == 2) {
@@ -243,7 +239,7 @@ public class ItemSelectorService implements IService {
                 break;
             case Q7:
                 //content-based filter
-                ContentBasedAdapter adapter_cb = new ContentBasedAdapter(customer);
+                ContentBasedAdapter adapter_cb = new ContentBasedAdapter(customer, true);
                 RecommenderMsg rMsg_cb = new RecommenderMsg(RecommenderMsg.CONTENT_BASED_TYPE, adapter_cb.getPythonArgs());
                 GuiEvent ge_cb = new GuiEvent(this, GuiAgent.CMD_SEND_RECOMMENDER);
                 ge_cb.addParameter(rMsg_cb.getRawMsg());
