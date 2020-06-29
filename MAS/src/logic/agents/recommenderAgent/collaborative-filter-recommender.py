@@ -143,6 +143,7 @@ if __name__ == '__main__':
         print(result)
         f = open("result.txt", "w+")
         f.write(result)
+        f.close()
     except:
         #write empty string into the file
         print("No recommendation")
