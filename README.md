@@ -65,10 +65,18 @@ Be sure you have 3.6 Python version or later.
 `pip3 install -r requirements.txt`
 
 
-## Run the chatbot script
+## Run the application in standalone mode
 
-First of all, move your 'credentials.json' file to the same directory as 'chatbot.py'.
+First of all you must build the proyect. Use the following script to do it, you have to specify the javafx path. E.g.
 
-Then, run the script using Python 3:
+Move to MAS:
 
-`python3 chatbot.py`
+`cd MAS`
+
+Run the script with javafx path:
+
+`./buildProject.sh /opt/javafx-sdk-14.0.1/`
+
+Now, run the aplication with the following script:
+
+`./runProject.sh /opt/javafx-sdk-14.0.1/`
