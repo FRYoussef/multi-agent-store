@@ -133,7 +133,7 @@ if __name__ == '__main__':
                 item = item_list[index_item]  # The item of clothing
 
                 attempt = 2  # Second attempt if already viewed
-                while item in user_views:
+                for item in user_views:
                     index_item = random.randrange(0, len_item_list)
                     item = item_list[index_item]
                     attempt += 1
