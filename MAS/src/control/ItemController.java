@@ -40,6 +40,7 @@ public class ItemController implements AttachableController{
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void viewSetup() {
         Platform.runLater(() -> {
             // assign events
@@ -56,6 +57,7 @@ public class ItemController implements AttachableController{
 
             if(item.getSizes().length == 0)
                 _cbSize.setDisable(true);
+
             _cbSize.setItems(FXCollections.observableList(new ArrayList<>(Arrays.asList(item.getSizes()))));
         });
     }

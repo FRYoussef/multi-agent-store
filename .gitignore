@@ -5,3 +5,4 @@ JavaFxApplication.iml
 venv/
 !requirements.txt
 /MAS/credentials.json
+/MAS/src/classes
