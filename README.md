@@ -77,6 +77,6 @@ Run the script with javafx path:
 
 `./buildProject.sh /opt/javafx-sdk-14.0.1/`
 
-Now, run the aplication with the following script:
+Now, run the aplication with the following script, and you also need to add the javafx path:
 
 `./runProject.sh /opt/javafx-sdk-14.0.1/`
