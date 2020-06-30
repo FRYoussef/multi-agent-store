@@ -15,8 +15,8 @@ def get_user(user_id: int, users: pd.DataFrame) -> Dict:
 def transform_df(df: pd.DataFrame) -> pd.DataFrame:
     dff = df
 
-    dff['Size'] = dff['Size'].str.split(';')
-    dff['Size'] = dff.apply(lambda x: set(x['Size']), axis=1)
+    #dff['Size'] = dff['Size'].str.split(';')
+    #dff['Size'] = dff.apply(lambda x: set(x['Size']), axis=1)
     dff['Tags'] = dff['Tags'].str.split(';')
     dff['Tags'] = dff.apply(lambda x: set(x['Tags']), axis=1)
 
@@ -87,8 +87,8 @@ if __name__ == '__main__':
 
         # get 10 recomendations. First 3 are always the same, 
         # and the other 2 are random
-        ids: List[str] = df['Id'].tolist()
-        if len(ids) > 5:
+        ids: List[str] = df['Id'].tolist() if len(df) > 0 else list()
+        if len(ids) > 5: 
             randoms = ids[3:]
             ids = ids[:3]
             ids = ids + random.choices(population=randoms, k=2)
@@ -96,5 +96,5 @@ if __name__ == '__main__':
         write_result(text=getStringFormat(ids=ids))
 
     except Exception as e:
-        write_result(text="error")
+        write_result(text=f"error\n{e}")
         print(e)

@@ -43,13 +43,22 @@ public class Customer implements ICsvObjectionable, Comparable<Customer>{
         this.gender = gender;
         this.viewsId = new ArrayList<>(viewsId.length);
         this.purchasesId = new ArrayList<>(purchasesId.length);
-        this.preferences = new ArrayList<>(Arrays.asList(preferences));
+        this.preferences = transformArray(preferences);
 
         for(int v : viewsId)
             this.viewsId.add(v);
 
         for(int p : purchasesId)
             this.purchasesId.add(p);
+    }
+
+    private ArrayList<String> transformArray(String[] array){
+        if(array == null)
+            return new ArrayList<>();
+        if(array.length > 0 && array[0].equals(""))
+            return new ArrayList<>();
+
+        return new ArrayList<>(Arrays.asList(array));
     }
 
     public boolean isValidPassword(String password){
@@ -84,8 +93,34 @@ public class Customer implements ICsvObjectionable, Comparable<Customer>{
         return preferences;
     }
 
-    public void addPreference(String preference){
-        this.preferences.add(preference);
+    public void addPreferences(String[] preferences, int start, int end){
+        if(start > end)
+            return;
+        if(start < 0)
+            return;
+
+        for(int i = start; i < end; i++)
+            this.preferences.add(preferences[i]);
+    }
+
+    public boolean hasPreferences(){
+        return !preferences.isEmpty();
+    }
+
+    public void deletePreferences(){
+        this.preferences.clear();
+    }
+
+    public String preferencesToString(){
+        StringBuilder sb = new StringBuilder();
+
+        for(String p : preferences)
+            sb.append(p).append(" ");
+
+        if(preferences.size() > 0)
+            sb.deleteCharAt(sb.length()-1);
+
+        return sb.toString();
     }
 
     @Override
