@@ -142,6 +142,7 @@ public class ItemSelectorController implements AttachableController{
 
         _tfInput.setText("");
         _taPrompt.setText(sb.toString());
+        _taPrompt.setScrollTop(_taPrompt.getLength());
 
         service.onClickSend(input);
     }
@@ -163,17 +164,14 @@ public class ItemSelectorController implements AttachableController{
     }
 
     public void selectRecommendationToggle(){
-        Platform.runLater(() -> {
-            _tgGroup.selectToggle(_tbRecommendation);
-        });
+        Platform.runLater(() -> _tgGroup.selectToggle(_tbRecommendation));
     }
 
     public void showMessage(String msg) {
-        Platform.runLater(() -> _taPrompt.setText(
-                _taPrompt.getText() +
-                "ChatBot: " +
-                msg + ENDL
-                ));
+        Platform.runLater(() -> {
+            _taPrompt.setText(_taPrompt.getText() + "ChatBot: " + msg + ENDL);
+            _taPrompt.setScrollTop(_taPrompt.getLength());
+        });
     }
 
     @Override

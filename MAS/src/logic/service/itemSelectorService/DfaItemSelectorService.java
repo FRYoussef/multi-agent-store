@@ -13,7 +13,8 @@ public class DfaItemSelectorService {
     private static final int Q6 = 6;
     private static final int Q7 = 7;
 
-    private static final String ERROR = "Sorry, I don't understand you.";
+    public static final String ERROR = "Sorry, I don't understand you.";
+    public static final String FINAL_RESPONSE = "Talk to me for more advises.";
 
     private int state;
     private ItemSelectorService service;
@@ -34,19 +35,16 @@ public class DfaItemSelectorService {
                 String to = (msg.equals("")) ? "hello" : msg;
                 service.notifyChatbotAgent(to);
                 state = Q1;
-                System.out.println("Q0");
                 break;
             case Q1:
                 // show chatbot message, offering help
                 service.showMessage(chatbotMsg);
                 state = Q2;
-                System.out.println("Q1");
                 break;
             case Q2:
                 // user replication to help offering
                 service.notifyChatbotAgent(msg);
                 state = Q3;
-                System.out.println("Q2");
                 break;
             case Q3:
                 // chatbot confirming customer response
@@ -68,7 +66,6 @@ public class DfaItemSelectorService {
                     state = Q0;
                     service.showMessage(chatbotMsg);
                 }
-                System.out.println("Q3");
                 break;
             case Q4:
                 // customer response of previous recommendations
@@ -85,13 +82,11 @@ public class DfaItemSelectorService {
                 }
                 else
                     state = Q0;
-                System.out.println("Q4");
                 break;
             case Q5:
                 // ask for preferences?
                 service.showMessage(chatbotMsg);
                 state = Q6;
-                System.out.println("Q5");
                 break;
             case Q6:
                 // customer response to Q5
@@ -106,7 +101,6 @@ public class DfaItemSelectorService {
                 }
                 else
                     state = Q0;
-                System.out.println("Q6");
                 break;
             case Q7:
                 if (isChatbot) { // chatbot questions
@@ -128,7 +122,6 @@ public class DfaItemSelectorService {
 
                     service.notifyChatbotAgent(msg);
                 }
-                System.out.println("Q7");
                 break;
             default:
                 break;

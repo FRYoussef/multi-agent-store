@@ -137,11 +137,20 @@ public class ItemSelectorService implements IService {
         dfa.runDFA(msg, true);
     }
 
+    /**
+     * Handles the result from the recommender
+     * @param msg list of clothing ids or error code
+     */
     private void handleRecommenderMsg(String msg){
+        // no recommendations were found
         if(msg.equals("")) {
-            controller.showMessage("I didn't find recommendations for you, sorry :(");
+            controller.showMessage("I didn't find recommendations for your preferences, sorry :(");
+            controller.showMessage("I'll show you some other clothes you probably like.");
+            notifyCFRecommender();
+            controller.showMessage(DfaItemSelectorService.FINAL_RESPONSE);
             return;
         }
+        // there were an error
         else if(msg.equals(ERROR_RECOMMENDATION)) {
             controller.showMessage("Internal error");
             return;
@@ -160,6 +169,6 @@ public class ItemSelectorService implements IService {
 
         controller.selectRecommendationToggle();
         controller.showMessage("I' ve found " + recomendations.size() + " clothing(s) for you, I hope you like them.");
-        controller.showMessage("Talk to me for more advises.");
+        controller.showMessage(DfaItemSelectorService.FINAL_RESPONSE);
     }
 }
