@@ -1,9 +1,17 @@
+#!/bin/bash
+
+if [ "$#" -ne 1 ]; then
+    echo "Please, specify the javafx path as argument."
+    exit 1
+fi
+
+# compile java clases
 javac \
 -Xlint:unchecked \
 -cp "lib/jade.jar:." \
---module-path /opt/javafx-sdk-14.0.1/lib \
+--module-path $1/lib \
 --add-modules javafx.controls,javafx.fxml \
--d src/classes \
+-d build \
 src/Main.java \
 src/control/AttachableController.java \
 src/control/GuiLauncher.java \
@@ -38,4 +46,15 @@ src/logic/transfer/CustomerResponse.java \
 src/logic/transfer/ICsvObjectionable.java
 
 # add views to classes path
-cp -r src/views src/classes
+cp -r src/views build/
+
+# copy python scripts in the new path
+cp -r src/logic/agents/chatbotAgent/chatbot.py build/logic/agents/chatbotAgent
+cp -r src/logic/agents/recommenderAgent/content-based-rocommender.py build/logic/agents/recommenderAgent
+cp -r src/logic/agents/recommenderAgent/collaborative-filter-recommender.py build/logic/agents/recommenderAgent
+
+# install python dependencies
+pip3 install -r ../requirements.txt
+
+echo ""
+echo "Build done."
