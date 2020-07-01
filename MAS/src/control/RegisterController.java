@@ -44,10 +44,10 @@ public class RegisterController implements AttachableController{
     }
 
     private void onClickCreate(){
-        _tfNUser.setOnMouseClicked(mouseEvent -> Platform.runLater(this::create));
-        _tfCNUser.setOnMouseClicked(mouseEvent -> Platform.runLater(this::create));
-        _tfPassword.setOnMouseClicked(mouseEvent -> Platform.runLater(this::create));
-        _tfCPassword.setOnMouseClicked(mouseEvent -> Platform.runLater(this::create));
+        //_tfNUser.setOnMouseClicked(mouseEvent -> Platform.runLater(this::create));
+        //_tfCNUser.setOnMouseClicked(mouseEvent -> Platform.runLater(this::create));
+        //_tfPassword.setOnMouseClicked(mouseEvent -> Platform.runLater(this::create));
+        //_tfCPassword.setOnMouseClicked(mouseEvent -> Platform.runLater(this::create));
         _btCreate.setOnMouseClicked(mouseEvent -> Platform.runLater(this::create));
     }
 
