@@ -2,6 +2,7 @@ package dataAccess;
 
 import logic.transfer.Clothing;
 
+import java.io.File;
 import java.util.*;
 
 public class ClothingDao implements IDao<Clothing>{
@@ -14,7 +15,7 @@ public class ClothingDao implements IDao<Clothing>{
     private static final int POS_TAGS = 6;
     private static final int POS_IMAGE_URI = 7;
     private static final int N_FIELDS = 8;
-    private static final String CSV_URI = "../DB/ClothingDB.csv";
+    private static final String CSV_URI = ".." + File.separator + "DB" + File.separator + "ClothingDB.csv";
 
     private static ArrayList<Clothing> alClothings;
 
