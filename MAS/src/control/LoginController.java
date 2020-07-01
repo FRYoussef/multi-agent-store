@@ -33,8 +33,8 @@ public class LoginController implements AttachableController{
     }
 
     private void onClickLogin(){
-        _tfUser.setOnAction(actionEvent -> Platform.runLater(this::login));
-        _tfPassword.setOnAction(actionEvent -> Platform.runLater(this::login));
+        //_tfUser.setOnAction(actionEvent -> Platform.runLater(this::login));
+        //_tfPassword.setOnAction(actionEvent -> Platform.runLater(this::login));
         _btLogin.setOnMouseClicked(mouseEvent -> Platform.runLater(this::login));
     }
 
