@@ -2,6 +2,7 @@ package dataAccess;
 
 import logic.transfer.Customer;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
@@ -14,7 +15,7 @@ public class CustomerDao implements IDao<Customer>{
     private static final int POS_PURCHASES = 5;
     private static final int POS_PREFERENCES = 6;
     private static final int N_FIELDS = 7;
-    private static final String CSV_URI = "../DB/CustomerDB.csv";
+    private static final String CSV_URI = ".." + File.separator + "DB" + File.separator + "CustomerDB.csv";
     private static ArrayList<Customer> alCustomers;
 
     @Override
