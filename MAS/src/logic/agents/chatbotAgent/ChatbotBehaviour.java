@@ -10,7 +10,8 @@ import java.io.File;
 
 public class ChatbotBehaviour extends CyclicBehaviour {
 
-    private static final String CHATBOT_LOCATION = "src/logic/agents/chatbotAgent/chatbot.py";
+    private static final String CHATBOT_LOCATION = "src" + File.separator + "logic" + File.separator + "agents"
+            + File.separator + "chatbotAgent" + File.separator + "chatbot.py";
     private static final String RESULT_PATH = "result.txt";
     private static final long serialVersionUID = 1L;
     private static int user_id;

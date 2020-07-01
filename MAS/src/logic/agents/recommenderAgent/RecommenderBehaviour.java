@@ -9,8 +9,10 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class RecommenderBehaviour extends CyclicBehaviour {
-    private static final String CONTENT_BASED_RECOMMENDER = "src/logic/agents/recommenderAgent/content-based-rocommender.py";
-    private static final String COLABORATIVE_FILTER_RECOMMENDER = "src/logic/agents/recommenderAgent/collaborative-filter-recommender.py";
+    private static final String CONTENT_BASED_RECOMMENDER = "src" + File.separator + "logic" + "agents" + File.separator
+            + "recommenderAgent" + File.separator + "content-based-rocommender.py";
+    private static final String COLABORATIVE_FILTER_RECOMMENDER = "src" + File.separator + "logic" + "agents" + File.separator
+            + "recommenderAgent" + File.separator + "collaborative-filter-recommender.py";
     private static final String RESULT_PATH = "result.txt";
 
     public RecommenderBehaviour(Agent a){

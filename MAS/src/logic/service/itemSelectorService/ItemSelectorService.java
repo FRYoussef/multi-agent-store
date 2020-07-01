@@ -19,11 +19,12 @@ import logic.service.IService;
 import logic.transfer.Clothing;
 import logic.transfer.Customer;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class ItemSelectorService implements IService {
-
+    private static final String NEXT_VIEW = ".." + File.separator + "views" + File.separator + "item.fxml";
     private static final String ERROR_RECOMMENDATION = "error";
     private Customer customer;
     private ArrayList<Clothing> clothings;
@@ -83,11 +84,10 @@ public class ItemSelectorService implements IService {
 
     public void onClickItem(int item){
         ItemController con = new ItemController(guiAgent, getItem(item), customer);
-        String uri = "../views/item.fxml";
 
         try {
             takeDown();
-            GuiLauncher.instance().switchView(uri, con);
+            GuiLauncher.instance().switchView(NEXT_VIEW, con);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -12,9 +12,11 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import logic.transfer.Customer;
 
+import java.io.File;
 import java.io.IOException;
 
 public class GuiLauncher extends Application {
+    private static final String DEFAULT_VIEW = ".." + File.separator + "views" + File.separator + "login.fxml";
     private static GuiLauncher guiLauncher;
     private static Stage primaryStage;
     private static GuiAgent guiAgent;
@@ -35,7 +37,7 @@ public class GuiLauncher extends Application {
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
         controller = new LoginController(guiAgent);
-        switchView("../views/login.fxml", controller);
+        switchView(DEFAULT_VIEW, controller);
     }
 
     public void switchView(String viewUri, AttachableController controller) throws IOException {

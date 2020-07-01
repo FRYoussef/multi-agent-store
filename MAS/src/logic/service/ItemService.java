@@ -9,9 +9,11 @@ import logic.agents.guiAgent.GuiAgent;
 import logic.transfer.Clothing;
 import logic.transfer.Customer;
 
+import java.io.File;
 import java.io.IOException;
 
 public class ItemService implements IService{
+    private static final String BACK_VIEW = ".." + File.separator + "views" + File.separator + "item-selector.fxml";
     private Clothing clothing;
     private Customer customer;
     private GuiAgent guiAgent;
@@ -57,11 +59,10 @@ public class ItemService implements IService{
 
     public void goBack(){
         ItemSelectorController con = new ItemSelectorController(guiAgent, customer);
-        String uri = "../views/item-selector.fxml";
 
         try {
             takeDown();
-            GuiLauncher.instance().switchView(uri, con);
+            GuiLauncher.instance().switchView(BACK_VIEW, con);
         } catch (IOException e) {
             e.printStackTrace();
         }

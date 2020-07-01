@@ -83,8 +83,8 @@ if __name__ == '__main__':
         exit(1)
 
     try:
-        filename = '../DB/CustomerDB.csv'
-        filename_c = '../DB/ClothingDB.csv'
+        filename = os.path.join('..', 'DB', 'CustomerDB.csv')
+        filename_c = os.path.join('..', 'DB', 'ClothingDB.csv')
 
         customers = pd.read_csv(filename, sep=',')
 

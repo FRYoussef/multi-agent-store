@@ -8,11 +8,13 @@ import jade.lang.acl.ACLMessage;
 import logic.agents.guiAgent.GuiAgent;
 import logic.transfer.Customer;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
 public class RegisterService implements IService{
+    private static final String NEXT_VIEW = ".." + File.separator + "views" + File.separator + "login.fxml";
     private GuiAgent guiAgent;
     private Customer newCustomer;
     private ArrayList<Customer> customers;
@@ -53,11 +55,10 @@ public class RegisterService implements IService{
         customers.add(newCustomer);
 
         LoginController con = new LoginController(guiAgent);
-        String uri = "../views/login.fxml";
 
         try {
             takeDown();
-            GuiLauncher.instance().switchView(uri, con);
+            GuiLauncher.instance().switchView(NEXT_VIEW, con);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,11 +67,10 @@ public class RegisterService implements IService{
 
     public void goBack(){
         LoginController con = new LoginController(guiAgent);
-        String uri = "../views/login.fxml";
 
         try {
             takeDown();
-            GuiLauncher.instance().switchView(uri, con);
+            GuiLauncher.instance().switchView(NEXT_VIEW, con);
         } catch (IOException e) {
             e.printStackTrace();
         }
