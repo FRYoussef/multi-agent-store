@@ -11,7 +11,7 @@ distro==1.4.0
 google-api-core==1.17.0
 google-auth==1.15.0
 googleapis-common-protos==1.51.0
-grpcio==1.29.0
+grpcio==1.53.0
 html5lib==1.0.1
 idna==2.8
 ipaddr==2.2.0
